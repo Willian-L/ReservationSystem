@@ -1,4 +1,5 @@
   1.DBHelper.java 创建数据库操作类，搭建用户数据库，包含管理员表和普通用户表；
-  2.DBServerForM.java 创建管理员数据库服务，包含对管理员表数据的增删查改操作；
-  3.Master.java 管理员数据构造方法
-  4.User.java 用户数据构造方法
+  2.DBServerForM.java 创建管理员数据表服务，包含对管理员表数据的增删查改操作；
+  3.DBServerForU.java 创建普通用户数据表服务，包含对普通用户表数据的增删查改操作；
+  4.Master.java 管理员数据构造方法
+  5.User.java 用户数据构造方法

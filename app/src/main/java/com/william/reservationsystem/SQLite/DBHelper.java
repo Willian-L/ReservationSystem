@@ -11,7 +11,7 @@ Inherit and extend SQLiteOpenHelper to create the database and corresponding tab
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "user.db";
+    public static final String DB_NAME = "ReservationSystem.db";
 
     public static final String TABLE_MASTER = "master";
 

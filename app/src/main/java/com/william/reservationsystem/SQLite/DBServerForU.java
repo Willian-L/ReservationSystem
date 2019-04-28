@@ -7,17 +7,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
 
-public class DBServerForM {
+import java.lang.invoke.ConstantCallSite;
 
-    private static final String DB_TABLE = "master";
+public class DBServerForU {
+
+    private static final String DB_TABLE = "user";
     private static final String KEY_ID = "id";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
+    private static final String KEY_PHONE = "phone";
+    private static final String KEY_ADDRESS = "address";
 
     SQLiteDatabase db;
     Context context;
 
-    public DBServerForM(Context context) {
+    public DBServerForU(Context context) {
         this.context = context;
     }
 
@@ -50,17 +54,19 @@ public class DBServerForM {
     /*
     Register and add data to the database
      */
-    public boolean insert(String username, String password) {
+    public boolean insert(String username, String password, Integer phone, String address) {
         boolean result = false;
         // Instantiate content values
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_USERNAME, username);
         contentValues.put(KEY_PASSWORD, password);
+        contentValues.put(KEY_PHONE, phone);
+        contentValues.put(KEY_ADDRESS, address);
         if (db.insert(DB_TABLE, null, contentValues) > 0) {
             result = true;
-            Toast.makeText(context, "Insert username:" + username + " succeeded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Insert succeeded", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Insert username:" + username + " failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Insert failed", Toast.LENGTH_SHORT).show();
         }
         return result;
     }
@@ -87,52 +93,52 @@ public class DBServerForM {
     }
 
     /*
-    Query all administrator data
+    Query all user data
      */
     public Cursor selectAll() {
         Cursor cursor = null;
-        cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_USERNAME},
+        cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_USERNAME, KEY_PHONE, KEY_ADDRESS},
                 null, null, null, null, null);
         return cursor;
     }
 
     /*
-    Query administrator data by username
+    Query user data by username
      */
     public Cursor selectByUsername(String username) {
         Cursor cursor = null;
-        cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_USERNAME},
+        cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_USERNAME, KEY_PHONE, KEY_ADDRESS},
                 KEY_USERNAME + "='" + username + "'",
                 null, null, null, null);
         return cursor;
     }
 
     /*
-    Delete administrator data by id
+    Delete user data by id
      */
     public boolean deleteByID(int id) {
         boolean result = false;
-        int n = db.delete(DB_TABLE, KEY_ID + "='" + id + "'", null);
-        if (n > 0) {
+        int i = db.delete(DB_TABLE, KEY_ID + "='" + id + "'", null);
+        if (i > 0) {
             result = true;
-            Toast.makeText(context, "Delete id:"+ id + " succeeded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Delete id:" + id + " succeeded", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Delete id:"+ id + " failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Delete id:" + id + " failed", Toast.LENGTH_SHORT).show();
         }
         return result;
     }
 
     /*
-    Delete administrator data by username
+    Delete user data by id
      */
     public boolean deleteByUsername(String username) {
         boolean result = false;
-        int n = db.delete(DB_TABLE, KEY_USERNAME + "='" + username + "'", null);
-        if (n > 0) {
+        int i = db.delete(DB_TABLE, KEY_USERNAME + "='" + username + "'", null);
+        if (i > 0) {
             result = true;
-            Toast.makeText(context, "Delete username:"+ username + " succeeded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Delete username:" + username + " succeeded", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Delete username:"+ username + " failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Delete username:" + username + " failed", Toast.LENGTH_SHORT).show();
         }
         return result;
     }
@@ -140,18 +146,20 @@ public class DBServerForM {
     /*
     Update database by ID
      */
-    public boolean updata(int id, String username, String password) {
+    public boolean updata(int id, String username, String password, int phone, String address) {
         boolean result = false;
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_ID, id);
         contentValues.put(KEY_USERNAME, username);
         contentValues.put(KEY_PASSWORD, password);
+        contentValues.put(KEY_PHONE, phone);
+        contentValues.put(KEY_ADDRESS, address);
         int n = db.update(DB_TABLE, contentValues, KEY_ID + "=" + id, null);
         if (n == 1) {
             result = true;
-            Log.i("sql", "Update database succeeded");
+            Toast.makeText(context, "Update database succeeded", Toast.LENGTH_SHORT).show();
         } else {
-            Log.i("sql", "Update database failed");
+            Toast.makeText(context, "Update database failed", Toast.LENGTH_SHORT).show();
         }
         return result;
     }
