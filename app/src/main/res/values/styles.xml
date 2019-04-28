@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/background</item>
     </style>
 
+    <style name="ButtonStytle1">
+        <item name="android:background">@drawable/radiu_button</item>
+        <item name="android:padding">15dp</item>
+    </style>
 </resources>
