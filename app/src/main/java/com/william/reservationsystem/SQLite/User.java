@@ -3,7 +3,7 @@ package com.william.reservationsystem.SQLite;
 public class User {
     private String username;
     private String password;
-    private int phone;
+    private String phone;
     private String address;
 
     public String getUsername() {
@@ -22,11 +22,11 @@ public class User {
         this.password = password;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

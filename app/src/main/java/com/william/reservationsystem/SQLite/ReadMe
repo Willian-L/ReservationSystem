@@ -1,5 +1,5 @@
-  1.DBHelper.java 创建数据库操作类，搭建用户数据库，包含管理员表和普通用户表；
-  2.DBServerForM.java 创建管理员数据表服务，包含对管理员表数据的增删查改操作；
-  3.DBServerForU.java 创建普通用户数据表服务，包含对普通用户表数据的增删查改操作；
-  4.Master.java 管理员数据构造方法
-  5.User.java 用户数据构造方法
+    1.DBHelper.java       Extends SQLiteOpenHelper to build a database of users, including the table of master and the table user
+    2.DBServerForM.java   Instantiate the SQLiteDatabase. And we can manipulate data of administrator to achieve things like insert, delete, select and updata
+    3.DBServerForU.java   Instantiate the SQLiteDatabase. And we can manipulate data of user to achieve things like insert, delete, select and updata
+    4.Master.java         The constructor about the administrator's
+    5.User.java           The constructor about the user's

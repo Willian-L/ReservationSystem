@@ -25,7 +25,7 @@ public class DBServerForM {
     Open database
      */
     public void open() {
-        DBHelper dbHelper = new DBHelper(context);
+        DBHelper.SystemOpenHelper dbHelper = new DBHelper.SystemOpenHelper(context, "ReservationSystem.db", null, 1);
         /*
         Try to open the database read-write.
         Open the database read-only if errors occurred such as bad permissions or a full disk.
@@ -70,18 +70,20 @@ public class DBServerForM {
      */
     public boolean login(String username, String password) {
         boolean result = false;
-
+        Cursor cursor = null;
         // Get a cursor object
-        Cursor cursor = db.query(DB_TABLE, new String[]{KEY_USERNAME, KEY_PASSWORD},
-                KEY_USERNAME + "='" + username + "' and " +
-                        KEY_PASSWORD + "='" + password + "'",
+        cursor = db.query("master", new String[]{"username", "password"},
+                "username='" + username + "' and password='" + password + "'",
                 null, null, null, null);
-        // Return true if there is any content in the cursor.
-        if (cursor.getCount() == 1) {
-            result = true;
-            Toast.makeText(context, "Login succeeded", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show();
+        while (cursor.moveToNext()) {
+            String theusername = cursor.getString(cursor.getColumnIndex("username"));
+            String thepassword = cursor.getString(cursor.getColumnIndex("password"));
+            if (theusername.equals(username) && thepassword.equals(password)) {
+                result = true;
+                Toast.makeText(context, "Login succeeded", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show();
+            }
         }
         return result;
     }
@@ -115,9 +117,9 @@ public class DBServerForM {
         int n = db.delete(DB_TABLE, KEY_ID + "='" + id + "'", null);
         if (n > 0) {
             result = true;
-            Toast.makeText(context, "Delete id:"+ id + " succeeded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Delete id:" + id + " succeeded", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Delete id:"+ id + " failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Delete id:" + id + " failed", Toast.LENGTH_SHORT).show();
         }
         return result;
     }
@@ -130,9 +132,9 @@ public class DBServerForM {
         int n = db.delete(DB_TABLE, KEY_USERNAME + "='" + username + "'", null);
         if (n > 0) {
             result = true;
-            Toast.makeText(context, "Delete username:"+ username + " succeeded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Delete username:" + username + " succeeded", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Delete username:"+ username + " failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Delete username:" + username + " failed", Toast.LENGTH_SHORT).show();
         }
         return result;
     }
