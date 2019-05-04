@@ -68,22 +68,25 @@ public class DBServerForM {
     /*
     Account login judgment
      */
-    public boolean login(String username, String password) {
-        boolean result = false;
+    public int login(String username, String password) {
+        int result = 0;
         Cursor cursor = null;
         // Get a cursor object
-        cursor = db.query("master", new String[]{"username", "password"},
-                "username='" + username + "' and password='" + password + "'",
+        cursor = db.query("master", new String[]{"password"},
+                "username='" + username + "'",
                 null, null, null, null);
-        while (cursor.moveToNext()) {
-            String theusername = cursor.getString(cursor.getColumnIndex("username"));
-            String thepassword = cursor.getString(cursor.getColumnIndex("password"));
-            if (theusername.equals(username) && thepassword.equals(password)) {
-                result = true;
-                Toast.makeText(context, "Login succeeded", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show();
+        Log.i("login", "cursor" + cursor.getCount() );
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                String thepassword = cursor.getString(cursor.getColumnIndex("password"));
+                if (thepassword.equals(password)) {
+                    result = 2;
+                } else {
+                    result = 1;
+                }
             }
+        } else {
+            result = 0;
         }
         return result;
     }

@@ -4,10 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.widget.Toast;
-
-import java.lang.invoke.ConstantCallSite;
 
 public class DBServerForU {
 
@@ -29,7 +26,7 @@ public class DBServerForU {
     Open database
      */
     public void open() {
-        DBHelper.SystemOpenHelper dbHelper = new DBHelper.SystemOpenHelper(context,"ReservationSystem.db",null,1);
+        DBHelper.SystemOpenHelper dbHelper = new DBHelper.SystemOpenHelper(context, "ReservationSystem.db", null, 1);
         /*
         Try to open the database read-write.
         Open the database read-only if errors occurred such as bad permissions or a full disk.
@@ -74,22 +71,24 @@ public class DBServerForU {
     /*
     Account login judgment
      */
-    public boolean login(String username, String password) {
-        boolean result = false;
+    public int login(String username, String password) {
+        int result = 0;
         Cursor cursor = null;
         // Get a cursor object
-        cursor = db.query("user", new String[]{"username", "password"},
-                "username='" + username + "' and password='" + password + "'",
+        cursor = db.query("user", new String[]{"password"},
+                "username='" + username + "'",
                 null, null, null, null);
-        while (cursor.moveToNext()) {
-            String theusername = cursor.getString(cursor.getColumnIndex("username"));
-            String thepassword = cursor.getString(cursor.getColumnIndex("password"));
-            if (theusername.equals(username) && thepassword.equals(password)) {
-                result = true;
-                Toast.makeText(context, "Login succeeded", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show();
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                String thepassword = cursor.getString(cursor.getColumnIndex("password"));
+                if (thepassword.equals(password)) {
+                    result = 2;
+                } else {
+                    result = 1;
+                }
             }
+        } else {
+            result = 0;
         }
         return result;
     }
@@ -112,6 +111,17 @@ public class DBServerForU {
         cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_USERNAME, KEY_PHONE, KEY_ADDRESS},
                 KEY_USERNAME + "='" + username + "'",
                 null, null, null, null);
+        return cursor;
+    }
+
+    /*
+    Query phone by username
+     */
+    public Cursor selectPhone(String username){
+        Cursor cursor = null;
+        cursor = db.query(DB_TABLE, new String[]{KEY_PHONE},
+                KEY_USERNAME + "'" + username + "'",
+                null, null, null ,null);
         return cursor;
     }
 
@@ -148,7 +158,7 @@ public class DBServerForU {
     /*
     Update database by ID
      */
-    public boolean updata(int id, String username, String password, int phone, String address) {
+    public boolean updata(int id, String username, String password, String phone, String address) {
         boolean result = false;
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_ID, id);
@@ -162,6 +172,46 @@ public class DBServerForU {
             Toast.makeText(context, "Update database succeeded", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Update database failed", Toast.LENGTH_SHORT).show();
+        }
+        return result;
+    }
+
+    /*
+    ResetPassword
+     */
+    public boolean ResetPsw(String username, String password) {
+        boolean result = false;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_USERNAME, username);
+        contentValues.put(KEY_PASSWORD, password);
+        int n = db.update(DB_TABLE, contentValues, KEY_USERNAME + "=" + username, null);
+        if (n == 1) {
+            result = true;
+        }
+        return result;
+    }
+
+    /*
+    Reset password authentication
+     */
+    public int resetVerify(String username, String phone) {
+        int result = 0;
+        Cursor cursor = null;
+        // Get a cursor object
+        cursor = db.query("user", new String[]{"phone"},
+                "username='" + username + "'",
+                null, null, null, null);
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                String thephone = cursor.getString(cursor.getColumnIndex("phone"));
+                if (thephone.equals(phone)) {
+                    result = 2;
+                } else {
+                    result = 1;
+                }
+            }
+        } else {
+            result = 0;
         }
         return result;
     }

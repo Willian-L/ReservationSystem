@@ -82,7 +82,11 @@ public class DBHelper {
                     "username='" + master.getSUPERUSERNAME() + "'",
                     null, null, null, null) == null) {
                 db.execSQL("insert into master(username,password) Values(?,?)", new Object[]{master.getSUPERUSERNAME(), master.getSUPERPASSWORD()});
+                Log.i("login","yes");
+            }else {
+                Log.i("login","no");
             }
+            Log.i("login","open");
         }
     }
 }

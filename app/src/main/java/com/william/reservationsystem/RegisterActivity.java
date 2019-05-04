@@ -1,14 +1,13 @@
 package com.william.reservationsystem;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.william.reservationsystem.R;
 import com.william.reservationsystem.SQLite.DBServerForU;
 import com.william.reservationsystem.SQLite.User;
 
@@ -22,7 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        ui();
+        init();
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +65,8 @@ public class RegisterActivity extends AppCompatActivity {
                              */
                             if (dbServerForU.insert(user.getUsername(), user.getPassword(), user.getPhone(), user.getAddress())) {
                                 Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                Intent intent = new Intent(RegisterActivity.this, UserLoginActivity.class);
+                                intent.putExtra("username", user.getUsername());
                                 startActivity(intent);
                             }
                         } else {
@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
     /*
     Access controls
      */
-    private void ui() {
+    private void init() {
         edtUsername = findViewById(R.id.edtReUsername);
         edtPassword = findViewById(R.id.edtRePassword);
         edtPhone = findViewById(R.id.edtRePhone);

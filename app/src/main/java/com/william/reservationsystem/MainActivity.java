@@ -1,11 +1,8 @@
 package com.william.reservationsystem;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toLogin(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, UserLoginActivity.class);
         startActivity(intent);
     }
 }
