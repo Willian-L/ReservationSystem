@@ -38,12 +38,17 @@ public class UserLoginActivity extends AppCompatActivity {
 
         init();
 
-        try {
-            Intent intent = getIntent();
-            String username = intent.getStringExtra("username");
-            edtUsername.setText(username);
-        } catch (Exception e) {
-        }
+        edtPassword.setText(null);
+        edtUsername.setText(null);
+
+        Log.i("edt","edtPassword:" + edtPassword.getText() + "edtUsername:" + edtUsername.getText());
+
+//        try {
+//            Intent intent = getIntent();
+//            String username = intent.getStringExtra("username");
+//            edtUsername.setText(username);
+//        } catch (Exception e) {
+//        }
 
         // Listen for the selected value of RdaioGroup
         ragType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -60,7 +65,7 @@ public class UserLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int result = 0;
 
-                if (edtUsername != null & edtPassword != null) {
+                if (edtUsername.getText() != null && edtPassword.getText() != null) {
                     switch (type) {
                         case "User":
                             // Get the username and password
@@ -119,7 +124,7 @@ public class UserLoginActivity extends AppCompatActivity {
                             break;
                     }
                 }
-                else if (edtUsername != null & edtPassword == null) {
+                else if (edtUsername.getText() != null && edtPassword.getText() == null) {
                     Toast.makeText(getApplicationContext(),
                             "Please input your password!", Toast.LENGTH_SHORT).show();
                 } else {
