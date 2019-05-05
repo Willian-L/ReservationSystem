@@ -21,6 +21,8 @@ import com.william.reservationsystem.SQLite.User;
 
 public class UserLoginActivity extends AppCompatActivity {
 
+    private String username, password;
+
     EditText edtUsername, edtPassword;
     RadioGroup ragType;
     Button btnLogin;
@@ -40,6 +42,11 @@ public class UserLoginActivity extends AppCompatActivity {
 
         edtPassword.setText(null);
         edtUsername.setText(null);
+
+
+
+        username = edtUsername.getText().toString().trim();
+        password = edtPassword.getText().toString().trim();
 
         Log.i("edt","edtPassword:" + edtPassword.getText() + "edtUsername:" + edtUsername.getText());
 
@@ -65,7 +72,7 @@ public class UserLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int result = 0;
 
-                if (edtUsername.getText() != null && edtPassword.getText() != null) {
+                if (username != null && password != null) {
                     switch (type) {
                         case "User":
                             // Get the username and password
@@ -124,7 +131,7 @@ public class UserLoginActivity extends AppCompatActivity {
                             break;
                     }
                 }
-                else if (edtUsername.getText() != null && edtPassword.getText() == null) {
+                else if (username != null && password == null) {
                     Toast.makeText(getApplicationContext(),
                             "Please input your password!", Toast.LENGTH_SHORT).show();
                 } else {
