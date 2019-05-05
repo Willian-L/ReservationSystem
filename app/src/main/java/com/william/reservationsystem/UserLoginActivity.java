@@ -21,8 +21,6 @@ import com.william.reservationsystem.SQLite.User;
 
 public class UserLoginActivity extends AppCompatActivity {
 
-//    private String username, password;
-
     EditText edtUsername, edtPassword;
     RadioGroup ragType;
     Button btnLogin;
@@ -47,12 +45,12 @@ public class UserLoginActivity extends AppCompatActivity {
 
         Log.i("edt","edtPassword:" + edtPassword.getText() + "edtUsername:" + edtUsername.getText());
 
-//        try {
-//            Intent intent = getIntent();
-//            String username = intent.getStringExtra("username");
-//            edtUsername.setText(username);
-//        } catch (Exception e) {
-//        }
+        try {
+            Intent intent = getIntent();
+            String username = intent.getStringExtra("username");
+            edtUsername.setText(username);
+        } catch (Exception e) {
+        }
 
         // Listen for the selected value of RdaioGroup
         ragType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -72,7 +70,17 @@ public class UserLoginActivity extends AppCompatActivity {
                 String username = edtUsername.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
 
-                if (username != null && password != null) {
+                boolean hasUsernameValue = false;
+                if (!username.equals("")){
+                    hasUsernameValue = true;
+                }
+
+                boolean hasPasswordValue = false;
+                if (!password.equals("")){
+                    hasPasswordValue = true;
+                }
+
+                if (hasUsernameValue && hasPasswordValue) {
                     switch (type) {
                         case "User":
                             // Get the username and password
@@ -131,7 +139,7 @@ public class UserLoginActivity extends AppCompatActivity {
                             break;
                     }
                 }
-                else if (username != null && password == null) {
+                else if (hasUsernameValue && !hasPasswordValue) {
                     Toast.makeText(getApplicationContext(),
                             "Please input your password!", Toast.LENGTH_SHORT).show();
                 } else {
