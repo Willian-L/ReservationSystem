@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Reservation System</string>
+    <string name="main_title">Bespeak Meal System</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="main_btn_into">Welcome</string>
+    <string name="register_title">REGISTRATION</string>
+    <string name="register_initem_username">Username:</string>
+    <string name="register_initem_password">Password:</string>
+    <string name="register_initem_phone">Phone:</string>
+    <string name="register_initem_address">Address:</string>
+    <string name="register_btn_affirm">Register</string>
+    <string name="register_btn_reset">Reset</string>
+    <string name="reset_title">Reset Password</string>
+    <string name="reset_btn_reset">Reset</string>
+    <string name="reset_initem_password">Please enter your new password：</string>
+    <string name="reset_ver_initem_username">Please confirm your user name</string>
+    <string name="reset_ver_initem_code">Please enter the verification code</string>
+    <string name="login_title">User Login</string>
+    <string name="login_radio_user">User</string>
+    <string name="login_redio_master">Master</string>
+    <string name="login_btn_into">LOG IN</string>
+    <string name="login_btn_toregister">register</string>
+    <string name="login_btn_toreset">forgot password？</string>
+    <string name="homepage_title">WELECOM</string>
+    <string name="homepage_txt_order">ORDER</string>
+    <string name="homepage_my">MY</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

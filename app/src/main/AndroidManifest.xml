@@ -9,14 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MenuItemsActivity"></activity>
-        <activity android:name=".UserLoginActivity" />
+        <activity android:name=".UI.UserLoginActivity" />
         <activity android:name=".ResetPassword.ResetVerActivity" />
         <activity android:name=".ResetPassword.ResetPasswordActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".HomepageForMActivity" />
-        <activity android:name=".HomepageForUActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".UI.RegisterActivity" />
+        <activity android:name=".UI.HomepageForMActivity" />
+        <activity android:name=".UI.HomepageForUActivity" />
+        <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

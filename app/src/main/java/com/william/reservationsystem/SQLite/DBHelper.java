@@ -1,11 +1,9 @@
 package com.william.reservationsystem.SQLite;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 /*
 SQLiteOpenHelper is an abstract function.
@@ -14,7 +12,6 @@ Inherit and extend SQLiteOpenHelper to create the database and corresponding tab
 public class DBHelper {
 
     Context context;
-
     public static final String TABLE_MASTER = "master";
     public static final String TABLE_USER = "user";
 
@@ -27,13 +24,16 @@ public class DBHelper {
 
     public static class SystemOpenHelper extends SQLiteOpenHelper {
 
+        private static SystemOpenHelper instance = null;
+        private static String dbName = "student.db";
+        private static final int currentVersion = 1;
         private Master master = new Master();
 
         /*
         Provides methods for creating a database
          */
-        public SystemOpenHelper(Context context, String dbName, SQLiteDatabase.CursorFactory factory, int version) {
-            super(context, dbName, factory, version);
+        public SystemOpenHelper(Context context) {
+            super(context, dbName, null, currentVersion);
         }
 
         /*
@@ -69,7 +69,6 @@ public class DBHelper {
          */
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         }
 
         /*

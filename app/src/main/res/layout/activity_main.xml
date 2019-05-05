@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".UI.MainActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="35dp"
-        android:text="Bespeak Meal\nSystem"
+        android:text="@string/main_title"
         android:textSize="40dp"
         android:textStyle="bold" />
 
@@ -23,7 +23,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:onClick="toLogin"
-        android:text="Welcome"
+        android:text="@string/main_btn_into"
         android:textColor="#80000000"
         android:textSize="20dp" />
 </LinearLayout>

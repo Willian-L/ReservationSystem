@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".UserLoginActivity">
+    tools:context=".UI.UserLoginActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="User Login"
+        android:text="@string/login_title"
         android:textSize="36dp"
         android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="User"
+            android:text="@string/login_radio_user"
             android:textColor="#B0000000" />
 
         <RadioButton
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="Master"
+            android:text="@string/login_redio_master"
             android:textColor="#B0000000" />
 
     </RadioGroup>
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:hint="Username"
+        android:hint="@string/hint_username"
         android:inputType="text"
         android:maxLength="16"
         android:maxLines="1"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:hint="Password"
+        android:hint="@string/hint_password"
         android:inputType="textPassword"
         android:maxLength="16"
         android:maxLines="1"
@@ -78,7 +78,7 @@
         style="@style/ButtonStytle1"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="LOG IN"
+        android:text="@string/login_btn_into"
         android:textColor="#80000000"
         android:textSize="20dp" />
 
@@ -103,7 +103,7 @@
             android:layout_weight="4"
             android:gravity="right"
             android:onClick="register"
-            android:text="register"
+            android:text="@string/login_btn_toregister"
             android:textColor="#80000000"
             android:textSize="15dp" />
 
@@ -126,7 +126,7 @@
             android:layout_weight="4"
             android:gravity="left"
             android:onClick="forgot"
-            android:text="forgot password？"
+            android:text="@string/login_btn_toreset"
             android:textColor="#80000000"
             android:textSize="15dp" />
 

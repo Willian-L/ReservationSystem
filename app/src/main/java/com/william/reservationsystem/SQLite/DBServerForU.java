@@ -26,7 +26,7 @@ public class DBServerForU {
     Open database
      */
     public void open() {
-        DBHelper.SystemOpenHelper dbHelper = new DBHelper.SystemOpenHelper(context, "ReservationSystem.db", null, 1);
+        DBHelper.SystemOpenHelper dbHelper = new DBHelper.SystemOpenHelper(context);
         /*
         Try to open the database read-write.
         Open the database read-only if errors occurred such as bad permissions or a full disk.

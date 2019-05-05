@@ -1,7 +1,9 @@
-package com.william.reservationsystem;
+package com.william.reservationsystem.UI;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.william.reservationsystem.R;
 
 public class HomepageForMActivity extends AppCompatActivity {
 

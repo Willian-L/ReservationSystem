@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.SQLite.DBServerForU;
 import com.william.reservationsystem.SQLite.User;
-import com.william.reservationsystem.UserLoginActivity;
+import com.william.reservationsystem.UI.UserLoginActivity;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -31,9 +31,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-//        if (username != null) {
-//            txtUser.setText("Dear ");
-//        }
 
         init();
 

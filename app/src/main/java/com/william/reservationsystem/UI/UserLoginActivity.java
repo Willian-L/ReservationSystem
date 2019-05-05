@@ -1,4 +1,4 @@
-package com.william.reservationsystem;
+package com.william.reservationsystem.UI;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.william.reservationsystem.R;
 import com.william.reservationsystem.ResetPassword.ResetVerActivity;
 import com.william.reservationsystem.SQLite.DBServerForM;
 import com.william.reservationsystem.SQLite.DBServerForU;

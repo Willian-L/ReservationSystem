@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:layout_margin="50dp"
     android:orientation="vertical"
-    tools:context=".RegisterActivity">
+    tools:context=".UI.RegisterActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="REGISTRATION"
+        android:text="@string/register_title"
         android:textSize="36dp"
         android:textStyle="bold" />
 
@@ -34,25 +34,25 @@
                 style="@style/Text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username:" />
+                android:text="@string/register_initem_username" />
 
             <TextView
                 style="@style/Text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password:" />
+                android:text="@string/register_initem_password" />
 
             <TextView
                 style="@style/Text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phone:" />
+                android:text="@string/register_initem_phone" />
 
             <TextView
                 style="@style/Text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address:" />
+                android:text="@string/register_initem_address" />
         </LinearLayout>
 
         <LinearLayout
@@ -110,7 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Register"
+        android:text="@string/register_btn_affirm"
         android:textColor="#80000000"
         android:textSize="20dp"
         android:layout_gravity="center"/>
@@ -121,7 +121,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="reset"
-        android:text="Reset"
+        android:text="@string/register_btn_reset"
         android:textColor="#80000000"
         android:textSize="20dp"
         android:layout_gravity="center"/>
