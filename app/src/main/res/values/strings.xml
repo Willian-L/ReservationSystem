@@ -24,8 +24,11 @@
     <string name="login_btn_toreset">forgot password？</string>
     <string name="homepage_title">WELECOM</string>
     <string name="homepage_txt_order">ORDER</string>
-    <string name="homepage_my">MY</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="homepage_txt_my">MY</string>
+    <string name="homepage_txt_shopping">shopping</string>
+    <string name="fragment_title_my">My Information</string>
+    <string name="fragment_item_name">name：</string>
+    <string name="fragment_item_sex">sex：</string>
+    <string name="fragment_item_age">age：</string>
+    <string name="fragment_item_e_mail">e-mail：</string>
 </resources>

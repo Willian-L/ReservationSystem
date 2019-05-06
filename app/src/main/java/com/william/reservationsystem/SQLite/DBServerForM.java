@@ -13,6 +13,11 @@ public class DBServerForM {
     private static final String KEY_ID = "id";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_SEX = "sex";
+    private static final String KEY_AGE = "age";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_PHOTO = "photo";
 
     SQLiteDatabase db;
     Context context;
@@ -75,7 +80,7 @@ public class DBServerForM {
         cursor = db.query("master", new String[]{"password"},
                 "username='" + username + "'",
                 null, null, null, null);
-        Log.i("login", "cursor" + cursor.getCount() );
+        Log.i("login", "cursor" + cursor.getCount());
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 String thepassword = cursor.getString(cursor.getColumnIndex("password"));
@@ -145,13 +150,35 @@ public class DBServerForM {
     /*
     Update database by ID
      */
-    public boolean updata(int id, String username, String password) {
+    public boolean updataID(int id, String username, String password) {
         boolean result = false;
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_ID, id);
         contentValues.put(KEY_USERNAME, username);
         contentValues.put(KEY_PASSWORD, password);
         int n = db.update(DB_TABLE, contentValues, KEY_ID + "=" + id, null);
+        if (n == 1) {
+            result = true;
+            Log.i("sql", "Update database succeeded");
+        } else {
+            Log.i("sql", "Update database failed");
+        }
+        return result;
+    }
+
+    /*
+    Update database by Username
+     */
+    public boolean updataUsername(String username, String name, String sex, int age, String email, String photo) {
+        boolean result = false;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_USERNAME, username);
+        contentValues.put(KEY_NAME, name);
+        contentValues.put(KEY_SEX, sex);
+        contentValues.put(KEY_AGE, age);
+        contentValues.put(KEY_EMAIL, email);
+        contentValues.put(KEY_PHOTO, photo);
+        int n = db.update(DB_TABLE, contentValues, KEY_USERNAME + "=" + username, null);
         if (n == 1) {
             result = true;
             Log.i("sql", "Update database succeeded");

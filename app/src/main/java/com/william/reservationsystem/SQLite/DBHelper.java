@@ -55,6 +55,11 @@ public class DBHelper {
                     "password varchar(20) not null," +
                     "phone varchar(11) not null," +
                     "address TEXT" +
+                    "name varchar(20) null"+
+                    "sex char(2) check(sex='男' or sex='女') null" +
+                    "age int null" +
+                    "email TEXT" +
+                    "photo varchar(50)" +
                     ");";
             // Insert table
             db.execSQL(MASTER_SQL);

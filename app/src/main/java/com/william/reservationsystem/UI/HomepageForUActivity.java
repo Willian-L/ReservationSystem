@@ -6,103 +6,58 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.william.reservationsystem.Fragment.MyFragment;
+import com.william.reservationsystem.Fragment.OrderFragment;
+import com.william.reservationsystem.Fragment.ShoppingFragment;
 import com.william.reservationsystem.R;
-import com.william.reservationsystem.Fragment.UserOrderFragment;
 
 public class HomepageForUActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView topBar;
-    private TextView tabOrder;
-    private TextView tabShopping;
-    private TextView tabMy;
 
-    private FrameLayout ly_content;
-
-    private UserOrderFragment f1, f2, f3, f4;
-    private FragmentManager fragmentManager;
+    private FragmentManager manager;
+    private FragmentTransaction transaction;
+    private RadioButton rb_order, rb_shopping, rb_my;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage_for_u);
 
-        bindView();
+
+        manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        transaction.add(R.id.content_Layout,new OrderFragment());
+        transaction.commit();
+
     }
 
-    private void bindView() {
-        topBar = findViewById(R.id.txt_top);
-        tabOrder = findViewById(R.id.txt_order);
-        tabShopping = findViewById(R.id.txt_shopping);
-        tabMy = findViewById(R.id.txt_mine);
-        ly_content = findViewById(R.id.fragment_container);
+    public void inti(){
+        rb_order = findViewById(R.id.rad_order);
+        rb_shopping = findViewById(R.id.rad_shopping);
+        rb_my = findViewById(R.id.rad_my);
 
-        tabOrder.setOnClickListener(this);
-        tabShopping.setOnClickListener(this);
-        tabMy.setOnClickListener(this);
-    }
-
-    public void selected() {
-        tabOrder.setSelected(false);
-        tabShopping.setSelected(false);
-        tabMy.setSelected(false);
-    }
-
-    public void hideAllFragment(FragmentTransaction transaction) {
-        if (f1 != null) {
-            transaction.hide(f1);
-        }
-        if (f2 != null) {
-            transaction.hide(f2);
-        }
-        if (f3 != null) {
-            transaction.hide(f3);
-        }
-        if (f4 != null) {
-            transaction.hide(f4);
-        }
+        rb_order.setOnClickListener(this);
+        rb_shopping.setOnClickListener(this);
+        rb_my.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        hideAllFragment(fragmentTransaction);
-        switch (v.getId()) {
-            case R.id.txt_order:
-                selected();
-                tabOrder.setSelected(true);
-                if (f1 == null) {
-                    f1 = new UserOrderFragment();
-                    fragmentTransaction.add(R.id.fragment_container, f1);
-                } else {
-                    fragmentTransaction.show(f1);
-                }
+        transaction = manager.beginTransaction();
+        switch (v.getId()){
+            case R.id.rad_order:
+                transaction.replace(R.id.content_Layout,new OrderFragment());
                 break;
-
-            case R.id.txt_shopping:
-                selected();
-                tabShopping.setSelected(true);
-                if (f2 == null) {
-                    f2 = new UserOrderFragment();
-                    fragmentTransaction.add(R.id.fragment_container, f2);
-                } else {
-                    fragmentTransaction.show(f2);
-                }
+            case R.id.rad_shopping:
+                transaction.replace(R.id.content_Layout,new ShoppingFragment());
                 break;
-
-            case R.id.txt_mine:
-                selected();
-                tabMy.setSelected(true);
-                if (f3 == null) {
-                    f3 = new UserOrderFragment();
-                    fragmentTransaction.add(R.id.fragment_container, f3);
-                } else {
-                    fragmentTransaction.show(f3);
-                }
+            case R.id.rad_my:
+                transaction.replace(R.id.content_Layout,new MyFragment());
                 break;
         }
-
-        fragmentTransaction.commit();
+        transaction.commit();
     }
 }
 
