@@ -14,7 +14,7 @@ import com.william.reservationsystem.SQLite.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText edtUsername, edtPassword, edtPhone, edtAddress;
+    EditText edtUsername, edtPassword, edtPhone;
     Button btnRegister;
 
     @Override
@@ -32,7 +32,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String username = edtUsername.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 String phone = edtPhone.getText().toString().trim();
-                String address = edtAddress.getText().toString().trim();
 
                 /*
                 Determine if the username, password, and phone number match the rules
@@ -56,7 +55,6 @@ public class RegisterActivity extends AppCompatActivity {
                     user.setUsername(username);
                     user.setPassword(password);
                     user.setPhone(phone);
-                    user.setAddress(address);
                     try {
                         DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
                         dbServerForU.open();
@@ -64,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                             /*
                             Once all the above rules are met, start writing to the database
                              */
-                            if (dbServerForU.insert(user.getUsername(), user.getPassword(), user.getPhone(), user.getAddress())) {
+                            if (dbServerForU.insert(user.getUsername(), user.getPassword(), user.getPhone())) {
                                 Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(RegisterActivity.this, UserLoginActivity.class);
                                 intent.putExtra("username", user.getUsername());
@@ -76,7 +74,6 @@ public class RegisterActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Registration failed!", Toast.LENGTH_SHORT).show();
                     }
-
                 }
             }
 
@@ -90,7 +87,6 @@ public class RegisterActivity extends AppCompatActivity {
         edtUsername.setText(null);
         edtPassword.setText(null);
         edtPhone.setText(null);
-        edtAddress.setText(null);
     }
 
     /*
@@ -100,7 +96,6 @@ public class RegisterActivity extends AppCompatActivity {
         edtUsername = findViewById(R.id.edtReUsername);
         edtPassword = findViewById(R.id.edtRePassword);
         edtPhone = findViewById(R.id.edtRePhone);
-        edtAddress = findViewById(R.id.edtReAddress);
         btnRegister = findViewById(R.id.btnRegister);
     }
 }

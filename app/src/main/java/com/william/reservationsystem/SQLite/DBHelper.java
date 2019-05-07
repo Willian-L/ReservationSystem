@@ -25,7 +25,7 @@ public class DBHelper {
     public static class SystemOpenHelper extends SQLiteOpenHelper {
 
         private static SystemOpenHelper instance = null;
-        private static String dbName = "student.db";
+        private static String dbName = "ReservationSystem.db";
         private static final int currentVersion = 1;
         private Master master = new Master();
 
@@ -45,7 +45,12 @@ public class DBHelper {
             String MASTER_SQL = "CREATE TABLE " + TABLE_MASTER + "(" +
                     "id INTEGER primary key AUTOINCREMENT, " +
                     "username varchar(20) not null, " +
-                    "password varchar(20) not null" +
+                    "password varchar(20) not null," +
+                    "name varchar(20) null,"+
+                    "sex char(2) null," +
+                    "age varchar(3) null," +
+                    "email TEXT null," +
+                    "photo varchar(50) null" +
                     ");";
 
             // A table of user
@@ -54,12 +59,12 @@ public class DBHelper {
                     "username varchar(20) not null, " +
                     "password varchar(20) not null," +
                     "phone varchar(11) not null," +
-                    "address TEXT" +
-                    "name varchar(20) null"+
-                    "sex char(2) check(sex='男' or sex='女') null" +
-                    "age int null" +
-                    "email TEXT" +
-                    "photo varchar(50)" +
+                    "address TEXT null," +
+                    "name varchar(20) null,"+
+                    "sex char(2) null," +
+                    "age varchar(3) null," +
+                    "email TEXT null," +
+                    "photo varchar(50) null" +
                     ");";
             // Insert table
             db.execSQL(MASTER_SQL);

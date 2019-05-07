@@ -3,17 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.OrderFragment"
-    >
+    tools:context=".Fragment.OrderFragment">
 
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/homepage_txt_order"
-        android:textSize="50dp"
-        android:layout_gravity="center"/>
+    <RelativeLayout style="@style/Fragment_rel_title">
+
+        <TextView
+            style="@style/Fragment_txt_title"
+            android:text="@string/fragment_title_order" />
+
+    </RelativeLayout>
 
 
 </FrameLayout>

@@ -38,7 +38,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 user.setUsername(username);
-                user.setPhone(editPsw.getText().toString().trim());
+                user.setPassword(editPsw.getText().toString().trim());
                 DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
                 dbServerForU.open();
                 if (dbServerForU.ResetPsw(user.getUsername(), user.getPassword())){

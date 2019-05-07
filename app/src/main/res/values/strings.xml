@@ -1,14 +1,10 @@
 <resources>
     <string name="app_name">Reservation System</string>
-    <string name="main_title">Bespeak Meal System</string>
+    <string name="main_title">Bespeak Meal\nSystem</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="main_btn_into">Welcome</string>
     <string name="register_title">REGISTRATION</string>
-    <string name="register_initem_username">Username:</string>
-    <string name="register_initem_password">Password:</string>
-    <string name="register_initem_phone">Phone:</string>
-    <string name="register_initem_address">Address:</string>
     <string name="register_btn_affirm">Register</string>
     <string name="register_btn_reset">Reset</string>
     <string name="reset_title">Reset Password</string>
@@ -25,10 +21,17 @@
     <string name="homepage_title">WELECOM</string>
     <string name="homepage_txt_order">ORDER</string>
     <string name="homepage_txt_my">MY</string>
-    <string name="homepage_txt_shopping">shopping</string>
+    <string name="homepage_txt_shopping">SHOPPING</string>
     <string name="fragment_title_my">My Information</string>
-    <string name="fragment_item_name">name：</string>
-    <string name="fragment_item_sex">sex：</string>
-    <string name="fragment_item_age">age：</string>
-    <string name="fragment_item_e_mail">e-mail：</string>
+    <string name="fragment_title_shopping">Shopping Car</string>
+    <string name="fragment_title_order">CATE</string>
+
+    <string name="initem_username">Username：</string>
+    <string name="initem_password">Password：</string>
+    <string name="initem_phone">Phone：</string>
+    <string name="initem_name">Name：</string>
+    <string name="initem_sex">Sex：</string>
+    <string name="initem_age">Age：</string>
+    <string name="initem_e_mail">E-mail：</string>
+    <string name="initem_address">Address：</string>
 </resources>

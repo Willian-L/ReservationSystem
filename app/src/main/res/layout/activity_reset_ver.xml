@@ -4,71 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ResetPassword.ResetVerActivity"
     android:orientation="vertical"
-    android:padding="50dp">
+    android:padding="50dp"
+    tools:context=".ResetPassword.ResetVerActivity">
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginBottom="30dp"
+        android:gravity="center"
         android:text="@string/reset_title"
         android:textSize="36dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/reset_ver_initem_username"
-        android:paddingLeft="5dp"/>
+        android:paddingLeft="5dp"
+        android:text="@string/reset_ver_initem_username" />
 
     <EditText
         android:id="@+id/edtVerUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:hint="@string/hint_username"
         android:maxLength="16"
         android:maxLines="1"
-        android:textSize="22dp"
-        android:layout_marginTop="5dp"
-        />
+        android:textSize="22dp" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/reset_ver_initem_code"
+        android:layout_marginTop="15dp"
         android:paddingLeft="5dp"
-        android:layout_marginTop="15dp"/>
+        android:text="@string/reset_ver_initem_code" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:weightSum="2"
         android:layout_marginTop="10dp"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <EditText
             android:id="@+id/edtVerCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
+            android:inputType="number"
             android:maxLength="4"
             android:maxLines="1"
-            android:gravity="center"
-            android:textSize="40dp"
-            android:inputType="number"
-            />
+            android:textSize="40dp" />
+
         <ImageView
             android:id="@+id/imgVer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
@@ -76,17 +75,13 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:orientation="vertical"></LinearLayout>
 
     <Button
-        style="@style/ButtonStytle1"
-        android:layout_marginTop="15dp"
         android:id="@+id/btnVerPassword"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#80000000"
-        android:text="@string/reset_btn_reset"
-        android:textSize="20dp"/>
+        android:layout_marginTop="15dp"
+        android:text="@string/reset_btn_reset" />
 
 </LinearLayout>

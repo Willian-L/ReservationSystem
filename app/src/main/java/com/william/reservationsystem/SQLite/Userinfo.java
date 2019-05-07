@@ -8,7 +8,7 @@ public class Userinfo {
 
     private String name;
     private String sex;
-    private int age;
+    private String age;
     private String email;
     private String photo;
 
@@ -53,11 +53,11 @@ public class Userinfo {
         this.sex = sex;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

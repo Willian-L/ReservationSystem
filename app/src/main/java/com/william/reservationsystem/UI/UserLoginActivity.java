@@ -42,8 +42,6 @@ public class UserLoginActivity extends AppCompatActivity {
         edtPassword.setText(null);
         edtUsername.setText(null);
 
-
-
         Log.i("edt","edtPassword:" + edtPassword.getText() + "edtUsername:" + edtUsername.getText());
 
         try {
@@ -97,6 +95,7 @@ public class UserLoginActivity extends AppCompatActivity {
                             switch (result) {
                                 case 2:
                                     Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
+                                    intent.putExtra("username",user.getUsername());
                                     startActivity(intent);
                                     dbServerForU.close();
                                     break;

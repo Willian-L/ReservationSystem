@@ -33,54 +33,37 @@
 
         <RadioButton
             android:id="@+id/radUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Login_radBtn"
             android:checked="true"
-            android:text="@string/login_radio_user"
-            android:textColor="#B0000000" />
+            android:text="@string/login_radio_user" />
 
         <RadioButton
             android:id="@+id/radMaster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Login_radBtn"
             android:layout_marginLeft="20dp"
-            android:text="@string/login_redio_master"
-            android:textColor="#B0000000" />
+            android:text="@string/login_redio_master" />
 
     </RadioGroup>
 
     <EditText
         android:id="@+id/edtUsername"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        style="@style/Login_editText"
         android:layout_marginBottom="10dp"
-        android:gravity="center"
         android:hint="@string/hint_username"
-        android:inputType="text"
-        android:maxLength="16"
-        android:maxLines="1"
-        android:textSize="22dp" />
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/edtPassword"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        style="@style/Login_editText"
         android:layout_marginBottom="20dp"
-        android:gravity="center"
         android:hint="@string/hint_password"
-        android:inputType="textPassword"
-        android:maxLength="16"
-        android:maxLines="1"
-        android:textSize="22dp" />
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btnLogin"
-        style="@style/ButtonStytle1"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="@string/login_btn_into"
-        android:textColor="#80000000"
-        android:textSize="20dp" />
+        style="@style/ButtonStyle"
+        android:layout_width="250dp"
+        android:text="@string/login_btn_into" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -97,38 +80,27 @@
 
         <TextView
             android:id="@+id/register"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            style="@style/Login_underBtn"
             android:layout_weight="4"
             android:gravity="right"
             android:onClick="register"
-            android:text="@string/login_btn_toregister"
-            android:textColor="#80000000"
-            android:textSize="15dp" />
+            android:text="@string/login_btn_toregister" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/Login_underBtn"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="|"
-            android:textColor="#80000000"
-            android:textSize="15dp" />
+            android:text="|" />
 
         <TextView
             android:id="@+id/forgot"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            style="@style/Login_underBtn"
             android:layout_weight="4"
             android:gravity="left"
             android:onClick="forgot"
-            android:text="@string/login_btn_toreset"
-            android:textColor="#80000000"
-            android:textSize="15dp" />
+            android:text="@string/login_btn_toreset" />
 
     </LinearLayout>
 </LinearLayout>

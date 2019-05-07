@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 public class DBServerForU {
@@ -14,6 +15,11 @@ public class DBServerForU {
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_PHONE = "phone";
     private static final String KEY_ADDRESS = "address";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_SEX = "sex";
+    private static final String KEY_AGE = "age";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_PHOTO = "photo";
 
     SQLiteDatabase db;
     Context context;
@@ -51,14 +57,13 @@ public class DBServerForU {
     /*
     Register and add data to the database
      */
-    public boolean insert(String username, String password, String phone, String address) {
+    public boolean insert(String username, String password, String phone) {
         boolean result = false;
         // Instantiate content values
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_USERNAME, username);
         contentValues.put(KEY_PASSWORD, password);
         contentValues.put(KEY_PHONE, phone);
-        contentValues.put(KEY_ADDRESS, address);
         if (db.insert(DB_TABLE, null, contentValues) > 0) {
             result = true;
             Toast.makeText(context, "Insert succeeded", Toast.LENGTH_SHORT).show();
@@ -108,7 +113,7 @@ public class DBServerForU {
      */
     public Cursor selectByUsername(String username) {
         Cursor cursor = null;
-        cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_USERNAME, KEY_PHONE, KEY_ADDRESS},
+        cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_USERNAME, KEY_PHONE, KEY_NAME, KEY_SEX, KEY_AGE, KEY_EMAIL, KEY_ADDRESS, KEY_PHOTO},
                 KEY_USERNAME + "='" + username + "'",
                 null, null, null, null);
         return cursor;
@@ -117,11 +122,11 @@ public class DBServerForU {
     /*
     Query phone by username
      */
-    public Cursor selectPhone(String username){
+    public Cursor selectPhone(String username) {
         Cursor cursor = null;
         cursor = db.query(DB_TABLE, new String[]{KEY_PHONE},
                 KEY_USERNAME + "'" + username + "'",
-                null, null, null ,null);
+                null, null, null, null);
         return cursor;
     }
 
@@ -184,7 +189,7 @@ public class DBServerForU {
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_USERNAME, username);
         contentValues.put(KEY_PASSWORD, password);
-        int n = db.update(DB_TABLE, contentValues, KEY_USERNAME + "=" + username, null);
+        int n = db.update(DB_TABLE, contentValues, KEY_USERNAME + "='" + username + "'", null);
         if (n == 1) {
             result = true;
         }
@@ -212,6 +217,26 @@ public class DBServerForU {
             }
         } else {
             result = 0;
+        }
+        return result;
+    }
+
+    public boolean updataUsername(String username, String name, String sex, String age, String phone, String email, String address) {
+        boolean result = false;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_USERNAME, username);
+        contentValues.put(KEY_NAME, name);
+        contentValues.put(KEY_SEX, sex);
+        contentValues.put(KEY_AGE, age);
+        contentValues.put(KEY_PHONE, phone);
+        contentValues.put(KEY_EMAIL, email);
+        contentValues.put(KEY_ADDRESS, address);
+        int n = db.update(DB_TABLE, contentValues, KEY_USERNAME + "='" + username + "'", null);
+        if (n == 1) {
+            result = true;
+            Log.i("sql", "Update database succeeded");
+        } else {
+            Log.i("sql", "Update database failed");
         }
         return result;
     }

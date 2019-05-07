@@ -25,76 +25,45 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
             android:gravity="right"
-            android:orientation="vertical"
-            android:weightSum="4">
+            style="@style/LinerLayout_register_item">
 
             <TextView
-                style="@style/Text1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/register_initem_username" />
+                style="@style/Text_item"
+                android:text="@string/initem_username" />
 
             <TextView
-                style="@style/Text1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/register_initem_password" />
+                style="@style/Text_item"
+                android:text="@string/initem_password" />
 
             <TextView
-                style="@style/Text1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/register_initem_phone" />
+                style="@style/Text_item"
+                android:text="@string/initem_phone" />
 
-            <TextView
-                style="@style/Text1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/register_initem_address" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="vertical"
-            android:weightSum="4">
+            style="@style/LinerLayout_register_item">
 
             <EditText
                 android:id="@+id/edtReUsername"
-                style="@style/Edit1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/Edit_input"
                 android:inputType="text"
-                android:maxLength="16"
-                android:maxLines="1" />
+                android:maxLength="16" />
 
             <EditText
                 android:id="@+id/edtRePassword"
-                style="@style/Edit1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/Edit_input"
                 android:inputType="textPassword"
-                android:maxLength="16"
-                android:maxLines="1" />
+                android:maxLength="16" />
 
             <EditText
                 android:id="@+id/edtRePhone"
-                style="@style/Edit1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/Edit_input"
                 android:inputType="phone"
-                android:maxLength="11"
-                android:maxLines="1" />
+                android:maxLength="11" />
 
-            <EditText
-                android:id="@+id/edtReAddress"
-                style="@style/Edit1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLines="1" />
         </LinearLayout>
     </LinearLayout>
 
@@ -106,25 +75,17 @@
 
     <Button
         android:id="@+id/btnRegister"
-        style="@style/ButtonStytle1"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="@string/register_btn_affirm"
-        android:textColor="#80000000"
-        android:textSize="20dp"
-        android:layout_gravity="center"/>
+        android:text="@string/register_btn_affirm"/>
 
     <Button
         android:id="@+id/btnReset"
-        style="@style/ButtonStytle1"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:onClick="reset"
-        android:text="@string/register_btn_reset"
-        android:textColor="#80000000"
-        android:textSize="20dp"
-        android:layout_gravity="center"/>
+        android:text="@string/register_btn_reset"/>
 
 
 </LinearLayout>
