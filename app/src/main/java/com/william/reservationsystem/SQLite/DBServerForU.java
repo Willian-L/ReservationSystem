@@ -221,7 +221,7 @@ public class DBServerForU {
         return result;
     }
 
-    public boolean updataUsername(String username, String name, String sex, String age, String phone, String email, String address) {
+    public boolean updataUsername(String username, String name, String sex, String age, String phone, String email, String address, String photo) {
         boolean result = false;
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_USERNAME, username);
@@ -231,6 +231,7 @@ public class DBServerForU {
         contentValues.put(KEY_PHONE, phone);
         contentValues.put(KEY_EMAIL, email);
         contentValues.put(KEY_ADDRESS, address);
+        contentValues.put(KEY_PHOTO, photo);
         int n = db.update(DB_TABLE, contentValues, KEY_USERNAME + "='" + username + "'", null);
         if (n == 1) {
             result = true;

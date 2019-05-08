@@ -17,7 +17,7 @@
     <string name="login_redio_master">Master</string>
     <string name="login_btn_into">LOG IN</string>
     <string name="login_btn_toregister">register</string>
-    <string name="login_btn_toreset">forgot password？</string>
+    <string name="login_btn_toreset">forgot\npassword？</string>
     <string name="homepage_title">WELECOM</string>
     <string name="homepage_txt_order">ORDER</string>
     <string name="homepage_txt_my">MY</string>

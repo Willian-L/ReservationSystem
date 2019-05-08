@@ -1,6 +1,9 @@
 package com.william.reservationsystem.UI;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +19,10 @@ import com.william.reservationsystem.Fragment.ShoppingFragment;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.SQLite.User;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class HomepageForUActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FragmentManager manager;
@@ -30,6 +37,8 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_homepage_for_u);
 
         inti();
+
+        rb_order.setActivated(true);
 
         Intent intent = getIntent();
         user.setUsername(intent.getStringExtra("username"));
@@ -50,15 +59,24 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
         rb_my.setOnClickListener(this);
     }
 
+
+
     @Override
     public void onClick(View v) {
         transaction = manager.beginTransaction();
+        inti();
         switch (v.getId()) {
             case R.id.rad_order:
                 transaction.replace(R.id.content_Layout, new OrderFragment());
+                rb_order.setActivated(true);
+                rb_shopping.setActivated(false);
+                rb_my.setActivated(false);
                 break;
             case R.id.rad_shopping:
                 transaction.replace(R.id.content_Layout, new ShoppingFragment());
+                rb_shopping.setActivated(true);
+                rb_order.setActivated(false);
+                rb_my.setActivated(false);
                 break;
             case R.id.rad_my:
                 MyFragment myFragment = new MyFragment();
@@ -66,9 +84,14 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
                 bundle.putString("username", user.getUsername());
                 myFragment.setArguments(bundle);
                 transaction.replace(R.id.content_Layout, myFragment);
+                rb_my.setActivated(true);
+                rb_shopping.setActivated(false);
+                rb_order.setActivated(false);
                 break;
         }
         transaction.commit();
     }
+
+
 }
 

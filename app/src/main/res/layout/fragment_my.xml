@@ -10,6 +10,7 @@
     <RelativeLayout style="@style/Fragment_rel_title">
 
         <TextView
+            android:id="@+id/myTxt_title"
             style="@style/Fragment_txt_title"
             android:text="@string/fragment_title_my" />
 
@@ -23,8 +24,8 @@
             app:srcCompat="@android:drawable/ic_menu_edit" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
@@ -35,9 +36,25 @@
             android:id="@+id/userImg_photo"
             android:layout_width="120dp"
             android:layout_height="160dp"
-            app:srcCompat="@mipmap/ic_mine" />
+            app:srcCompat="@mipmap/ic_mine"
+            android:layout_centerInParent="true"
+            />
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/userIbtn_camera"
+            style="@style/my_imgBtn"
+            android:layout_marginTop="25dp"
+            app:srcCompat="@android:drawable/ic_menu_camera"
+            />
+
+        <ImageButton
+            android:id="@+id/userIbtn_album"
+            android:layout_below="@id/userIbtn_camera"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@android:drawable/ic_menu_gallery"
+            style="@style/my_imgBtn" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -87,16 +104,57 @@
                 android:inputType="text"
                 android:maxLength="16" />
 
+            <RadioGroup
+                android:id="@+id/userMy_Radsex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <RadioButton
+                    android:id="@+id/user_radBtnman"
+                    android:text="Man"
+                    style="@style/my_radBtn"/>
+
+                <RadioButton
+                    android:id="@+id/user_radBtnwoman"
+                    android:text="Woman"
+                    style="@style/my_radBtn" />
+            </RadioGroup>
+
             <EditText
                 android:id="@+id/userMy_sex"
                 style="@style/Edit_show"
-                android:inputType="text" />
+                android:inputType="text"
+                android:visibility="visible"/>
 
-            <EditText
-                android:id="@+id/userMy_age"
-                style="@style/Edit_show"
-                android:inputType="number"
-                android:maxLength="3"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/userTxt_age"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:enabled="false"
+                    android:gravity="left|center_vertical"
+                    android:text="88"
+                    android:textSize="20dp" />
+
+                <SeekBar
+                    android:visibility="gone"
+                    android:max="99"
+                    android:min="18"
+                    android:id="@+id/userSB_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/userMy_phone"
@@ -118,18 +176,14 @@
 
     <Button
         android:id="@+id/my_btnModify"
-        style="@style/ButtonStyle"
-        android:layout_width="300dp"
-        android:text="modify"
-        android:visibility="gone"
-        android:layout_marginTop="20dp"/>
+        style="@style/My_ButtonStyle"
+        android:layout_marginTop="20dp"
+        android:text="modify" />
 
     <Button
         android:id="@+id/my_btnCancel"
-        style="@style/ButtonStyle"
-        android:layout_width="300dp"
+        style="@style/My_ButtonStyle"
         android:text="cancel"
-        android:visibility="gone"
         android:layout_marginTop="10dp"/>
 
 </LinearLayout>
