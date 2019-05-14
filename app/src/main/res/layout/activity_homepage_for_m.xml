@@ -4,15 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.HomepageForMActivity"
+    tools:context=".MasterHomepage.HomepageForMActivity"
     android:orientation="vertical"
     android:gravity="center" >
 
-    <TextView
-        android:id="@+id/textView4"
+    <LinearLayout
+        android:id="@+id/master_content_Layout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/master_layout_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="30dp"
-        android:text="Pretend to have content" />
+        android:layout_height="65dp"
+        android:background="#10000000"
+        android:orientation="horizontal"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp">
+
+        <RadioGroup
+            android:id="@+id/rg_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rad_orderInfo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_weight="1"
+                android:text="OrderInfo"
+                android:textSize="15sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:button="@null"
+                android:drawableTop="@drawable/tab_menu_order"
+                />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#20000000" />
+
+            <RadioButton
+                android:id="@+id/rad_userInfo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_weight="1"
+                android:text="UserInfo"
+                android:textSize="15sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:button="@null"
+                android:drawableTop="@drawable/tab_menu_shopping"/>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#20000000" />
+
+            <RadioButton
+                android:id="@+id/rad_my"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_weight="1"
+                android:text="@string/homepage_txt_my"
+                android:textSize="15sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:button="@null"
+                android:drawableTop="@drawable/tab_menu_mine"/>
+
+        </RadioGroup>
+    </LinearLayout>
 </LinearLayout>

@@ -1,6 +1,6 @@
-package com.william.reservationsystem.SQLite;
+package com.william.reservationsystem.Information;
 
-public class Userinfo {
+public class MutualInformation {
 
     private String phone;
     private String username;

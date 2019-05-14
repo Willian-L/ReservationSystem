@@ -1,6 +1,8 @@
-package com.william.reservationsystem.SQLite;
+package com.william.reservationsystem.Information;
 
-public class Master extends Userinfo{
+import com.william.reservationsystem.Information.MutualInformation;
+
+public class Master extends MutualInformation {
     // Set up the account of super administrator
     private final String SUPERUSERNAME = "admin";
     private final String SUPERPASSWORD = "abc123";

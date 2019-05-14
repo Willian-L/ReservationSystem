@@ -1,6 +1,6 @@
-package com.william.reservationsystem;
+package com.william.reservationsystem.MasterHomepage.Fragment.Derive;
 
-public class Format {
+public class UserInfo {
     private int id;
     private String username;
     private String password;
@@ -11,7 +11,7 @@ public class Format {
     private String email;
     private String address;
 
-    public Format(int id, String username, String password, String name, String sex, String age, String phone, String email, String address) {
+    public UserInfo(int id, String username, String password, String name, String sex, String age, String phone, String email, String address) {
         this.id = id;
         this.username = username;
         this.password = password;

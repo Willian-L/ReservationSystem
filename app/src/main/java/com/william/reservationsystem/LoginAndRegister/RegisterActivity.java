@@ -1,4 +1,4 @@
-package com.william.reservationsystem.UI;
+package com.william.reservationsystem.LoginAndRegister;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.SQLite.DBServerForU;
-import com.william.reservationsystem.SQLite.User;
+import com.william.reservationsystem.Information.User;
 
 public class RegisterActivity extends AppCompatActivity {
 

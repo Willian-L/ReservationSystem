@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UI.HomepageForMActivity">
+    tools:context=".MasterHomepage.HomepageForMActivity">
 
     <LinearLayout
-        android:id="@+id/content_Layout"
+        android:id="@+id/user_content_Layout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"></LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_bottom"
+        android:id="@+id/user_layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="#10000000"
@@ -88,6 +88,4 @@
 
         </RadioGroup>
     </LinearLayout>
-
-
 </LinearLayout>

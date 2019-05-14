@@ -1,4 +1,4 @@
-package com.william.reservationsystem.UI;
+package com.william.reservationsystem.MasterHomepage;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

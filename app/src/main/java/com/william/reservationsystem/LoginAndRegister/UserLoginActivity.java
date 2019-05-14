@@ -1,4 +1,4 @@
-package com.william.reservationsystem.UI;
+package com.william.reservationsystem.LoginAndRegister;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,12 +13,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.william.reservationsystem.MasterHomepage.HomepageForMActivity;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.ResetPassword.ResetVerActivity;
 import com.william.reservationsystem.SQLite.DBServerForM;
 import com.william.reservationsystem.SQLite.DBServerForU;
-import com.william.reservationsystem.SQLite.Master;
-import com.william.reservationsystem.SQLite.User;
+import com.william.reservationsystem.Information.Master;
+import com.william.reservationsystem.Information.User;
+import com.william.reservationsystem.UserHomepage.HomepageForUActivity;
 
 public class UserLoginActivity extends AppCompatActivity {
 

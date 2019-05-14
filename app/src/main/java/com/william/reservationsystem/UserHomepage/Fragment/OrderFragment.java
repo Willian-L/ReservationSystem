@@ -1,4 +1,4 @@
-package com.william.reservationsystem.Fragment;
+package com.william.reservationsystem.UserHomepage.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,14 +8,13 @@ import android.view.ViewGroup;
 
 import com.william.reservationsystem.R;
 
-public class ShoppingFragment extends Fragment {
+public class OrderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_shopping,null);
+        View view = inflater.inflate(R.layout.fragment_order,null);
 
         return view;
     }
-
 }

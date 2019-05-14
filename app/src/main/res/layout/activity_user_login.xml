@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".UI.UserLoginActivity">
+    tools:context=".LoginAndRegister.UserLoginActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"

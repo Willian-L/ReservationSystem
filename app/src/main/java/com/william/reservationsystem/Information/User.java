@@ -1,6 +1,8 @@
-package com.william.reservationsystem.SQLite;
+package com.william.reservationsystem.Information;
 
-public class User extends Userinfo{
+import com.william.reservationsystem.Information.MutualInformation;
+
+public class User extends MutualInformation {
 
     private String address;
 

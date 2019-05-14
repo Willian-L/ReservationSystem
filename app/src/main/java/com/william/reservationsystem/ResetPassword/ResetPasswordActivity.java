@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.SQLite.DBServerForU;
-import com.william.reservationsystem.SQLite.User;
-import com.william.reservationsystem.UI.UserLoginActivity;
+import com.william.reservationsystem.Information.User;
+import com.william.reservationsystem.LoginAndRegister.UserLoginActivity;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 

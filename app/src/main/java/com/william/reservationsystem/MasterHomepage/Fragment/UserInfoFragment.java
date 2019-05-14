@@ -1,33 +1,35 @@
-package com.william.reservationsystem;
+package com.william.reservationsystem.MasterHomepage.Fragment;
 
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.william.reservationsystem.SQLite.DBServerForM;
+import com.william.reservationsystem.MasterHomepage.Fragment.Derive.FileUtils;
+import com.william.reservationsystem.MasterHomepage.Fragment.Derive.UserInfo;
+import com.william.reservationsystem.R;
 import com.william.reservationsystem.SQLite.DBServerForU;
-import com.william.reservationsystem.SQLite.User;
 
-public class JsonActivity extends AppCompatActivity {
+public class UserInfoFragment extends Fragment {
 
-    Button btn_json;
+    Button imgBtn_out;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_json);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_userinfo, null);
 
-        btn_json=findViewById(R.id.btn_json);
+        inti(view);
 
-        btn_json.setOnClickListener(new View.OnClickListener() {
+        imgBtn_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
+                DBServerForU dbServerForU = new DBServerForU(getContext());
                 dbServerForU.open();
                 Cursor cursor = dbServerForU.selectAll();
                 while (cursor.moveToNext()){
@@ -42,13 +44,17 @@ public class JsonActivity extends AppCompatActivity {
                     jsonObject.addProperty("email", cursor.getString(cursor.getColumnIndex("email")));
                     System.out.println(jsonObject);
                     Gson gson = new Gson();
-                    Format format = gson.fromJson(jsonObject, Format.class);
-                    System.out.println(format);
-                    FileUtils.writeTxtToFile(format.toString(), "/storage/emulated/0/","user.txt");
+                    UserInfo userInfo = gson.fromJson(jsonObject, UserInfo.class);
+                    System.out.println(userInfo);
+                    FileUtils.writeTxtToFile(userInfo.toString(), "/storage/emulated/0/","user.txt");
                 }
             }
         });
 
+        return view;
+    }
 
+    public void inti(View view){
+        imgBtn_out  = view.findViewById(R.id.userIbtn_out);
     }
 }

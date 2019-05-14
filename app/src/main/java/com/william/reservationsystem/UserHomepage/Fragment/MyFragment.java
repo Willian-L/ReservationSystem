@@ -1,4 +1,4 @@
-package com.william.reservationsystem.Fragment;
+package com.william.reservationsystem.UserHomepage.Fragment;
 
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -33,7 +33,7 @@ import android.widget.Toast;
 
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.SQLite.DBServerForU;
-import com.william.reservationsystem.SQLite.User;
+import com.william.reservationsystem.Information.User;
 
 import java.io.File;
 import java.io.FileNotFoundException;

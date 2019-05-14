@@ -1,9 +1,12 @@
 package com.william.reservationsystem.SQLite;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.william.reservationsystem.Information.Master;
 
 /*
 SQLiteOpenHelper is an abstract function.
@@ -87,9 +90,11 @@ public class DBHelper {
         @Override
         public void onOpen(SQLiteDatabase db) {
             super.onOpen(db);
-            if (db.query("master", new String[]{"username"},
+            Cursor cursor = null;
+            cursor = db.query(TABLE_MASTER, new String[]{},
                     "username='" + master.getSUPERUSERNAME() + "'",
-                    null, null, null, null) == null) {
+                    null, null, null, null);
+            if (cursor.getCount()==0) {
                 db.execSQL("insert into master(username,password) Values(?,?)", new Object[]{master.getSUPERUSERNAME(), master.getSUPERPASSWORD()});
                 Log.i("login","yes");
             }else {
