@@ -40,7 +40,6 @@ public class ResetVerActivity extends AppCompatActivity {
         inti();
 
         imageView.setImageBitmap(IdentifyingCode.getInstance().createBitmap());
-        realCode = IdentifyingCode.getInstance().getCode().toLowerCase();
         Log.i("code", realCode);
 
         final Intent intent = getIntent();
@@ -114,6 +113,7 @@ public class ResetVerActivity extends AppCompatActivity {
         IdentifyingCode identifyingCode = IdentifyingCode.getInstance();
         Bitmap bitmap = identifyingCode.createBitmap();
         imageView.setImageBitmap(bitmap);
+        realCode = identifyingCode.getCode().toLowerCase();
     }
 
     private void showResetDialog() {

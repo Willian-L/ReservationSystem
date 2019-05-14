@@ -39,7 +39,6 @@
 
     <style name="Edit_show">
         <item name="android:background">@null</item>
-        <item name="android:enabled">false</item>
         <item name="android:layout_margin">1dp</item>
         <item name="android:textSize">20dp</item>
         <item name="android:layout_weight">1</item>
@@ -47,6 +46,10 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:selectAllOnFocus">true</item>
+    </style>
+
+    <style name="Edit_My" parent="Edit_show">
+        <item name="android:enabled">false</item>
     </style>
 
     <style name="LinerLayout_my_show">

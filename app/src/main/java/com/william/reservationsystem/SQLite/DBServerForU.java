@@ -103,7 +103,7 @@ public class DBServerForU {
      */
     public Cursor selectAll() {
         Cursor cursor = null;
-        cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_USERNAME, KEY_PHONE, KEY_ADDRESS},
+        cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_USERNAME, KEY_PASSWORD, KEY_NAME, KEY_SEX, KEY_AGE, KEY_PHONE, KEY_EMAIL, KEY_ADDRESS},
                 null, null, null, null, null);
         return cursor;
     }

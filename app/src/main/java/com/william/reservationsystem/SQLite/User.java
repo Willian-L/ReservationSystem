@@ -4,7 +4,6 @@ public class User extends Userinfo{
 
     private String address;
 
-
     public String getAddress() {
         return address;
     }

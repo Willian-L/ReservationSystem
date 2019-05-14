@@ -1,6 +1,5 @@
 package com.william.reservationsystem.Fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -11,14 +10,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +36,6 @@ import com.william.reservationsystem.SQLite.DBServerForU;
 import com.william.reservationsystem.SQLite.User;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -47,14 +48,21 @@ public class MyFragment extends Fragment {
     User user = new User();
     TextView txt_title;
     RadioGroup radSex;
-    TextView txtAge;
+    TextView txtAge, txtEmail;
     SeekBar sbAge;
+    Spinner spEmail;
 
     private File currentImageFile = null;
 
-    public String sex = null;
+    private String sex = null;
 
-    public String age = null;
+    private String age = null;
+
+    private String email_suffix = null;
+    private String email_top = null;
+    private String email_suf = null;
+
+    private Uri imageUri = null;
 
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -85,22 +93,35 @@ public class MyFragment extends Fragment {
                 user.setPhone(cursor.getString(cursor.getColumnIndex("phone")));
                 edtPhone.setText(user.getPhone());
                 user.setEmail(cursor.getString(cursor.getColumnIndex("email")));
-                edtEmail.setText(user.getEmail());
+                txtEmail.setText(user.getEmail());
                 user.setAddress(cursor.getString(cursor.getColumnIndex("address")));
                 edtAddress.setText(user.getAddress());
             }
         }
 
+        spEmail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String[] suffix = getResources().getStringArray(R.array.email_suffix);
+                email_suffix = suffix[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                email_suffix = email_suf;
+            }
+        });
+
         ibtn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String backcolor = "#1fffffFF";
+                String backcolor = "#1fffffff";
                 edtName.setEnabled(true);
                 edtSex.setVisibility(View.GONE);
                 radSex.setVisibility(View.VISIBLE);
                 txtAge.setEnabled(true);
+                txtEmail.setVisibility(View.GONE);
                 edtPhone.setEnabled(true);
-                edtEmail.setEnabled(true);
                 edtAddress.setEnabled(true);
                 edtName.setBackgroundColor(Color.parseColor(backcolor));
                 txtAge.setBackgroundColor(Color.parseColor(backcolor));
@@ -112,6 +133,20 @@ public class MyFragment extends Fragment {
                 ibtn_album.setVisibility(View.VISIBLE);
                 ibtn_camera.setVisibility(View.VISIBLE);
                 sbAge.setVisibility(View.VISIBLE);
+                spEmail.setVisibility(View.VISIBLE);
+                edtEmail.setVisibility(View.VISIBLE);
+                String txtemail = txtEmail.getText().toString().trim();
+                if (!txtemail.equals("")) {
+                    final String Email = txtemail;
+                    int place = Email.indexOf("@");
+                    email_top = Email.substring(0, place);
+                    email_suf = Email.substring(place);
+                    edtEmail.setText(email_top);
+                    setSpinnerDefaultValue(spEmail, email_suf);
+                }
+                if (!txtAge.getText().toString().trim().equals("")) {
+                    sbAge.setProgress(Integer.valueOf(txtAge.getText().toString().trim()));
+                }
             }
         });
 
@@ -126,7 +161,7 @@ public class MyFragment extends Fragment {
         sbAge.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                txtAge.setText(""+progress);
+                txtAge.setText("" + progress);
                 age = String.valueOf(progress);
             }
 
@@ -146,14 +181,22 @@ public class MyFragment extends Fragment {
             public void onClick(View v) {
                 final String name = edtName.getText().toString().trim();
                 final String phone = edtPhone.getText().toString().trim();
-                final String email = edtEmail.getText().toString().trim();
+                final String email_input = edtEmail.getText().toString().trim() + email_suffix;
                 final String address = edtAddress.getText().toString().trim();
-                if (name.equals(user.getName()) &&
-                        phone.equals(user.getPhone()) &&
-                        email.equals(user.getEmail()) &&
-                        address.equals(user.getAddress()) &&
-                        age.equals(user.getAge()) &&
-                        sex.equals(user.getSex()) &&
+                final String sex = edtSex.getText().toString().trim();
+                final String age = txtAge.getText().toString().trim();
+                String name_db = user.getName();
+                String phone_db = user.getPhone();
+                String email_db = user.getEmail();
+                String address_db = user.getAddress();
+                String age_db = user.getAge();
+                String sex_db = user.getSex();
+                if (name.equals(name_db) &&
+                        phone.equals(phone_db) &&
+                        email_input.equals(email_db) &&
+                        address.equals(address_db) &&
+                        age.equals(age_db) &&
+                        sex.equals(sex_db) &&
                         photo == null) {
                     Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
                     edtName.setEnabled(false);
@@ -173,8 +216,11 @@ public class MyFragment extends Fragment {
                     ibtn_camera.setVisibility(View.GONE);
                     ibtn_album.setVisibility(View.GONE);
                     edtSex.setVisibility(View.VISIBLE);
+                    txtEmail.setVisibility(View.VISIBLE);
                     radSex.setVisibility(View.GONE);
                     sbAge.setVisibility(View.GONE);
+                    spEmail.setVisibility(View.GONE);
+                    edtEmail.setVisibility(View.GONE);
                 } else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("Please confirm the change information!");
@@ -182,7 +228,7 @@ public class MyFragment extends Fragment {
                             "\nSex：" + sex +
                             "\nAge：" + age +
                             "\nPhone：" + phone +
-                            "\nE-mail：" + email +
+                            "\nE-mail：" + email_input +
                             "\nAddress：" + address);
                     builder.setPositiveButton("Yes",
                             new DialogInterface.OnClickListener() {
@@ -192,7 +238,7 @@ public class MyFragment extends Fragment {
                                     user.setSex(sex);
                                     user.setAge(age);
                                     user.setPhone(phone);
-                                    user.setEmail(email);
+                                    user.setEmail(email_input);
                                     user.setAddress(address);
                                     user.setPhoto(photo);
                                     DBServerForU dbServerForU = new DBServerForU(getContext());
@@ -211,7 +257,6 @@ public class MyFragment extends Fragment {
                                         edtSex.setText(user.getSex());
                                         txtAge.setEnabled(false);
                                         edtPhone.setEnabled(false);
-                                        edtEmail.setEnabled(false);
                                         edtAddress.setEnabled(false);
                                         imgPhoto.setEnabled(false);
                                         edtName.setBackground(null);
@@ -225,8 +270,12 @@ public class MyFragment extends Fragment {
                                         ibtn_camera.setVisibility(View.GONE);
                                         ibtn_album.setVisibility(View.GONE);
                                         edtSex.setVisibility(View.VISIBLE);
+                                        txtEmail.setText(email_input);
+                                        txtEmail.setVisibility(View.VISIBLE);
                                         radSex.setVisibility(View.GONE);
                                         sbAge.setVisibility(View.GONE);
+                                        spEmail.setVisibility(View.GONE);
+                                        edtEmail.setVisibility(View.GONE);
                                     }
                                 }
                             });
@@ -256,12 +305,11 @@ public class MyFragment extends Fragment {
                                 edtSex.setText(user.getSex());
                                 txtAge.setText(user.getAge());
                                 edtPhone.setText(user.getPhone());
-                                edtEmail.setText(user.getEmail());
+                                txtEmail.setText(user.getEmail());
                                 edtAddress.setText(user.getAddress());
                                 edtName.setEnabled(false);
                                 txtAge.setEnabled(false);
                                 edtPhone.setEnabled(false);
-                                edtEmail.setEnabled(false);
                                 edtAddress.setEnabled(false);
                                 imgPhoto.setEnabled(false);
                                 edtName.setBackground(null);
@@ -276,15 +324,18 @@ public class MyFragment extends Fragment {
                                 ibtn_album.setVisibility(View.GONE);
                                 edtSex.setVisibility(View.VISIBLE);
                                 radSex.setVisibility(View.GONE);
+                                txtEmail.setVisibility(View.VISIBLE);
                                 sbAge.setVisibility(View.GONE);
+                                spEmail.setVisibility(View.GONE);
+                                edtEmail.setVisibility(View.GONE);
+                                Toast.makeText(getContext(), "Cancel successful", Toast.LENGTH_SHORT).show();
                             }
                         });
                 builder.setNegativeButton("No",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getContext(), "Cancel successful", Toast.LENGTH_SHORT).show();
-                                ;
+
                             }
                         });
                 builder.show();
@@ -294,7 +345,7 @@ public class MyFragment extends Fragment {
         ibtn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = new File(Environment.getExternalStorageDirectory(), "pictures");
+                File file = new File(MyFragment.this.getContext().getExternalCacheDir(), "pictures");
                 if (file.exists()) {
                     file.mkdirs();
                 }
@@ -372,6 +423,7 @@ public class MyFragment extends Fragment {
     }
 
     public void inti(View view) {
+        txtEmail = view.findViewById(R.id.txt_email);
         txtAge = view.findViewById(R.id.userTxt_age);
         sbAge = view.findViewById(R.id.userSB_age);
         radSex = view.findViewById(R.id.userMy_Radsex);
@@ -387,5 +439,37 @@ public class MyFragment extends Fragment {
         ibtn_camera = view.findViewById(R.id.userIbtn_camera);
         ibtn_album = view.findViewById(R.id.userIbtn_album);
         txt_title = view.findViewById(R.id.myTxt_title);
+        spEmail = view.findViewById(R.id.mySpi_email);
     }
+
+    private void setSpinnerDefaultValue(Spinner spinner, String value) {
+        SpinnerAdapter apsAdapter = spinner.getAdapter();
+        int size = apsAdapter.getCount();
+        for (int i = 0; i < size; i++) {
+            if (TextUtils.equals(value, apsAdapter.getItem(i).toString())) {
+                spinner.setSelection(i, true);
+                break;
+            }
+        }
+    }
+
+//    private void openCamare() {
+//        File outputImg = new File(getContext().getExternalCacheDir(), "output_image.jpg");
+//        try {
+//            if (outputImg.exists()) {
+//                outputImg.delete();
+//            }
+//            outputImg.createNewFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        if (Build.VERSION.SDK_INT >= 24) {
+//            imageUri = FileProvider.getUriForFile(getContext(), "com.example.cameraalbumtest.fileprovider", outputImg);
+//        } else {
+//            imageUri = Uri.fromFile(outputImg);
+//        }
+//        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+//        startActivityForResult(intent, 1);
+//    }
 }

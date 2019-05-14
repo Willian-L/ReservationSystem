@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.william.reservationsystem.JsonActivity;
 import com.william.reservationsystem.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +18,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void toLogin(View view) {
         Intent intent = new Intent(this, UserLoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void toGson(View view) {
+        Intent intent = new Intent(this, JsonActivity.class);
         startActivity(intent);
     }
 }

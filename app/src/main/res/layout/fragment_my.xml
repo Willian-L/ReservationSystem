@@ -36,23 +36,21 @@
             android:id="@+id/userImg_photo"
             android:layout_width="120dp"
             android:layout_height="160dp"
-            app:srcCompat="@mipmap/ic_mine"
             android:layout_centerInParent="true"
-            />
+            app:srcCompat="@mipmap/ic_mine" />
 
         <ImageButton
             android:id="@+id/userIbtn_camera"
             style="@style/my_imgBtn"
             android:layout_marginTop="25dp"
-            app:srcCompat="@android:drawable/ic_menu_camera"
-            />
+            app:srcCompat="@android:drawable/ic_menu_camera" />
 
         <ImageButton
             android:id="@+id/userIbtn_album"
+            style="@style/my_imgBtn"
             android:layout_below="@id/userIbtn_camera"
             android:layout_marginTop="10dp"
-            app:srcCompat="@android:drawable/ic_menu_gallery"
-            style="@style/my_imgBtn" />
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     </RelativeLayout>
 
@@ -100,7 +98,7 @@
 
             <EditText
                 android:id="@+id/userMy_name"
-                style="@style/Edit_show"
+                style="@style/Edit_My"
                 android:inputType="text"
                 android:maxLength="16" />
 
@@ -108,35 +106,33 @@
                 android:id="@+id/userMy_Radsex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_weight="1"
-                android:orientation="horizontal"
                 android:gravity="center"
-                >
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <RadioButton
                     android:id="@+id/user_radBtnman"
-                    android:text="Man"
-                    style="@style/my_radBtn"/>
+                    style="@style/my_radBtn"
+                    android:text="Man" />
 
                 <RadioButton
                     android:id="@+id/user_radBtnwoman"
-                    android:text="Woman"
-                    style="@style/my_radBtn" />
+                    style="@style/my_radBtn"
+                    android:text="Woman" />
             </RadioGroup>
 
             <EditText
                 android:id="@+id/userMy_sex"
-                style="@style/Edit_show"
+                style="@style/Edit_My"
                 android:inputType="text"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/userTxt_age"
@@ -148,28 +144,57 @@
                     android:textSize="20dp" />
 
                 <SeekBar
-                    android:visibility="gone"
-                    android:max="99"
-                    android:min="18"
                     android:id="@+id/userSB_age"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:max="99"
+                    android:min="18"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/userMy_phone"
-                style="@style/Edit_show"
+                style="@style/Edit_My"
                 android:inputType="phone"
                 android:maxLength="11" />
 
-            <EditText
-                android:id="@+id/userMy_email"
-                style="@style/Edit_show"
-                android:inputType="text" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/userMy_email"
+                    style="@style/Edit_show"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:enabled="true"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/txt_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:enabled="false"/>
+
+                <Spinner
+                    android:id="@+id/mySpi_email"
+                    android:layout_width="320dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:entries="@array/email_suffix"
+                    android:overlapAnchor="false"
+                    android:spinnerMode="dropdown"
+                    android:textSize="22dp"
+                    android:visibility="gone" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/userMy_address"
-                style="@style/Edit_show"
+                style="@style/Edit_My"
                 android:inputType="text" />
         </LinearLayout>
     </LinearLayout>
@@ -183,7 +208,7 @@
     <Button
         android:id="@+id/my_btnCancel"
         style="@style/My_ButtonStyle"
-        android:text="cancel"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:text="cancel" />
 
 </LinearLayout>

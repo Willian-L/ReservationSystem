@@ -1,27 +1,19 @@
 package com.william.reservationsystem.UI;
 
-import android.app.Activity;
+
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.william.reservationsystem.Fragment.MyFragment;
 import com.william.reservationsystem.Fragment.OrderFragment;
 import com.william.reservationsystem.Fragment.ShoppingFragment;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.SQLite.User;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class HomepageForUActivity extends AppCompatActivity implements View.OnClickListener {
 
