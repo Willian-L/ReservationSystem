@@ -37,7 +37,7 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
 
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
-        transaction.add(R.id.master_content_Layout, new OrderFragment());
+        transaction.add(R.id.user_content_Layout, new OrderFragment());
         transaction.commit();
     }
 
@@ -59,13 +59,13 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
         inti();
         switch (v.getId()) {
             case R.id.rad_order:
-                transaction.replace(R.id.master_content_Layout, new OrderFragment());
+                transaction.replace(R.id.user_content_Layout, new OrderFragment());
                 rb_order.setActivated(true);
                 rb_shopping.setActivated(false);
                 rb_my.setActivated(false);
                 break;
             case R.id.rad_shopping:
-                transaction.replace(R.id.master_content_Layout, new ShoppingFragment());
+                transaction.replace(R.id.user_content_Layout, new ShoppingFragment());
                 rb_shopping.setActivated(true);
                 rb_order.setActivated(false);
                 rb_my.setActivated(false);
@@ -75,7 +75,7 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
                 Bundle bundle = new Bundle();
                 bundle.putString("username", user.getUsername());
                 myFragment.setArguments(bundle);
-                transaction.replace(R.id.master_content_Layout, myFragment);
+                transaction.replace(R.id.user_content_Layout, myFragment);
                 rb_my.setActivated(true);
                 rb_shopping.setActivated(false);
                 rb_order.setActivated(false);

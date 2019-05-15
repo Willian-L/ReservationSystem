@@ -1,18 +1,28 @@
 package com.william.reservationsystem.UserHomepage.Fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,10 +44,18 @@ import android.widget.Toast;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.SQLite.DBServerForU;
 import com.william.reservationsystem.Information.User;
+import com.william.reservationsystem.UI.MainActivity;
+import com.zxy.tiny.Tiny;
+import com.zxy.tiny.callback.FileWithBitmapCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MyFragment extends Fragment {
 
@@ -52,8 +70,6 @@ public class MyFragment extends Fragment {
     SeekBar sbAge;
     Spinner spEmail;
 
-    private File currentImageFile = null;
-
     private String sex = null;
 
     private String age = null;
@@ -62,7 +78,8 @@ public class MyFragment extends Fragment {
     private String email_top = null;
     private String email_suf = null;
 
-    private Uri imageUri = null;
+    private String photoPath = null;
+
 
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -96,6 +113,10 @@ public class MyFragment extends Fragment {
                 txtEmail.setText(user.getEmail());
                 user.setAddress(cursor.getString(cursor.getColumnIndex("address")));
                 edtAddress.setText(user.getAddress());
+                user.setPhoto(cursor.getString(cursor.getColumnIndex("photo")));
+                photoPath = user.getPhoto();
+                Uri uri = Uri.parse(user.getPhoto());
+                imgPhoto.setImageURI(uri);
             }
         }
 
@@ -197,7 +218,7 @@ public class MyFragment extends Fragment {
                         address.equals(address_db) &&
                         age.equals(age_db) &&
                         sex.equals(sex_db) &&
-                        photo == null) {
+                        photoPath.equals(user.getPhoto())) {
                     Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
                     edtName.setEnabled(false);
                     txtAge.setEnabled(false);
@@ -240,7 +261,18 @@ public class MyFragment extends Fragment {
                                     user.setPhone(phone);
                                     user.setEmail(email_input);
                                     user.setAddress(address);
-                                    user.setPhoto(photo);
+                                    if (!photoPath.equals(user.getPhoto())){
+                                        final AlertDialog.Builder buil = new AlertDialog.Builder(getContext());
+                                        buil.setTitle("Please confirm the change information!");
+                                        buil.setMessage("Do you want to change the picture?");
+                                        buil.setPositiveButton("Yes",
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        user.setPhoto(photoPath);
+                                                    }
+                                                });
+                                    }
                                     DBServerForU dbServerForU = new DBServerForU(getContext());
                                     dbServerForU.open();
                                     if (dbServerForU.updataUsername(
@@ -342,84 +374,206 @@ public class MyFragment extends Fragment {
             }
         });
 
+
         ibtn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = new File(MyFragment.this.getContext().getExternalCacheDir(), "pictures");
-                if (file.exists()) {
-                    file.mkdirs();
-                }
-                currentImageFile = new File(file, System.currentTimeMillis() + ".jpg");
-                if (!currentImageFile.exists()) {
+                //"点击了照相";
+                //  6.0之后动态申请权限 摄像头调取权限,SD卡写入权限
+//                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+//                        && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(getActivity(),
+//                            new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                            MY_ADD_CASE_CALL_PHONE);
+//                } else {
+//
+//                }
+                if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA)) {
                     try {
-                        currentImageFile.createNewFile();
+                        //有权限,去打开摄像头
+                        takePhoto();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
+                } else {
+                    //提示用户开户权限   拍照和读写sd卡权限
+                    String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+                    ActivityCompat.requestPermissions(getActivity(), perms, MY_ADD_CASE_CALL_PHONE);
 
-                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                StrictMode.setVmPolicy(builder.build());
-                builder.detectFileUriExposure();
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(currentImageFile));
-                startActivityForResult(intent, 1);
+                }
             }
+
         });
 
         ibtn_album.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                intent.putExtra("crop", true);
-                intent.putExtra("return-data", true);
-                startActivityForResult(intent, 0);
+                //"点击了相册");
+                //  6.0之后动态申请权限 SD卡写入权限
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            MY_ADD_CASE_CALL_PHONE2);
+
+                } else {
+                    choosePhoto();
+                }
             }
         });
 
         return view;
     }
 
-    private String photo = null;
+    //调取系统摄像头的请求码
+    private static final int MY_ADD_CASE_CALL_PHONE = 6;
+    //打开相册的请求码
+    private static final int MY_ADD_CASE_CALL_PHONE2 = 7;
+
+    private void takePhoto() throws IOException {
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+        // 获取文件
+        File file = createFileIfNeed("UserIcon.png");
+        //拍照后原图回存入此路径下
+        Uri imageUri;
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+            imageUri = Uri.fromFile(file);
+        } else {
+            /**
+             * 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
+             * 并且这样可以解决MIUI系统上拍照返回size为0的情况
+             */
+            imageUri = FileProvider.getUriForFile(getActivity(), "com.william.reservationsystem.fileprovider", file);
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+        startActivityForResult(intent, 1);
+    }
+
+    // 在sd卡中创建一保存图片（原图和缩略图共用的）文件夹
+    private File createFileIfNeed(String fileName) throws IOException {
+        String fileA = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/photo";
+        File fileJA = new File(fileA);
+        if (!fileJA.exists()) {
+            fileJA.mkdirs();
+        }
+        File file = new File(fileA, fileName);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        return file;
+    }
+
+    /**
+     * 打开相册
+     */
+    private void choosePhoto() {
+        //这是打开系统默认的相册(就是你系统怎么分类,就怎么显示,首先展示分类列表)
+        Intent picture = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(picture, 2);
+    }
+
+    /**
+     * 申请权限回调
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if (requestCode == MY_ADD_CASE_CALL_PHONE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                try {
+                    takePhoto();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                //"权限拒绝");
+                // TODO: 2018/12/4 这里可以给用户一个提示,请求权限被拒绝了
+            }
+        }
+
+
+        if (requestCode == MY_ADD_CASE_CALL_PHONE2) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                choosePhoto();
+            } else {
+                //"权限拒绝");
+                // TODO: 2018/12/4 这里可以给用户一个提示,请求权限被拒绝了
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_my, null);
-        imgPhoto = view.findViewById(R.id.userImg_photo);
-        Log.i("file", currentImageFile + "");
-        ContentResolver cr = getContext().getContentResolver();
-        Bitmap bitmap = null;
-        if (requestCode == 0) {
-            Uri uri = data.getData();
+        if (requestCode == 1 && resultCode != Activity.RESULT_CANCELED) {
+
+            String state = Environment.getExternalStorageState();
+            if (!state.equals(Environment.MEDIA_MOUNTED)) return;
+            // 把原图显示到界面上
+            Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
+            Tiny.getInstance().source(readpic()).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
+
+                @Override
+                public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
+                    saveImageToServer(bitmap, outfile);
+                }
+            });
+
+        } else if (requestCode == 2 && resultCode == Activity.RESULT_OK
+                && null != data) {
             try {
-                bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContext().getContentResolver().query(uri,
-                        filePathColumn, null, null, null);
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                photo = cursor.getString(columnIndex);
-                cursor.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        } else if (requestCode == 1) {
-            try {
-                bitmap = BitmapFactory.decodeStream(cr.openInputStream(Uri.fromFile(currentImageFile)));
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContext().getContentResolver().query(Uri.fromFile(currentImageFile),
-                        filePathColumn, null, null, null);
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                photo = cursor.getString(columnIndex);
-                cursor.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                Uri selectedImage = data.getData();
+                Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
+                Tiny.getInstance().source(selectedImage).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
+                    @Override
+                    public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
+                        saveImageToServer(bitmap, outfile);
+                    }
+                });
+                photoPath = selectedImage.toString();
+                Log.i("path",photoPath+"");
+            } catch (Exception e) {
+                //"上传失败");
             }
         }
+    }
+
+    /**
+     * 从保存原图的地址读取图片
+     */
+    private String readpic() {
+        String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/photo/" + "UserIcon.png";
+
+        photoPath = filePath;
+        Log.i("path",photoPath+"");
+        return filePath;
+    }
+
+    private void saveImageToServer(final Bitmap bitmap, String outfile) {
+//        File file = new File(outfile);
+        
         imgPhoto.setImageBitmap(bitmap);
+    }
+
+
+    private void setSpinnerDefaultValue(Spinner spinner, String value) {
+        SpinnerAdapter apsAdapter = spinner.getAdapter();
+        int size = apsAdapter.getCount();
+        for (int i = 0; i < size; i++) {
+            if (TextUtils.equals(value, apsAdapter.getItem(i).toString())) {
+                spinner.setSelection(i, true);
+                break;
+            }
+        }
     }
 
     public void inti(View view) {
@@ -441,35 +595,4 @@ public class MyFragment extends Fragment {
         txt_title = view.findViewById(R.id.myTxt_title);
         spEmail = view.findViewById(R.id.mySpi_email);
     }
-
-    private void setSpinnerDefaultValue(Spinner spinner, String value) {
-        SpinnerAdapter apsAdapter = spinner.getAdapter();
-        int size = apsAdapter.getCount();
-        for (int i = 0; i < size; i++) {
-            if (TextUtils.equals(value, apsAdapter.getItem(i).toString())) {
-                spinner.setSelection(i, true);
-                break;
-            }
-        }
-    }
-
-//    private void openCamare() {
-//        File outputImg = new File(getContext().getExternalCacheDir(), "output_image.jpg");
-//        try {
-//            if (outputImg.exists()) {
-//                outputImg.delete();
-//            }
-//            outputImg.createNewFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        if (Build.VERSION.SDK_INT >= 24) {
-//            imageUri = FileProvider.getUriForFile(getContext(), "com.example.cameraalbumtest.fileprovider", outputImg);
-//        } else {
-//            imageUri = Uri.fromFile(outputImg);
-//        }
-//        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-//        startActivityForResult(intent, 1);
-//    }
 }

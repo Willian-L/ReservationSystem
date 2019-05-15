@@ -40,7 +40,6 @@ public class ResetVerActivity extends AppCompatActivity {
         inti();
 
         imageView.setImageBitmap(IdentifyingCode.getInstance().createBitmap());
-        Log.i("code", realCode);
 
         final Intent intent = getIntent();
         fromLogin = intent.getStringExtra("username");

@@ -1,15 +1,73 @@
 package com.william.reservationsystem.MasterHomepage;
 
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RadioButton;
 
+import com.william.reservationsystem.MasterHomepage.Fragment.UserInfoFragment;
 import com.william.reservationsystem.R;
+import com.william.reservationsystem.UserHomepage.Fragment.MyFragment;
+import com.william.reservationsystem.UserHomepage.Fragment.OrderFragment;
+import com.william.reservationsystem.UserHomepage.Fragment.ShoppingFragment;
 
-public class HomepageForMActivity extends AppCompatActivity {
+public class HomepageForMActivity extends AppCompatActivity implements View.OnClickListener  {
+
+    private FragmentManager manager;
+    private FragmentTransaction transaction;
+    private RadioButton rb_orderInfo, rb_userInfo, rb_my;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage_for_m);
+
+        inti();
+
+        rb_orderInfo.setActivated(true);
+
+        manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        transaction.add(R.id.master_content_Layout, new OrderFragment());
+        transaction.commit();
     }
+
+    @Override
+    public void onClick(View v) {
+        transaction = manager.beginTransaction();
+        switch (v.getId()) {
+            case R.id.masterRad_orderInfo:
+                rb_orderInfo.setActivated(true);
+                rb_userInfo.setActivated(false);
+                rb_my.setActivated(false);
+                break;
+            case R.id.masterRad_userInfo:
+                transaction.replace(R.id.master_content_Layout, new UserInfoFragment());
+                rb_orderInfo.setActivated(true);
+                rb_userInfo.setActivated(false);
+                rb_my.setActivated(false);
+                break;
+            case R.id.masterRad_my:
+                rb_my.setActivated(true);
+                rb_orderInfo.setActivated(false);
+                rb_userInfo.setActivated(false);
+                break;
+        }
+        transaction.commit();
+    }
+
+    public void inti() {
+        rb_orderInfo = findViewById(R.id.masterRad_orderInfo);
+        rb_userInfo = findViewById(R.id.masterRad_userInfo);
+        rb_my = findViewById(R.id.masterRad_my);
+
+        rb_orderInfo.setOnClickListener(this);
+        rb_userInfo.setOnClickListener(this);
+        rb_my.setOnClickListener(this);
+    }
+
+
 }

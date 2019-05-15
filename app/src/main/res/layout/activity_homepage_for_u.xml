@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MasterHomepage.HomepageForMActivity">
+    tools:context=".UserHomepage.HomepageForUActivity">
 
     <LinearLayout
         android:id="@+id/user_content_Layout"
