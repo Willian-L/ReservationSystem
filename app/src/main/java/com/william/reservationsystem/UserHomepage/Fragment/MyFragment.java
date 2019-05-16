@@ -24,6 +24,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -115,8 +117,7 @@ public class MyFragment extends Fragment {
                 edtAddress.setText(user.getAddress());
                 user.setPhoto(cursor.getString(cursor.getColumnIndex("photo")));
                 photoPath = user.getPhoto();
-                Uri uri = Uri.parse(user.getPhoto());
-                imgPhoto.setImageURI(uri);
+                imgPhoto.setImageBitmap(stringToBitmap(photoPath));
             }
         }
 
@@ -130,32 +131,14 @@ public class MyFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 email_suffix = email_suf;
+                Log.i("email_suf", email_suffix + "");
             }
         });
 
         ibtn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String backcolor = "#1fffffff";
-                edtName.setEnabled(true);
-                edtSex.setVisibility(View.GONE);
-                radSex.setVisibility(View.VISIBLE);
-                txtAge.setEnabled(true);
-                txtEmail.setVisibility(View.GONE);
-                edtPhone.setEnabled(true);
-                edtAddress.setEnabled(true);
-                edtName.setBackgroundColor(Color.parseColor(backcolor));
-                txtAge.setBackgroundColor(Color.parseColor(backcolor));
-                edtPhone.setBackgroundColor(Color.parseColor(backcolor));
-                edtEmail.setBackgroundColor(Color.parseColor(backcolor));
-                edtAddress.setBackgroundColor(Color.parseColor(backcolor));
-                btnModify.setVisibility(View.VISIBLE);
-                btnCancel.setVisibility(View.VISIBLE);
-                ibtn_album.setVisibility(View.VISIBLE);
-                ibtn_camera.setVisibility(View.VISIBLE);
-                sbAge.setVisibility(View.VISIBLE);
-                spEmail.setVisibility(View.VISIBLE);
-                edtEmail.setVisibility(View.VISIBLE);
+                openEdit();
                 String txtemail = txtEmail.getText().toString().trim();
                 if (!txtemail.equals("")) {
                     final String Email = txtemail;
@@ -217,33 +200,38 @@ public class MyFragment extends Fragment {
                         email_input.equals(email_db) &&
                         address.equals(address_db) &&
                         age.equals(age_db) &&
-                        sex.equals(sex_db) &&
-                        photoPath.equals(user.getPhoto())) {
-                    Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
-                    edtName.setEnabled(false);
-                    txtAge.setEnabled(false);
-                    edtSex.setEnabled(false);
-                    edtPhone.setEnabled(false);
-                    edtEmail.setEnabled(false);
-                    edtAddress.setEnabled(false);
-                    imgPhoto.setEnabled(false);
-                    edtName.setBackground(null);
-                    txtAge.setBackground(null);
-                    edtPhone.setBackground(null);
-                    edtEmail.setBackground(null);
-                    edtAddress.setBackground(null);
-                    btnModify.setVisibility(View.GONE);
-                    btnCancel.setVisibility(View.GONE);
-                    ibtn_camera.setVisibility(View.GONE);
-                    ibtn_album.setVisibility(View.GONE);
-                    edtSex.setVisibility(View.VISIBLE);
-                    txtEmail.setVisibility(View.VISIBLE);
-                    radSex.setVisibility(View.GONE);
-                    sbAge.setVisibility(View.GONE);
-                    spEmail.setVisibility(View.GONE);
-                    edtEmail.setVisibility(View.GONE);
+                        sex.equals(sex_db)) {
+                    if (photoPath.equals(user.getPhoto())) {
+                        Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
+                        closeEdit();
+                    } else {
+                        Log.i("getPathToDB", "yes");
+                        AlertDialog.Builder buil = new AlertDialog.Builder(getContext());
+                        buil.setTitle("Please confirm the change information!");
+                        buil.setMessage("Do you want to change the picture?");
+                        buil.setPositiveButton("Yes",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        user.setPhoto(photoPath);
+                                        updateDB();
+                                        closeEdit();
+                                    }
+                                });
+                        buil.setNegativeButton("No",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        photoPath = user.getPhoto();
+                                        imgPhoto.setImageBitmap(stringToBitmap(photoPath));
+                                        closeEdit();
+                                        Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        buil.show();
+                    }
                 } else {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("Please confirm the change information!");
                     builder.setMessage("Name：" + name +
                             "\nSex：" + sex +
@@ -261,61 +249,19 @@ public class MyFragment extends Fragment {
                                     user.setPhone(phone);
                                     user.setEmail(email_input);
                                     user.setAddress(address);
-                                    if (!photoPath.equals(user.getPhoto())){
-                                        final AlertDialog.Builder buil = new AlertDialog.Builder(getContext());
-                                        buil.setTitle("Please confirm the change information!");
-                                        buil.setMessage("Do you want to change the picture?");
-                                        buil.setPositiveButton("Yes",
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        user.setPhoto(photoPath);
-                                                    }
-                                                });
-                                    }
-                                    DBServerForU dbServerForU = new DBServerForU(getContext());
-                                    dbServerForU.open();
-                                    if (dbServerForU.updataUsername(
-                                            user.getUsername(),
-                                            user.getName(),
-                                            user.getSex(),
-                                            user.getAge(),
-                                            user.getPhone(),
-                                            user.getEmail(),
-                                            user.getAddress(),
-                                            user.getPhoto())) {
-                                        Toast.makeText(getActivity(), "Modify successfully!", Toast.LENGTH_SHORT).show();
-                                        edtName.setEnabled(false);
-                                        edtSex.setText(user.getSex());
-                                        txtAge.setEnabled(false);
-                                        edtPhone.setEnabled(false);
-                                        edtAddress.setEnabled(false);
-                                        imgPhoto.setEnabled(false);
-                                        edtName.setBackground(null);
-                                        txtAge.setBackground(null);
-                                        edtSex.setBackground(null);
-                                        edtPhone.setBackground(null);
-                                        edtEmail.setBackground(null);
-                                        edtAddress.setBackground(null);
-                                        btnModify.setVisibility(View.GONE);
-                                        btnCancel.setVisibility(View.GONE);
-                                        ibtn_camera.setVisibility(View.GONE);
-                                        ibtn_album.setVisibility(View.GONE);
-                                        edtSex.setVisibility(View.VISIBLE);
-                                        txtEmail.setText(email_input);
-                                        txtEmail.setVisibility(View.VISIBLE);
-                                        radSex.setVisibility(View.GONE);
-                                        sbAge.setVisibility(View.GONE);
-                                        spEmail.setVisibility(View.GONE);
-                                        edtEmail.setVisibility(View.GONE);
-                                    }
+                                    user.setPhoto(photoPath);
+                                    updateDB();
+                                    txtEmail.setText(email_input);
+                                    edtSex.setText(user.getSex());
+                                    closeEdit();
                                 }
                             });
                     builder.setNegativeButton("No",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
+                                    closeEdit();
                                 }
                             });
                     builder.show();
@@ -339,27 +285,7 @@ public class MyFragment extends Fragment {
                                 edtPhone.setText(user.getPhone());
                                 txtEmail.setText(user.getEmail());
                                 edtAddress.setText(user.getAddress());
-                                edtName.setEnabled(false);
-                                txtAge.setEnabled(false);
-                                edtPhone.setEnabled(false);
-                                edtAddress.setEnabled(false);
-                                imgPhoto.setEnabled(false);
-                                edtName.setBackground(null);
-                                txtAge.setBackground(null);
-                                edtSex.setBackground(null);
-                                edtPhone.setBackground(null);
-                                edtEmail.setBackground(null);
-                                edtAddress.setBackground(null);
-                                btnModify.setVisibility(View.GONE);
-                                btnCancel.setVisibility(View.GONE);
-                                ibtn_camera.setVisibility(View.GONE);
-                                ibtn_album.setVisibility(View.GONE);
-                                edtSex.setVisibility(View.VISIBLE);
-                                radSex.setVisibility(View.GONE);
-                                txtEmail.setVisibility(View.VISIBLE);
-                                sbAge.setVisibility(View.GONE);
-                                spEmail.setVisibility(View.GONE);
-                                edtEmail.setVisibility(View.GONE);
+                                closeEdit();
                                 Toast.makeText(getContext(), "Cancel successful", Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -378,16 +304,6 @@ public class MyFragment extends Fragment {
         ibtn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //"点击了照相";
-                //  6.0之后动态申请权限 摄像头调取权限,SD卡写入权限
-//                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-//                        && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(getActivity(),
-//                            new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-//                            MY_ADD_CASE_CALL_PHONE);
-//                } else {
-//
-//                }
                 if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA)) {
                     try {
                         //有权限,去打开摄像头
@@ -426,6 +342,69 @@ public class MyFragment extends Fragment {
         return view;
     }
 
+    private void openEdit() {
+        String backcolor = "#1fffffff";
+        edtName.setEnabled(true);
+        edtSex.setVisibility(View.GONE);
+        radSex.setVisibility(View.VISIBLE);
+        txtAge.setEnabled(true);
+        txtEmail.setVisibility(View.GONE);
+        edtPhone.setEnabled(true);
+        edtAddress.setEnabled(true);
+        edtName.setBackgroundColor(Color.parseColor(backcolor));
+        txtAge.setBackgroundColor(Color.parseColor(backcolor));
+        edtPhone.setBackgroundColor(Color.parseColor(backcolor));
+        edtEmail.setBackgroundColor(Color.parseColor(backcolor));
+        edtAddress.setBackgroundColor(Color.parseColor(backcolor));
+        btnModify.setVisibility(View.VISIBLE);
+        btnCancel.setVisibility(View.VISIBLE);
+        ibtn_album.setVisibility(View.VISIBLE);
+        ibtn_camera.setVisibility(View.VISIBLE);
+        sbAge.setVisibility(View.VISIBLE);
+        spEmail.setVisibility(View.VISIBLE);
+        edtEmail.setVisibility(View.VISIBLE);
+    }
+
+    public void closeEdit() {
+        edtName.setEnabled(false);
+        txtAge.setEnabled(false);
+        edtPhone.setEnabled(false);
+        edtAddress.setEnabled(false);
+        imgPhoto.setEnabled(false);
+        edtName.setBackground(null);
+        txtAge.setBackground(null);
+        edtSex.setBackground(null);
+        edtPhone.setBackground(null);
+        edtEmail.setBackground(null);
+        edtAddress.setBackground(null);
+        btnModify.setVisibility(View.GONE);
+        btnCancel.setVisibility(View.GONE);
+        ibtn_camera.setVisibility(View.GONE);
+        ibtn_album.setVisibility(View.GONE);
+        edtSex.setVisibility(View.VISIBLE);
+        txtEmail.setVisibility(View.VISIBLE);
+        radSex.setVisibility(View.GONE);
+        sbAge.setVisibility(View.GONE);
+        spEmail.setVisibility(View.GONE);
+        edtEmail.setVisibility(View.GONE);
+    }
+
+    public void updateDB() {
+        DBServerForU dbServerForU = new DBServerForU(getContext());
+        dbServerForU.open();
+        if (dbServerForU.updataUsername(
+                user.getUsername(),
+                user.getName(),
+                user.getSex(),
+                user.getAge(),
+                user.getPhone(),
+                user.getEmail(),
+                user.getAddress(),
+                user.getPhoto())) {
+            Toast.makeText(getActivity(), "Modify successfully!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     //调取系统摄像头的请求码
     private static final int MY_ADD_CASE_CALL_PHONE = 6;
     //打开相册的请求码
@@ -435,7 +414,9 @@ public class MyFragment extends Fragment {
         Intent intent = new Intent();
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         // 获取文件
-        File file = createFileIfNeed("UserIcon.png");
+        String filename = fileName();
+        photoName = filename + ".png";
+        File file = createFileIfNeed(photoName);
         //拍照后原图回存入此路径下
         Uri imageUri;
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
@@ -463,6 +444,7 @@ public class MyFragment extends Fragment {
         if (!file.exists()) {
             file.createNewFile();
         }
+
         return file;
     }
 
@@ -521,7 +503,6 @@ public class MyFragment extends Fragment {
             // 把原图显示到界面上
             Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
             Tiny.getInstance().source(readpic()).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
-
                 @Override
                 public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
                     saveImageToServer(bitmap, outfile);
@@ -539,8 +520,7 @@ public class MyFragment extends Fragment {
                         saveImageToServer(bitmap, outfile);
                     }
                 });
-                photoPath = selectedImage.toString();
-                Log.i("path",photoPath+"");
+                Log.i("path", photoPath + "");
             } catch (Exception e) {
                 //"上传失败");
             }
@@ -550,20 +530,49 @@ public class MyFragment extends Fragment {
     /**
      * 从保存原图的地址读取图片
      */
-    private String readpic() {
-        String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/photo/" + "UserIcon.png";
+    private String fileName(){
+        SimpleDateFormat timesdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String FileTime = timesdf.format(new Date()).toString();//获取系统时间
+        String filename = FileTime.replace(":", "");
+        return filename;
+    }
 
-        photoPath = filePath;
-        Log.i("path",photoPath+"");
+    private String photoName = null;
+
+    private String readpic() {
+        String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/photo/" + photoName;
+        Log.d("filename", "" + filePath);
         return filePath;
     }
 
     private void saveImageToServer(final Bitmap bitmap, String outfile) {
 //        File file = new File(outfile);
-        
+        photoPath = bitmapToString(bitmap);
+        Log.i("photo", photoPath + "");
         imgPhoto.setImageBitmap(bitmap);
     }
 
+    public Bitmap stringToBitmap(String string) {
+        if (string != null) {
+            byte[] bytes = Base64.decode(string, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            return bitmap;
+        } else {
+            return null;
+        }
+    }
+
+    public String bitmapToString(Bitmap bitmap) {
+        if (bitmap != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] bytes = stream.toByteArray();
+            String string = Base64.encodeToString(bytes, Base64.DEFAULT);
+            return string;
+        } else {
+            return "";
+        }
+    }
 
     private void setSpinnerDefaultValue(Spinner spinner, String value) {
         SpinnerAdapter apsAdapter = spinner.getAdapter();

@@ -66,8 +66,8 @@ public class DBHelper {
                     "name varchar(20) null,"+
                     "sex char(2) null," +
                     "age varchar(3) null," +
-                    "email TEXT null," +
-                    "photo varchar(50) null" +
+                    "email varchar(50) null," +
+                    "photo TEXT null" +
                     ");";
             // Insert table
             db.execSQL(MASTER_SQL);
