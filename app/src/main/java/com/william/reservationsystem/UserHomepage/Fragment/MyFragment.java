@@ -476,7 +476,7 @@ public class MyFragment extends Fragment {
                 }
             } else {
                 //"权限拒绝");
-                // TODO: 2018/12/4 这里可以给用户一个提示,请求权限被拒绝了
+                // 这里可以给用户一个提示,请求权限被拒绝了
             }
         }
 
@@ -486,7 +486,7 @@ public class MyFragment extends Fragment {
                 choosePhoto();
             } else {
                 //"权限拒绝");
-                // TODO: 2018/12/4 这里可以给用户一个提示,请求权限被拒绝了
+                // 这里可以给用户一个提示,请求权限被拒绝了
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

@@ -1,28 +1,38 @@
 package com.william.reservationsystem.MasterHomepage.Fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.william.reservationsystem.MasterHomepage.Fragment.Derive.ChooseFileActivity;
 import com.william.reservationsystem.MasterHomepage.Fragment.Derive.FileUtils;
-import com.william.reservationsystem.MasterHomepage.Fragment.Derive.Fileselect;
 import com.william.reservationsystem.MasterHomepage.Fragment.Derive.UserInfo;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.SQLite.DBServerForU;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class UserInfoFragment extends Fragment {
+
+    public static final int PATHREQUESTCODE = 44;
+
+    private static final int MY_ADD_CASE_WRITE_READ = 6;
 
     ImageButton imgBtn_out;
 
-    public static final int FILE_RESULT_CODE = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,8 +44,15 @@ public class UserInfoFragment extends Fragment {
         imgBtn_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Fileselect.class);
-                startActivityForResult(intent, FILE_RESULT_CODE);
+                ChooseFileActivity.enterActivityForResult(getActivity(), PATHREQUESTCODE);
+//                if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//
+//                    Log.d("www","have ");
+//                } else {
+//                    String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+//                    ActivityCompat.requestPermissions(getActivity(), perms, MY_ADD_CASE_WRITE_READ);
+//                }
+
             }
         });
 
@@ -44,11 +61,11 @@ public class UserInfoFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (FILE_RESULT_CODE == requestCode) {
-            Bundle bundle = null;
-            if (data != null && (bundle = data.getExtras()) != null){
-                outStream(bundle.getString("file"));
-            }
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("zww","onActivityResult ");
+        if (requestCode == PATHREQUESTCODE && resultCode == ChooseFileActivity.RESULTCODE) {
+            ArrayList<String> resPath = data.getStringArrayListExtra(ChooseFileActivity.SELECTPATH);
+            Log.d("ZWW", resPath.toString());
         }
     }
 
@@ -74,6 +91,7 @@ public class UserInfoFragment extends Fragment {
             Gson gson = new Gson();
             UserInfo userInfo = gson.fromJson(jsonObject, UserInfo.class);
             System.out.println(userInfo);
+            Log.i("file", ""+filePath);
             FileUtils.writeTxtToFile(userInfo.toString(), filePath, "user.txt");
         }
     }
