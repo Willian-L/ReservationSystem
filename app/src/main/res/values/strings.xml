@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Reservation System</string>
-    <string name="main_title">Bespeak Meal\nSystem</string>
+    <string name="main_title">Welcome\nTo\nBespeak Meal System</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="main_btn_into">Welcome</string>
@@ -15,9 +15,9 @@
     <string name="login_title">User Login</string>
     <string name="login_radio_user">User</string>
     <string name="login_redio_master">Master</string>
-    <string name="login_btn_into">LOG IN</string>
-    <string name="login_btn_toregister">register</string>
-    <string name="login_btn_toreset">forgot\npassword？</string>
+    <string name="login_btn_into">LOGIN</string>
+    <string name="login_btn_toregister">Register</string>
+    <string name="login_btn_toreset">Forgot Password?</string>
     <string name="homepage_title">WELECOM</string>
     <string name="homepage_txt_order">ORDER</string>
     <string name="homepage_txt_my">MY</string>

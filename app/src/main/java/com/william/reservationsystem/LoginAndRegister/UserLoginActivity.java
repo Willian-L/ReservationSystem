@@ -1,13 +1,17 @@
 package com.william.reservationsystem.LoginAndRegister;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -27,9 +31,11 @@ public class UserLoginActivity extends AppCompatActivity {
     EditText edtUsername, edtPassword;
     RadioGroup ragType;
     Button btnLogin;
+    CheckBox checkRemember;
 
     // Define an identity to get the selected value of RdaioGroup
     public String type = "User";
+    private SharedPreferences sp;
 
     User user = new User();
     Master master = new Master();
@@ -39,12 +45,19 @@ public class UserLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
 
+
         init();
 
-        edtPassword.setText(null);
-        edtUsername.setText(null);
+        sp = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        if (sp.getBoolean("ISCHECK", false)) {
+            checkRemember.setChecked(true);
+            edtUsername.setText(sp.getString("USER_NAME", ""));
+            edtPassword.setText(sp.getString("PASSWORD", ""));
+            Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
+            UserLoginActivity.this.startActivity(intent);
+        }
 
-        Log.i("edt","edtPassword:" + edtPassword.getText() + "edtUsername:" + edtUsername.getText());
+        Log.i("edt", "edtPassword:" + edtPassword.getText() + "edtUsername:" + edtUsername.getText());
 
         try {
             Intent intent = getIntent();
@@ -63,6 +76,16 @@ public class UserLoginActivity extends AppCompatActivity {
             }
         });
 
+        checkRemember.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (checkRemember.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "Remember Password!", Toast.LENGTH_SHORT).show();
+                    sp.edit().putBoolean("ISCHECK", true).commit();
+                }
+            }
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,12 +95,12 @@ public class UserLoginActivity extends AppCompatActivity {
                 String password = edtPassword.getText().toString().trim();
 
                 boolean hasUsernameValue = false;
-                if (!username.equals("")){
+                if (!username.equals("")) {
                     hasUsernameValue = true;
                 }
 
                 boolean hasPasswordValue = false;
-                if (!password.equals("")){
+                if (!password.equals("")) {
                     hasPasswordValue = true;
                 }
 
@@ -89,15 +112,21 @@ public class UserLoginActivity extends AppCompatActivity {
                             user.setPassword(edtPassword.getText().toString().trim());
                             DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
                             dbServerForU.open();
-                            Log.i("eab",edtUsername.getText().toString() + edtPassword.getText().toString());
+                            Log.i("eab", edtUsername.getText().toString() + edtPassword.getText().toString());
                         /*
                         Determine whether the username and password match the one in the database
                          */
                             result = dbServerForU.login(user.getUsername(), user.getPassword());
                             switch (result) {
                                 case 2:
+                                    if (checkRemember.isChecked()) {
+                                        SharedPreferences.Editor editor = sp.edit();
+                                        editor.putString("USER_NAME", user.getUsername());
+                                        editor.putString("PASSWORD", user.getPassword());
+                                        editor.commit();
+                                    }
                                     Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
-                                    intent.putExtra("username",user.getUsername());
+                                    intent.putExtra("username", user.getUsername());
                                     startActivity(intent);
                                     dbServerForU.close();
                                     break;
@@ -140,8 +169,7 @@ public class UserLoginActivity extends AppCompatActivity {
                         default:
                             break;
                     }
-                }
-                else if (hasUsernameValue && !hasPasswordValue) {
+                } else if (hasUsernameValue && !hasPasswordValue) {
                     Toast.makeText(getApplicationContext(),
                             "Please input your password!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -224,5 +252,6 @@ public class UserLoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         ragType = findViewById(R.id.ragType);
         btnLogin = findViewById(R.id.btnLogin);
+        checkRemember = findViewById(R.id.loginCb_Remember);
     }
 }
