@@ -82,6 +82,8 @@ public class MyFragment extends Fragment {
 
     private String photoPath = null;
 
+    private Uri getPhotoURI = null;
+    private Uri photoURI = null;
 
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -117,7 +119,11 @@ public class MyFragment extends Fragment {
                 edtAddress.setText(user.getAddress());
                 user.setPhoto(cursor.getString(cursor.getColumnIndex("photo")));
                 photoPath = user.getPhoto();
-                imgPhoto.setImageBitmap(stringToBitmap(photoPath));
+                if (photoPath!=null) {
+                    getPhotoURI = Uri.parse(photoPath);
+                    photoURI = getPhotoURI;
+                    imgPhoto.setImageURI(getPhotoURI);
+                }
             }
         }
 
@@ -201,7 +207,7 @@ public class MyFragment extends Fragment {
                         address.equals(address_db) &&
                         age.equals(age_db) &&
                         sex.equals(sex_db)) {
-                    if (photoPath.equals(user.getPhoto())) {
+                    if (photoURI.equals(getPhotoURI)) {
                         Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
                         closeEdit();
                     } else {
@@ -213,7 +219,9 @@ public class MyFragment extends Fragment {
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        user.setPhoto(photoPath);
+                                        String photoU = photoURI.toString();
+                                        user.setPhoto(photoU);
+                                        getPhotoURI = photoURI;
                                         updateDB();
                                         closeEdit();
                                     }
@@ -222,8 +230,8 @@ public class MyFragment extends Fragment {
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        photoPath = user.getPhoto();
-                                        imgPhoto.setImageBitmap(stringToBitmap(photoPath));
+                                        imgPhoto.setImageURI(getPhotoURI);
+                                        photoURI = null;
                                         closeEdit();
                                         Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
                                     }
@@ -249,7 +257,8 @@ public class MyFragment extends Fragment {
                                     user.setPhone(phone);
                                     user.setEmail(email_input);
                                     user.setAddress(address);
-                                    user.setPhoto(photoPath);
+                                    String photoU = photoURI.toString();
+                                    user.setPhoto(photoU);
                                     updateDB();
                                     txtEmail.setText(email_input);
                                     edtSex.setText(user.getSex());
@@ -285,6 +294,11 @@ public class MyFragment extends Fragment {
                                 edtPhone.setText(user.getPhone());
                                 txtEmail.setText(user.getEmail());
                                 edtAddress.setText(user.getAddress());
+                                if (getPhotoURI == null){
+                                    imgPhoto.setImageDrawable(null);
+                                }
+                                imgPhoto.setImageURI(getPhotoURI);
+                                photoURI = null;
                                 closeEdit();
                                 Toast.makeText(getContext(), "Cancel successful", Toast.LENGTH_SHORT).show();
                             }
@@ -417,18 +431,16 @@ public class MyFragment extends Fragment {
         String filename = fileName();
         photoName = filename + ".png";
         File file = createFileIfNeed(photoName);
-        //拍照后原图回存入此路径下
-        Uri imageUri;
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-            imageUri = Uri.fromFile(file);
+            photoURI = Uri.fromFile(file);
         } else {
             /**
              * 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
              * 并且这样可以解决MIUI系统上拍照返回size为0的情况
              */
-            imageUri = FileProvider.getUriForFile(getActivity(), "com.william.reservationsystem.fileprovider", file);
+            photoURI = FileProvider.getUriForFile(getActivity(), "com.william.reservationsystem.fileprovider", file);
         }
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
         startActivityForResult(intent, 1);
     }
@@ -511,9 +523,9 @@ public class MyFragment extends Fragment {
         } else if (requestCode == 2 && resultCode == Activity.RESULT_OK
                 && null != data) {
             try {
-                Uri selectedImage = data.getData();
+                photoURI = data.getData();
                 Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
-                Tiny.getInstance().source(selectedImage).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
+                Tiny.getInstance().source(photoURI).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
                     @Override
                     public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
                         saveImageToServer(bitmap, outfile);
@@ -529,7 +541,7 @@ public class MyFragment extends Fragment {
     /**
      * 从保存原图的地址读取图片
      */
-    private String fileName(){
+    private String fileName() {
         SimpleDateFormat timesdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String FileTime = timesdf.format(new Date()).toString();//获取系统时间
         String filename = FileTime.replace(":", "");
@@ -546,7 +558,6 @@ public class MyFragment extends Fragment {
 
     private void saveImageToServer(final Bitmap bitmap, String outfile) {
 //        File file = new File(outfile);
-        photoPath = bitmapToString(bitmap);
         Log.i("photo", photoPath + "");
         imgPhoto.setImageBitmap(bitmap);
     }
