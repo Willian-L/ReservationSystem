@@ -73,8 +73,8 @@ public class DBServerForM {
     /*
     Account login judgment
      */
-    public int login(String username, String password) {
-        int result = 0;
+    public boolean login(String username, String password) {
+        boolean result = false;
         Cursor cursor = null;
         // Get a cursor object
         cursor = db.query("master", new String[]{"password"},
@@ -82,16 +82,7 @@ public class DBServerForM {
                 null, null, null, null);
         Log.i("login", "cursor" + cursor.getCount());
         if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                String thepassword = cursor.getString(cursor.getColumnIndex("password"));
-                if (thepassword.equals(password)) {
-                    result = 2;
-                } else {
-                    result = 1;
-                }
-            }
-        } else {
-            result = 0;
+            result = true;
         }
         return result;
     }

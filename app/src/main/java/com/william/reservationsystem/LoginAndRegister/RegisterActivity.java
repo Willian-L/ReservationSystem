@@ -1,7 +1,9 @@
 package com.william.reservationsystem.LoginAndRegister;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -39,9 +41,9 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!username.matches("^[A-Za-z0-9]+$")) {                              // Determine whether the username is composed of letters and numbers
                     Toast.makeText(getApplicationContext(),
                             "Username must be alphanumeric!", Toast.LENGTH_SHORT).show();
-                } else if (!username.matches("^.{4,16}$")) {                            // Determine whether the username is 4 to 16 characters
+                } else if (!username.matches("^.{6,16}$")) {                            // Determine whether the username is 4 to 16 characters
                     Toast.makeText(getApplicationContext(),
-                            "Username must be at least 4 digits", Toast.LENGTH_SHORT).show();
+                            "Username must be at least 6 digits", Toast.LENGTH_SHORT).show();
                 } else if (!password.matches("^[A-Za-z0-9]+$")) {                       // Determine whether the password is composed of letters and numbers
                     Toast.makeText(getApplicationContext(),
                             "Password must be alphanumeric!", Toast.LENGTH_SHORT).show();
@@ -97,5 +99,25 @@ public class RegisterActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtRePassword);
         edtPhone = findViewById(R.id.edtRePhone);
         btnRegister = findViewById(R.id.btnRegister);
+    }
+
+    public void howToInput(View view) {
+        showHowDialog();
+    }
+
+    private void showHowDialog(){
+        AlertDialog.Builder howDialog = new AlertDialog.Builder(RegisterActivity.this);
+        howDialog.setTitle("Input Rules");
+        howDialog.setMessage("Username\nConsisting of more than six letters or Numbers.\n\n" +
+                "Password\nConsisting of more than six letters or Numbers.\n\n" +
+                "Phone\nSupport only phone Numbers beginning with 13, 15, 16, 17, 18, 19.\n\n" +
+                "License Number\nIt must be a license plate number consisting of five uppercase letters or Numbers.");
+        howDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        howDialog.show();
     }
 }

@@ -35,10 +35,8 @@ public class IdentifyingCode {
     private static final int BASE_PADDING_LEFT = 10, RANGE_PADDING_LEFT = 100, BASE_PADDING_TOP = 75, RANGE_PADDING_TOP = 50;
     //验证码默认宽高
     private static final int DEFAULT_WIDTH = 400, DEFAULT_HEIGHT = 150;
-
     //画布的长宽
     private int width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT;
-
     //字体的随机位置
     private int base_padding_left = BASE_PADDING_LEFT, range_padding_left = RANGE_PADDING_LEFT,
             base_padding_top = BASE_PADDING_TOP, range_padding_top = RANGE_PADDING_TOP;

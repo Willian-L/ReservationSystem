@@ -46,8 +46,8 @@ public class HomepageForMActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.masterRad_userInfo:
                 transaction.replace(R.id.master_content_Layout, new UserInfoFragment());
-                rb_orderInfo.setActivated(true);
-                rb_userInfo.setActivated(false);
+                rb_orderInfo.setActivated(false);
+                rb_userInfo.setActivated(true);
                 rb_my.setActivated(false);
                 break;
             case R.id.masterRad_my:
