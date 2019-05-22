@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UserHomepage.Fragment.MyFragment">
+    tools:context=".controller.UserHomepage.Fragment.MyFragment">
 
     <RelativeLayout style="@style/Fragment_rel_title">
 
@@ -32,12 +32,19 @@
         android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/userImg_photo"
-            android:layout_width="120dp"
+            android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_centerInParent="true"
-            app:srcCompat="@mipmap/ic_mine" />
+            app:riv_oval="true"/>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/userImg_photo"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="160dp"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--app:srcCompat="@mipmap/ic_mine" />-->
 
         <ImageButton
             android:id="@+id/userIbtn_camera"

@@ -15,20 +15,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MasterHomepage.Fragment.Derive.ChooseFileActivity"></activity>
-        <activity android:name=".LoginAndRegister.UserLoginActivity" />
-        <activity android:name=".ResetPassword.ResetVerActivity" />
-        <activity android:name=".ResetPassword.ResetPasswordActivity" />
-        <activity android:name=".LoginAndRegister.RegisterActivity" />
-        <activity android:name=".MasterHomepage.HomepageForMActivity" />
-        <activity android:name=".UserHomepage.HomepageForUActivity">
+        <activity android:name=".controller.MasterHomepage.Fragment.Derive.ChooseFileActivity"></activity>
+        <activity android:name=".controller.LoginAndRegister.UserLoginActivity" />
+        <activity android:name=".controller.ResetPassword.ResetVerActivity" />
+        <activity android:name=".controller.ResetPassword.ResetPasswordActivity" />
+        <activity android:name=".controller.LoginAndRegister.RegisterActivity" />
+        <activity android:name=".controller.MasterHomepage.HomepageForMActivity" />
+        <activity android:name=".controller.UserHomepage.HomepageForUActivity">
             <intent-filter>
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.MainActivity">
+        <activity android:name=".controller.WelcomeUI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
