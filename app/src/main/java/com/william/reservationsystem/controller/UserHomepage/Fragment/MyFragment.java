@@ -507,7 +507,7 @@ public class MyFragment extends Fragment {
             Tiny.getInstance().source(readpic()).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
                 @Override
                 public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
-                    saveImageToServer(bitmap, outfile);
+                    photoClip(bitmap);
                 }
             });
 
@@ -519,12 +519,18 @@ public class MyFragment extends Fragment {
                 Tiny.getInstance().source(photoURI).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
                     @Override
                     public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
-                        saveImageToServer(bitmap, outfile);
+                        photoClip(bitmap);
                     }
                 });
                 Log.i("path", photoPath + "");
             } catch (Exception e) {
                 //"上传失败");
+            }
+        } else if (requestCode == 3 && resultCode == Activity.RESULT_OK){
+            Bundle bundle = data.getExtras();
+            if (bundle != null) {
+                Bitmap image = bundle.getParcelable("data");
+                imgPhoto.setImageBitmap(image);
             }
         }
     }
@@ -564,7 +570,8 @@ public class MyFragment extends Fragment {
         }
     }
 
-    private void photoClip(Uri uri) {
+    private void photoClip(Bitmap bitmap) {
+        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), bitmap, null,null));
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
