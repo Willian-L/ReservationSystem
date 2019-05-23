@@ -64,6 +64,7 @@ public class MyFragment extends Fragment {
     Spinner spEmail;
 
     private String sex = null;
+    private String getSex = null;
 
     private String age = null;
 
@@ -99,7 +100,8 @@ public class MyFragment extends Fragment {
                 user.setName(cursor.getString(cursor.getColumnIndex("name")));
                 edtName.setText(user.getName());
                 user.setSex(cursor.getString(cursor.getColumnIndex("sex")));
-                edtSex.setText(user.getSex());
+                getSex = user.getSex();
+                edtSex.setText(getSex);
                 user.setAge(cursor.getString(cursor.getColumnIndex("age")));
                 txtAge.setText(user.getAge());
                 user.setPhone(cursor.getString(cursor.getColumnIndex("phone")));
@@ -184,7 +186,6 @@ public class MyFragment extends Fragment {
                 final String phone = edtPhone.getText().toString().trim();
                 final String email_input = edtEmail.getText().toString().trim() + email_suffix;
                 final String address = edtAddress.getText().toString().trim();
-                final String sex = edtSex.getText().toString().trim();
                 final String age = txtAge.getText().toString().trim();
                 String name_db = user.getName();
                 String phone_db = user.getPhone();
@@ -248,11 +249,14 @@ public class MyFragment extends Fragment {
                                     user.setPhone(phone);
                                     user.setEmail(email_input);
                                     user.setAddress(address);
-                                    String photoU = photoURI.toString();
-                                    user.setPhoto(photoU);
+                                    if (photoURI != null) {
+                                        String photoU = photoURI.toString();
+                                        user.setPhoto(photoU);
+                                    }
                                     updateDB();
                                     txtEmail.setText(email_input);
-                                    edtSex.setText(user.getSex());
+                                    getSex = user.getSex();
+                                    edtSex.setText(getSex);
                                     closeEdit();
                                 }
                             });
@@ -361,6 +365,14 @@ public class MyFragment extends Fragment {
         edtPhone.setBackgroundColor(Color.parseColor(backcolor));
         edtEmail.setBackgroundColor(Color.parseColor(backcolor));
         edtAddress.setBackgroundColor(Color.parseColor(backcolor));
+        switch (getSex){
+            case "Man":
+                radSex.check(R.id.user_radBtnman);
+                break;
+            case "Woman":
+                radSex.check(R.id.user_radBtnwoman);
+                break;
+        }
         btnModify.setVisibility(View.VISIBLE);
         btnCancel.setVisibility(View.VISIBLE);
         ibtn_album.setVisibility(View.VISIBLE);
@@ -527,11 +539,8 @@ public class MyFragment extends Fragment {
                 //"上传失败");
             }
         } else if (requestCode == 3 && resultCode == Activity.RESULT_OK){
-            Bundle bundle = data.getExtras();
-            if (bundle != null) {
-                Bitmap image = bundle.getParcelable("data");
-                imgPhoto.setImageBitmap(image);
-            }
+            photoURI = data.getData();
+            imgPhoto.setImageURI(photoURI);
         }
     }
 
@@ -551,12 +560,6 @@ public class MyFragment extends Fragment {
         String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/photo/" + photoName;
         Log.d("filename", "" + filePath);
         return filePath;
-    }
-
-    private void saveImageToServer(final Bitmap bitmap, String outfile) {
-//        File file = new File(outfile);
-        Log.i("photo", photoPath + "");
-        imgPhoto.setImageBitmap(bitmap);
     }
 
     private void setSpinnerDefaultValue(Spinner spinner, String value) {
