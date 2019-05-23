@@ -56,8 +56,6 @@ public class UserLoginActivity extends AppCompatActivity {
             UserLoginActivity.this.startActivity(intent);
         }
 
-        Log.i("edt", "edtPassword:" + edtPassword.getText() + "edtUsername:" + edtUsername.getText());
-
         try {
             Intent intent = getIntent();
             String username = intent.getStringExtra("username");
@@ -92,8 +90,6 @@ public class UserLoginActivity extends AppCompatActivity {
                 }
 
                 if (hasUsernameValue && hasPasswordValue) {
-                    master.setUsername(username);
-                    master.setPassword(password);
                     if (MasterLogin()){
                         Intent intent = new Intent(UserLoginActivity.this, HomepageForMActivity.class);
                         startActivity(intent);

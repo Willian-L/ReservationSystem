@@ -1,4 +1,4 @@
-package com.william.reservationsystem;
+package com.william.reservationsystem.controller;
 
 import android.app.Application;
 

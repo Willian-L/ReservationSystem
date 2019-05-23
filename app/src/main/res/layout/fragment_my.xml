@@ -211,4 +211,13 @@
         android:layout_marginTop="10dp"
         android:text="cancel" />
 
+    <Button
+        android:id="@+id/my_btnLogout"
+        style="@style/ButtonStyle"
+        android:layout_width="300dp"
+        android:visibility="visible"
+        android:enabled="true"
+        android:layout_marginTop="20dp"
+        android:text="logout" />
+
 </LinearLayout>

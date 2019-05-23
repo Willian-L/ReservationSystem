@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.william.reservationsystem.R;
+import com.william.reservationsystem.controller.UserHomepage.HomepageForUActivity;
 import com.william.reservationsystem.model.DBServerForU;
 import com.william.reservationsystem.model.User;
 import com.zxy.tiny.Tiny;
@@ -55,7 +56,7 @@ public class MyFragment extends Fragment {
     ImageView imgPhoto;
     ImageButton ibtn_edit, ibtn_camera, ibtn_album;
     EditText edtName, edtSex, edtPhone, edtEmail, edtAddress;
-    Button btnModify, btnCancel;
+    Button btnModify, btnCancel, btnLogout;
     User user = new User();
     TextView txt_title;
     RadioGroup radSex;
@@ -348,6 +349,13 @@ public class MyFragment extends Fragment {
             }
         });
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
         return view;
     }
 
@@ -380,6 +388,7 @@ public class MyFragment extends Fragment {
         sbAge.setVisibility(View.VISIBLE);
         spEmail.setVisibility(View.VISIBLE);
         edtEmail.setVisibility(View.VISIBLE);
+        btnLogout.setVisibility(View.GONE);
     }
 
     public void closeEdit() {
@@ -404,6 +413,7 @@ public class MyFragment extends Fragment {
         sbAge.setVisibility(View.GONE);
         spEmail.setVisibility(View.GONE);
         edtEmail.setVisibility(View.GONE);
+        btnLogout.setVisibility(View.VISIBLE);
     }
 
     public void updateDB() {
@@ -609,5 +619,6 @@ public class MyFragment extends Fragment {
         ibtn_album = view.findViewById(R.id.userIbtn_album);
         txt_title = view.findViewById(R.id.myTxt_title);
         spEmail = view.findViewById(R.id.mySpi_email);
+        btnLogout = view.findViewById(R.id.my_btnLogout);
     }
 }

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 
+import com.william.reservationsystem.controller.LoginAndRegister.MyAplication;
 import com.william.reservationsystem.controller.UserHomepage.Fragment.MyFragment;
 import com.william.reservationsystem.controller.UserHomepage.Fragment.OrderFragment;
 import com.william.reservationsystem.controller.UserHomepage.Fragment.ShoppingFragment;
@@ -27,6 +28,7 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage_for_u);
+
 
         inti();
 
@@ -83,7 +85,5 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
         }
         transaction.commit();
     }
-
-
 }
 

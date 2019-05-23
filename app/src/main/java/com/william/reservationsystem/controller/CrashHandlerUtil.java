@@ -1,12 +1,12 @@
-package com.william.reservationsystem;
+package com.william.reservationsystem.controller;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Looper;
 
 import com.orhanobut.logger.Logger;
+import com.william.reservationsystem.BuildConfig;
 
 
 import java.io.PrintWriter;
