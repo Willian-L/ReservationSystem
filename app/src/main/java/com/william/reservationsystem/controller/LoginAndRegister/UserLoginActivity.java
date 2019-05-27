@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,9 +31,6 @@ public class UserLoginActivity extends AppCompatActivity {
     Button btnLogin;
     CheckBox checkRemember;
 
-    // Define an identity to get the selected value of RdaioGroup
-    private SharedPreferences sp;
-
     private String username;
     private String password;
 
@@ -44,16 +42,18 @@ public class UserLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
 
-
         init();
 
-        sp = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        if (sp.getBoolean("ISCHECK", false)) {
+        readFromPre(this, edtUsername, edtPassword);
+
+        if (TextUtils.isEmpty(edtUsername.getText().toString())) {
+            checkRemember.setChecked(false);
+            edtPassword.setText(null);
+        } else {
             checkRemember.setChecked(true);
-            edtUsername.setText(sp.getString("USER_NAME", ""));
-            edtPassword.setText(sp.getString("PASSWORD", ""));
             Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
-            UserLoginActivity.this.startActivity(intent);
+            startActivity(intent);
+            finish();
         }
 
         try {
@@ -63,15 +63,6 @@ public class UserLoginActivity extends AppCompatActivity {
         } catch (Exception e) {
         }
 
-        checkRemember.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (checkRemember.isChecked()) {
-                    Toast.makeText(getApplicationContext(), "Remember Password!", Toast.LENGTH_SHORT).show();
-                    sp.edit().putBoolean("ISCHECK", true).commit();
-                }
-            }
-        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,8 +84,10 @@ public class UserLoginActivity extends AppCompatActivity {
                     if (MasterLogin()){
                         Intent intent = new Intent(UserLoginActivity.this, HomepageForMActivity.class);
                         startActivity(intent);
+                        finish();
                     }else {
                         UserLogin();
+                        finish();
                     }
                 } else if (hasUsernameValue && !hasPasswordValue) {
                     Toast.makeText(getApplicationContext(),
@@ -144,7 +137,6 @@ public class UserLoginActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
         alertDialog.show();
@@ -210,15 +202,15 @@ public class UserLoginActivity extends AppCompatActivity {
         switch (getResult) {
             case 2:
                 if (checkRemember.isChecked()) {
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("USER_NAME", user.getUsername());
-                    editor.putString("PASSWORD", user.getPassword());
-                    editor.commit();
+                    saveToPre(getBaseContext(), user.getUsername(), user.getPassword());
+                } else {
+                    deleteToPre(getBaseContext());
                 }
                 Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
                 intent.putExtra("username", user.getUsername());
                 startActivity(intent);
                 dbServerForU.close();
+                finish();
                 break;
             case 1:
                 showResetDialog();
@@ -230,5 +222,28 @@ public class UserLoginActivity extends AppCompatActivity {
                 break;
         }
         dbServerForU.close();
+    }
+
+    public static void readFromPre(Context context, EditText tusername, EditText tpassword){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+        String password= sharedPreferences.getString("password", "");
+        tusername.setText(username);
+        tpassword.setText(password);
+    }
+
+    public static void saveToPre(Context context, String username, String password){
+        SharedPreferences sp = context.getSharedPreferences("userInfo",context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("username", username);
+        editor.putString("password", password);
+        editor.commit();
+    }
+
+    public static void deleteToPre(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
     }
 }

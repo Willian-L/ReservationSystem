@@ -3,12 +3,13 @@ package com.william.reservationsystem.controller.UserHomepage.Fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -17,10 +18,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.INotificationSideChannel;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,13 +40,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.william.reservationsystem.R;
-import com.william.reservationsystem.controller.UserHomepage.HomepageForUActivity;
+import com.william.reservationsystem.controller.LoginAndRegister.UserLoginActivity;
+import com.william.reservationsystem.controller.WelcomeUI.MainActivity;
 import com.william.reservationsystem.model.DBServerForU;
 import com.william.reservationsystem.model.User;
 import com.zxy.tiny.Tiny;
 import com.zxy.tiny.callback.FileWithBitmapCallback;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -352,6 +355,9 @@ public class MyFragment extends Fragment {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                deleteToPre(getActivity().getBaseContext());
+                Intent intent = new Intent(getActivity(), UserLoginActivity.class);
+                startActivity(intent);
                 getActivity().finish();
             }
         });
@@ -620,5 +626,12 @@ public class MyFragment extends Fragment {
         txt_title = view.findViewById(R.id.myTxt_title);
         spEmail = view.findViewById(R.id.mySpi_email);
         btnLogout = view.findViewById(R.id.my_btnLogout);
+    }
+
+    public static void deleteToPre(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo",context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
     }
 }
