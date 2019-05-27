@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.william.reservationsystem.controller.LoginUtil;
 import com.william.reservationsystem.controller.MasterHomepage.HomepageForMActivity;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.ResetPassword.ResetVerActivity;
@@ -44,6 +45,27 @@ public class UserLoginActivity extends AppCompatActivity {
 
         init();
 
+        checkAutoLogin(checkRemember, edtUsername, edtPassword);
+
+        getUser(edtUsername);
+    }
+
+    /*
+    Gets the username that the user just registered
+     */
+    private void getUser(EditText edtUsername){
+        try {
+            Intent intent = getIntent();
+            String username = intent.getStringExtra("username");
+            edtUsername.setText(username);
+        } catch (Exception e) {
+        }
+    }
+
+    /*
+    Automatic login function
+     */
+    private void checkAutoLogin(CheckBox checkRemember, EditText edtUsername, EditText edtPassword){
         readFromPre(this, edtUsername, edtPassword);
 
         if (TextUtils.isEmpty(edtUsername.getText().toString())) {
@@ -55,52 +77,120 @@ public class UserLoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
-        try {
-            Intent intent = getIntent();
-            String username = intent.getStringExtra("username");
-            edtUsername.setText(username);
-        } catch (Exception e) {
-        }
-
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                username = edtUsername.getText().toString().trim();
-                password = edtPassword.getText().toString().trim();
-
-                boolean hasUsernameValue = false;
-                if (!username.equals("")) {
-                    hasUsernameValue = true;
-                }
-
-                boolean hasPasswordValue = false;
-                if (!password.equals("")) {
-                    hasPasswordValue = true;
-                }
-
-                if (hasUsernameValue && hasPasswordValue) {
-                    if (MasterLogin()){
-                        Intent intent = new Intent(UserLoginActivity.this, HomepageForMActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else {
-                        UserLogin();
-                        finish();
-                    }
-                } else if (hasUsernameValue && !hasPasswordValue) {
-                    Toast.makeText(getApplicationContext(),
-                            "Please input your password!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Please input your username and password!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
     }
 
+    public static void readFromPre(Context context, EditText tusername, EditText tpassword) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+        String password = sharedPreferences.getString("password", "");
+        tusername.setText(username);
+        tpassword.setText(password);
+    }
+
+    public static void saveToPre(Context context, String username, String password) {
+        SharedPreferences sp = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("username", username);
+        editor.putString("password", password);
+        editor.commit();
+    }
+
+    public static void deleteToPre(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    /*
+    The login operation
+     */
+    public void btnlogin(View view) {
+        username = edtUsername.getText().toString().trim();
+        password = edtPassword.getText().toString().trim();
+
+        boolean hasUsernameValue = false;
+        if (!username.equals("")) {
+            hasUsernameValue = true;
+        }
+
+        boolean hasPasswordValue = false;
+        if (!password.equals("")) {
+            hasPasswordValue = true;
+        }
+
+        if (hasUsernameValue && hasPasswordValue) {
+            if (MasterLogin()) {
+                Intent intent = new Intent(UserLoginActivity.this, HomepageForMActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                UserLogin();
+                finish();
+            }
+        } else if (hasUsernameValue && !hasPasswordValue) {
+            Toast.makeText(getApplicationContext(),
+                    "Please input your password!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "Please input your username and password!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void UserLogin() {
+        int getResult = 0;
+        // Get the username and password
+        user.setUsername(edtUsername.getText().toString().trim());
+        user.setPassword(edtPassword.getText().toString().trim());
+        DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
+        dbServerForU.open();
+        Log.i("eab", edtUsername.getText().toString() + edtPassword.getText().toString());
+                        /*
+                        Determine whether the username and password match the one in the database
+                         */
+        getResult = dbServerForU.login(user.getUsername(), user.getPassword());
+        switch (getResult) {
+            case 2:
+                if (checkRemember.isChecked()) {
+                    saveToPre(getBaseContext(), user.getUsername(), user.getPassword());
+                } else {
+                    deleteToPre(getBaseContext());
+                }
+                Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
+                intent.putExtra("username", user.getUsername());
+                startActivity(intent);
+                dbServerForU.close();
+                finish();
+                break;
+            case 1:
+                showResetDialog();
+                break;
+            case 0:
+                showRegisterDialog();
+                break;
+            default:
+                break;
+        }
+        dbServerForU.close();
+    }
+
+    private boolean MasterLogin() {
+        boolean result = false;
+        master.setUsername(username);
+        master.setPassword(password);
+        DBServerForM dbServerForM = new DBServerForM(getApplicationContext());
+        dbServerForM.open();
+        if (dbServerForM.login(master.getUsername(), master.getPassword())) {
+            dbServerForM.close();
+            result = true;
+        }
+        dbServerForM.close();
+        return result;
+    }
+
+    /*
+    Dialog
+     */
     private void showRegisterDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(UserLoginActivity.this);
         alertDialog.setTitle("This username does not exist!");
@@ -142,6 +232,9 @@ public class UserLoginActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    /*
+    Intention of events
+     */
     public void register(View view) {
         toRegister();
     }
@@ -151,6 +244,8 @@ public class UserLoginActivity extends AppCompatActivity {
     }
 
     private void toRegister() {
+//        LoginUtil loginUtil = new LoginUtil();
+//        loginUtil.toRegister(UserLoginActivity.this);
         Intent intent = new Intent(UserLoginActivity.this, RegisterActivity.class);
         startActivity(intent);
     }
@@ -164,86 +259,12 @@ public class UserLoginActivity extends AppCompatActivity {
     }
 
     /*
-    Access controls
+    Find Controls
      */
     private void init() {
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         checkRemember = findViewById(R.id.loginCb_Remember);
-    }
-
-    private boolean MasterLogin(){
-        boolean result = false;
-        master.setUsername(username);
-        master.setPassword(password);
-        DBServerForM dbServerForM = new DBServerForM(getApplicationContext());
-        dbServerForM.open();
-        if(dbServerForM.login(master.getUsername(), master.getPassword())){
-            dbServerForM.close();
-            result = true;
-        }
-        dbServerForM.close();
-        return result;
-    }
-
-    private void UserLogin(){
-        int getResult = 0;
-        // Get the username and password
-        user.setUsername(edtUsername.getText().toString().trim());
-        user.setPassword(edtPassword.getText().toString().trim());
-        DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
-        dbServerForU.open();
-        Log.i("eab", edtUsername.getText().toString() + edtPassword.getText().toString());
-                        /*
-                        Determine whether the username and password match the one in the database
-                         */
-        getResult = dbServerForU.login(user.getUsername(), user.getPassword());
-        switch (getResult) {
-            case 2:
-                if (checkRemember.isChecked()) {
-                    saveToPre(getBaseContext(), user.getUsername(), user.getPassword());
-                } else {
-                    deleteToPre(getBaseContext());
-                }
-                Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
-                intent.putExtra("username", user.getUsername());
-                startActivity(intent);
-                dbServerForU.close();
-                finish();
-                break;
-            case 1:
-                showResetDialog();
-                break;
-            case 0:
-                showRegisterDialog();
-                break;
-            default:
-                break;
-        }
-        dbServerForU.close();
-    }
-
-    public static void readFromPre(Context context, EditText tusername, EditText tpassword){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "");
-        String password= sharedPreferences.getString("password", "");
-        tusername.setText(username);
-        tpassword.setText(password);
-    }
-
-    public static void saveToPre(Context context, String username, String password){
-        SharedPreferences sp = context.getSharedPreferences("userInfo",context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("username", username);
-        editor.putString("password", password);
-        editor.commit();
-    }
-
-    public static void deleteToPre(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
     }
 }

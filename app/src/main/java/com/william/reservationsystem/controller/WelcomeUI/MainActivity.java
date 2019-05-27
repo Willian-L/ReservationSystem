@@ -20,6 +20,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        automatic();
+    }
+
+    /*
+    Automatic switching after a certain time
+     */
+    private void automatic(){
         final Intent intent = new Intent(this, UserLoginActivity.class);
         Timer timer = new Timer();
         task = new TimerTask() {

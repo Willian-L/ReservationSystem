@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 
-import com.william.reservationsystem.controller.LoginAndRegister.MyAplication;
 import com.william.reservationsystem.controller.UserHomepage.Fragment.MyFragment;
 import com.william.reservationsystem.controller.UserHomepage.Fragment.OrderFragment;
 import com.william.reservationsystem.controller.UserHomepage.Fragment.ShoppingFragment;
@@ -29,20 +28,35 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage_for_u);
 
-
         inti();
 
-        rb_order.setActivated(true);
+        getUser();
 
+        embed();
+    }
+
+    /*
+    Gets the username by Login page.
+     */
+    private void getUser(){
         Intent intent = getIntent();
         user.setUsername(intent.getStringExtra("username"));
+    }
 
+    /*
+    Embed Fragment
+     */
+    private void embed(){
+        rb_order.setActivated(true);
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         transaction.add(R.id.user_content_Layout, new OrderFragment());
         transaction.commit();
     }
 
+    /*
+    Find Controls
+     */
     public void inti() {
         rb_order = findViewById(R.id.rad_order);
         rb_shopping = findViewById(R.id.rad_shopping);

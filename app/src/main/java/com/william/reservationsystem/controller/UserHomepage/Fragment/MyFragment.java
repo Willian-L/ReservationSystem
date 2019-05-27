@@ -18,7 +18,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.INotificationSideChannel;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
@@ -41,13 +40,10 @@ import android.widget.Toast;
 
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.LoginAndRegister.UserLoginActivity;
-import com.william.reservationsystem.controller.WelcomeUI.MainActivity;
 import com.william.reservationsystem.model.DBServerForU;
 import com.william.reservationsystem.model.User;
 import com.zxy.tiny.Tiny;
 import com.zxy.tiny.callback.FileWithBitmapCallback;
-import android.content.SharedPreferences;
-import android.os.Bundle;
 
 import java.io.File;
 import java.io.IOException;
