@@ -1,9 +1,7 @@
 package com.william.reservationsystem.controller.LoginAndRegister;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,17 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.william.reservationsystem.controller.LoginUtil;
 import com.william.reservationsystem.controller.MasterHomepage.HomepageForMActivity;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.ResetPassword.ResetVerActivity;
 import com.william.reservationsystem.model.DBServerForM;
 import com.william.reservationsystem.model.DBServerForU;
 import com.william.reservationsystem.model.Master;
+import com.william.reservationsystem.model.SharedPreferencesUtils;
 import com.william.reservationsystem.model.User;
 import com.william.reservationsystem.controller.UserHomepage.HomepageForUActivity;
 
@@ -50,8 +47,8 @@ public class UserLoginActivity extends AppCompatActivity {
         getUser(edtUsername);
     }
 
-    /*
-    Gets the username that the user just registered
+    /**
+     * Gets the username that the user just registered
      */
     private void getUser(EditText edtUsername){
         try {
@@ -62,11 +59,14 @@ public class UserLoginActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    Automatic login function
+    /**
+     * Automatic login function
      */
     private void checkAutoLogin(CheckBox checkRemember, EditText edtUsername, EditText edtPassword){
-        readFromPre(this, edtUsername, edtPassword);
+        String username = SharedPreferencesUtils.getInstance().getString(SharedPreferencesUtils.USER_NAME,"");
+        String password = SharedPreferencesUtils.getInstance().getString(SharedPreferencesUtils.PASSWORD,"");
+        edtUsername.setText(username);
+        edtPassword.setText(password);
 
         if (TextUtils.isEmpty(edtUsername.getText().toString())) {
             checkRemember.setChecked(false);
@@ -79,47 +79,14 @@ public class UserLoginActivity extends AppCompatActivity {
         }
     }
 
-    public static void readFromPre(Context context, EditText tusername, EditText tpassword) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "");
-        String password = sharedPreferences.getString("password", "");
-        tusername.setText(username);
-        tpassword.setText(password);
-    }
-
-    public static void saveToPre(Context context, String username, String password) {
-        SharedPreferences sp = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("username", username);
-        editor.putString("password", password);
-        editor.commit();
-    }
-
-    public static void deleteToPre(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
-    }
-
-    /*
-    The login operation
+    /**
+     * The login button
      */
     public void btnlogin(View view) {
         username = edtUsername.getText().toString().trim();
         password = edtPassword.getText().toString().trim();
 
-        boolean hasUsernameValue = false;
-        if (!username.equals("")) {
-            hasUsernameValue = true;
-        }
-
-        boolean hasPasswordValue = false;
-        if (!password.equals("")) {
-            hasPasswordValue = true;
-        }
-
-        if (hasUsernameValue && hasPasswordValue) {
+        if (!username.equals("") && !password.equals("")) {
             if (MasterLogin()) {
                 Intent intent = new Intent(UserLoginActivity.this, HomepageForMActivity.class);
                 startActivity(intent);
@@ -128,7 +95,7 @@ public class UserLoginActivity extends AppCompatActivity {
                 UserLogin();
                 finish();
             }
-        } else if (hasUsernameValue && !hasPasswordValue) {
+        } else if (!username.equals("") && password.equals("")) {
             Toast.makeText(getApplicationContext(),
                     "Please input your password!", Toast.LENGTH_SHORT).show();
         } else {
@@ -137,6 +104,9 @@ public class UserLoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * User login method
+     */
     private void UserLogin() {
         int getResult = 0;
         // Get the username and password
@@ -152,9 +122,10 @@ public class UserLoginActivity extends AppCompatActivity {
         switch (getResult) {
             case 2:
                 if (checkRemember.isChecked()) {
-                    saveToPre(getBaseContext(), user.getUsername(), user.getPassword());
+                    SharedPreferencesUtils.getInstance().putString(SharedPreferencesUtils.USER_NAME,user.getUsername());
+                    SharedPreferencesUtils.getInstance().putString(SharedPreferencesUtils.PASSWORD,user.getPassword());
                 } else {
-                    deleteToPre(getBaseContext());
+                    SharedPreferencesUtils.getInstance().clear();
                 }
                 Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
                 intent.putExtra("username", user.getUsername());
@@ -174,6 +145,9 @@ public class UserLoginActivity extends AppCompatActivity {
         dbServerForU.close();
     }
 
+    /**
+     * Master login method
+     */
     private boolean MasterLogin() {
         boolean result = false;
         master.setUsername(username);
@@ -188,8 +162,8 @@ public class UserLoginActivity extends AppCompatActivity {
         return result;
     }
 
-    /*
-    Dialog
+    /**
+     * Dialog
      */
     private void showRegisterDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(UserLoginActivity.this);
@@ -232,8 +206,8 @@ public class UserLoginActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    /*
-    Intention of events
+    /**
+     * Intention of events
      */
     public void register(View view) {
         toRegister();
@@ -244,10 +218,8 @@ public class UserLoginActivity extends AppCompatActivity {
     }
 
     private void toRegister() {
-        LoginUtil loginUtil = new LoginUtil();
-        loginUtil.toRegister();
-//        Intent intent = new Intent(UserLoginActivity.this, RegisterActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(UserLoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     private void toForgot() {
@@ -258,8 +230,8 @@ public class UserLoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-    Find Controls
+    /**
+     * Find Controls
      */
     private void init() {
         edtUsername = findViewById(R.id.edtUsername);

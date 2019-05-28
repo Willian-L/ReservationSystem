@@ -1,4 +1,4 @@
-package com.william.reservationsystem.controller;
+package com.william.reservationsystem.controller.CrashHandle;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -7,6 +7,7 @@ import android.os.Build;
 
 import com.orhanobut.logger.Logger;
 import com.william.reservationsystem.BuildConfig;
+import com.william.reservationsystem.application.MyApplication;
 
 
 import java.io.PrintWriter;
@@ -53,8 +54,9 @@ public class CrashHandlerUtil implements Thread.UncaughtExceptionHandler {
         return INSTANCE;
     }
 
+    Context context = MyApplication.getInstance();
 
-    public void init(Context context) {
+    public void init() {
         mContext = context;
         //获取系统默认的UncaughtException处理器
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();

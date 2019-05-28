@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.LoginAndRegister.UserLoginActivity;
 import com.william.reservationsystem.model.DBServerForU;
+import com.william.reservationsystem.model.SharedPreferencesUtils;
 import com.william.reservationsystem.model.User;
 import com.zxy.tiny.Tiny;
 import com.zxy.tiny.callback.FileWithBitmapCallback;
@@ -73,52 +74,16 @@ public class MyFragment extends Fragment {
     private String email_suf = null;
 
     private String photoPath = null;
-
     private Uri getPhotoURI = null;
     private Uri photoURI = null;
 
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_my, null);
-
-        Bundle bundle = this.getArguments();
-
-        if (bundle != null) {
-            user.setUsername(bundle.getString("username"));
-        }
-
         inti(view);
 
-        txt_title.setText(user.getUsername() + "'s Information");
-
-        DBServerForU dbServerForU = new DBServerForU(getContext());
-        dbServerForU.open();
-        Cursor cursor = dbServerForU.selectByUsername(user.getUsername());
-
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                user.setName(cursor.getString(cursor.getColumnIndex("name")));
-                edtName.setText(user.getName());
-                user.setSex(cursor.getString(cursor.getColumnIndex("sex")));
-                getSex = user.getSex();
-                edtSex.setText(getSex);
-                user.setAge(cursor.getString(cursor.getColumnIndex("age")));
-                txtAge.setText(user.getAge());
-                user.setPhone(cursor.getString(cursor.getColumnIndex("phone")));
-                edtPhone.setText(user.getPhone());
-                user.setEmail(cursor.getString(cursor.getColumnIndex("email")));
-                txtEmail.setText(user.getEmail());
-                user.setAddress(cursor.getString(cursor.getColumnIndex("address")));
-                edtAddress.setText(user.getAddress());
-                user.setPhoto(cursor.getString(cursor.getColumnIndex("photo")));
-                photoPath = user.getPhoto();
-                if (photoPath!=null) {
-                    getPhotoURI = Uri.parse(photoPath);
-                    photoURI = getPhotoURI;
-                    imgPhoto.setImageURI(getPhotoURI);
-                }
-            }
-        }
+        getUser();
+        getData();
 
         spEmail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -138,18 +103,8 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 openEdit();
-                String txtemail = txtEmail.getText().toString().trim();
-                if (!txtemail.equals("")) {
-                    final String Email = txtemail;
-                    int place = Email.indexOf("@");
-                    email_top = Email.substring(0, place);
-                    email_suf = Email.substring(place);
-                    edtEmail.setText(email_top);
-                    setSpinnerDefaultValue(spEmail, email_suf);
-                }
-                if (!txtAge.getText().toString().trim().equals("")) {
-                    sbAge.setProgress(Integer.valueOf(txtAge.getText().toString().trim()));
-                }
+                setEmailEdit();
+                setAgeEdit();
             }
         });
 
@@ -182,130 +137,14 @@ public class MyFragment extends Fragment {
         btnModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String name = edtName.getText().toString().trim();
-                final String phone = edtPhone.getText().toString().trim();
-                final String email_input = edtEmail.getText().toString().trim() + email_suffix;
-                final String address = edtAddress.getText().toString().trim();
-                final String age = txtAge.getText().toString().trim();
-                String name_db = user.getName();
-                String phone_db = user.getPhone();
-                String email_db = user.getEmail();
-                String address_db = user.getAddress();
-                String age_db = user.getAge();
-                String sex_db = user.getSex();
-                if (name.equals(name_db) &&
-                        phone.equals(phone_db) &&
-                        email_input.equals(email_db) &&
-                        address.equals(address_db) &&
-                        age.equals(age_db) &&
-                        sex.equals(sex_db)) {
-                    if (photoURI.equals(getPhotoURI)) {
-                        Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
-                        closeEdit();
-                    } else {
-                        Log.i("getPathToDB", "yes");
-                        AlertDialog.Builder buil = new AlertDialog.Builder(getContext());
-                        buil.setTitle("Please confirm the change information!");
-                        buil.setMessage("Do you want to change the picture?");
-                        buil.setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        String photoU = photoURI.toString();
-                                        user.setPhoto(photoU);
-                                        getPhotoURI = photoURI;
-                                        updateDB();
-                                        closeEdit();
-                                    }
-                                });
-                        buil.setNegativeButton("No",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        imgPhoto.setImageURI(getPhotoURI);
-                                        photoURI = null;
-                                        closeEdit();
-                                        Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                        buil.show();
-                    }
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Please confirm the change information!");
-                    builder.setMessage("Name：" + name +
-                            "\nSex：" + sex +
-                            "\nAge：" + age +
-                            "\nPhone：" + phone +
-                            "\nE-mail：" + email_input +
-                            "\nAddress：" + address);
-                    builder.setPositiveButton("Yes",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    user.setName(name);
-                                    user.setSex(sex);
-                                    user.setAge(age);
-                                    user.setPhone(phone);
-                                    user.setEmail(email_input);
-                                    user.setAddress(address);
-                                    if (photoURI != null) {
-                                        String photoU = photoURI.toString();
-                                        user.setPhoto(photoU);
-                                    }
-                                    updateDB();
-                                    txtEmail.setText(email_input);
-                                    getSex = user.getSex();
-                                    edtSex.setText(getSex);
-                                    closeEdit();
-                                }
-                            });
-                    builder.setNegativeButton("No",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
-                                    closeEdit();
-                                }
-                            });
-                    builder.show();
-                }
+                modify();
             }
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Cancel and Reset");
-                builder.setMessage("Would you need to cancel the changes?");
-                builder.setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                edtName.setText(user.getName());
-                                edtSex.setText(user.getSex());
-                                txtAge.setText(user.getAge());
-                                edtPhone.setText(user.getPhone());
-                                txtEmail.setText(user.getEmail());
-                                edtAddress.setText(user.getAddress());
-                                if (getPhotoURI == null){
-                                    imgPhoto.setImageDrawable(null);
-                                }
-                                imgPhoto.setImageURI(getPhotoURI);
-                                photoURI = null;
-                                closeEdit();
-                                Toast.makeText(getContext(), "Cancel successful", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                builder.setNegativeButton("No",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                builder.show();
+                cancel();
             }
         });
 
@@ -313,19 +152,7 @@ public class MyFragment extends Fragment {
         ibtn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA)) {
-                    try {
-                        //有权限,去打开摄像头
-                        takePhoto();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    //提示用户开户权限   拍照和读写sd卡权限
-                    String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-                    ActivityCompat.requestPermissions(getActivity(), perms, MY_ADD_CASE_CALL_PHONE);
-
-                }
+                camera();
             }
 
         });
@@ -333,32 +160,57 @@ public class MyFragment extends Fragment {
         ibtn_album.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //"点击了相册");
-                //  6.0之后动态申请权限 SD卡写入权限
-                if (ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            MY_ADD_CASE_CALL_PHONE2);
-
-                } else {
-                    choosePhoto();
-                }
+                album();
             }
         });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteToPre(getActivity().getBaseContext());
-                Intent intent = new Intent(getActivity(), UserLoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+                logout();
             }
         });
 
         return view;
+    }
+
+    private void getUser(){
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            user.setUsername(bundle.getString("username"));
+        }
+        txt_title.setText(user.getUsername() + "'s Information");
+    }
+
+    private void getData(){
+        DBServerForU dbServerForU = new DBServerForU(getContext());
+        dbServerForU.open();
+        Cursor cursor = dbServerForU.selectByUsername(user.getUsername());
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                user.setName(cursor.getString(cursor.getColumnIndex("name")));
+                edtName.setText(user.getName());
+                user.setSex(cursor.getString(cursor.getColumnIndex("sex")));
+                getSex = user.getSex();
+                edtSex.setText(getSex);
+                user.setAge(cursor.getString(cursor.getColumnIndex("age")));
+                txtAge.setText(user.getAge());
+                user.setPhone(cursor.getString(cursor.getColumnIndex("phone")));
+                edtPhone.setText(user.getPhone());
+                user.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+                txtEmail.setText(user.getEmail());
+                user.setAddress(cursor.getString(cursor.getColumnIndex("address")));
+                edtAddress.setText(user.getAddress());
+                user.setPhoto(cursor.getString(cursor.getColumnIndex("photo")));
+                photoPath = user.getPhoto();
+                if (photoPath!=null) {
+                    getPhotoURI = Uri.parse(photoPath);
+                    photoURI = getPhotoURI;
+                    imgPhoto.setImageURI(getPhotoURI);
+                }
+            }
+        }
+        dbServerForU.close();
     }
 
     private void openEdit() {
@@ -393,7 +245,28 @@ public class MyFragment extends Fragment {
         btnLogout.setVisibility(View.GONE);
     }
 
-    public void closeEdit() {
+    private void setEmailEdit(){
+        String txtemail = txtEmail.getText().toString().trim();
+        if (!txtemail.equals("")) {
+            final String Email = txtemail;
+            int place = Email.indexOf("@");
+            email_top = Email.substring(0, place);
+            email_suf = Email.substring(place);
+            edtEmail.setText(email_top);
+            setSpinnerDefaultValue(spEmail, email_suf);
+        }
+        if (!txtAge.getText().toString().trim().equals("")) {
+            sbAge.setProgress(Integer.valueOf(txtAge.getText().toString().trim()));
+        }
+    }
+
+    private void setAgeEdit(){
+        if (!txtAge.getText().toString().trim().equals("")) {
+            sbAge.setProgress(Integer.valueOf(txtAge.getText().toString().trim()));
+        }
+    }
+
+    private void closeEdit() {
         edtName.setEnabled(false);
         txtAge.setEnabled(false);
         edtPhone.setEnabled(false);
@@ -418,7 +291,98 @@ public class MyFragment extends Fragment {
         btnLogout.setVisibility(View.VISIBLE);
     }
 
-    public void updateDB() {
+    private void modify(){
+        final String name = edtName.getText().toString().trim();
+        final String phone = edtPhone.getText().toString().trim();
+        final String email_input = edtEmail.getText().toString().trim() + email_suffix;
+        final String address = edtAddress.getText().toString().trim();
+        final String age = txtAge.getText().toString().trim();
+        String name_db = user.getName();
+        String phone_db = user.getPhone();
+        String email_db = user.getEmail();
+        String address_db = user.getAddress();
+        String age_db = user.getAge();
+        String sex_db = user.getSex();
+        if (name.equals(name_db) &&
+                phone.equals(phone_db) &&
+                email_input.equals(email_db) &&
+                address.equals(address_db) &&
+                age.equals(age_db) &&
+                sex.equals(sex_db)) {
+            if (photoURI.equals(getPhotoURI)) {
+                Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
+                closeEdit();
+            } else {
+                Log.i("getPathToDB", "yes");
+                AlertDialog.Builder buil = new AlertDialog.Builder(getContext());
+                buil.setTitle("Please confirm the change information!");
+                buil.setMessage("Do you want to change the picture?");
+                buil.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String photoU = photoURI.toString();
+                                user.setPhoto(photoU);
+                                getPhotoURI = photoURI;
+                                updateDB();
+                                closeEdit();
+                            }
+                        });
+                buil.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                imgPhoto.setImageURI(getPhotoURI);
+                                photoURI = null;
+                                closeEdit();
+                                Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                buil.show();
+            }
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Please confirm the change information!");
+            builder.setMessage("Name：" + name +
+                    "\nSex：" + sex +
+                    "\nAge：" + age +
+                    "\nPhone：" + phone +
+                    "\nE-mail：" + email_input +
+                    "\nAddress：" + address);
+            builder.setPositiveButton("Yes",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            user.setName(name);
+                            user.setSex(sex);
+                            user.setAge(age);
+                            user.setPhone(phone);
+                            user.setEmail(email_input);
+                            user.setAddress(address);
+                            if (photoURI != null) {
+                                String photoU = photoURI.toString();
+                                user.setPhoto(photoU);
+                            }
+                            updateDB();
+                            txtEmail.setText(email_input);
+                            getSex = user.getSex();
+                            edtSex.setText(getSex);
+                            closeEdit();
+                        }
+                    });
+            builder.setNegativeButton("No",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getContext(), "Content unchanged", Toast.LENGTH_SHORT).show();
+                            closeEdit();
+                        }
+                    });
+            builder.show();
+        }
+    }
+
+    private void updateDB() {
         DBServerForU dbServerForU = new DBServerForU(getContext());
         dbServerForU.open();
         if (dbServerForU.updataUsername(
@@ -431,6 +395,70 @@ public class MyFragment extends Fragment {
                 user.getAddress(),
                 user.getPhoto())) {
             Toast.makeText(getActivity(), "Modify successfully!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void cancel(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Cancel and Reset");
+        builder.setMessage("Would you need to cancel the changes?");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        edtName.setText(user.getName());
+                        edtSex.setText(user.getSex());
+                        txtAge.setText(user.getAge());
+                        edtPhone.setText(user.getPhone());
+                        txtEmail.setText(user.getEmail());
+                        edtAddress.setText(user.getAddress());
+                        if (getPhotoURI == null){
+                            imgPhoto.setImageDrawable(null);
+                        }
+                        imgPhoto.setImageURI(getPhotoURI);
+                        photoURI = null;
+                        closeEdit();
+                        Toast.makeText(getContext(), "Cancel successful", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        builder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        builder.show();
+    }
+
+    private void camera(){
+        if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA)) {
+            try {
+                //有权限,去打开摄像头
+                takePhoto();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            //提示用户开户权限   拍照和读写sd卡权限
+            String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+            ActivityCompat.requestPermissions(getActivity(), perms, MY_ADD_CASE_CALL_PHONE);
+
+        }
+    }
+
+    private void album(){
+        //"点击了相册");
+        //  6.0之后动态申请权限 SD卡写入权限
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_ADD_CASE_CALL_PHONE2);
+
+        } else {
+            choosePhoto();
         }
     }
 
@@ -603,7 +631,14 @@ public class MyFragment extends Fragment {
         startActivityForResult(intent, 3);
     }
 
-    public void inti(View view) {
+    private void logout(){
+        SharedPreferencesUtils.getInstance().clear();
+        Intent intent = new Intent(getActivity(), UserLoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
+    private void inti(View view) {
         txtEmail = view.findViewById(R.id.txt_email);
         txtAge = view.findViewById(R.id.userTxt_age);
         sbAge = view.findViewById(R.id.userSB_age);
@@ -622,12 +657,5 @@ public class MyFragment extends Fragment {
         txt_title = view.findViewById(R.id.myTxt_title);
         spEmail = view.findViewById(R.id.mySpi_email);
         btnLogout = view.findViewById(R.id.my_btnLogout);
-    }
-
-    public static void deleteToPre(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo",context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
     }
 }

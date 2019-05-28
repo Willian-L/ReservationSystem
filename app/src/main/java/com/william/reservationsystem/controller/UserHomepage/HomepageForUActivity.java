@@ -35,16 +35,16 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
         embed();
     }
 
-    /*
-    Gets the username by Login page.
+    /**
+     * Gets the username by Login page.
      */
     private void getUser(){
         Intent intent = getIntent();
         user.setUsername(intent.getStringExtra("username"));
     }
 
-    /*
-    Embed Fragment
+    /**
+     * Embed Fragment
      */
     private void embed(){
         rb_order.setActivated(true);
@@ -54,10 +54,10 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
         transaction.commit();
     }
 
-    /*
-    Find Controls
+    /**
+     * Find Controls
      */
-    public void inti() {
+    private void inti() {
         rb_order = findViewById(R.id.rad_order);
         rb_shopping = findViewById(R.id.rad_shopping);
         rb_my = findViewById(R.id.rad_my);
@@ -99,5 +99,31 @@ public class HomepageForUActivity extends AppCompatActivity implements View.OnCl
         }
         transaction.commit();
     }
+
+    private boolean isDestroyed = false;
+    private void destroy()  {
+        if (isDestroyed) {
+            return;
+        }
+        // 回收资源
+        isDestroyed = true;
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isFinishing()) {
+            destroy();
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        destroy();//需要在onDestroy方法中进一步检测是否回收资源等。
+    }
+
 }
 

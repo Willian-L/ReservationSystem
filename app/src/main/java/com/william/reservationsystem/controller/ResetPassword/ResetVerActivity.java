@@ -41,64 +41,7 @@ public class ResetVerActivity extends AppCompatActivity {
 
         renewal();
 
-        final Intent intent = getIntent();
-        fromLogin = intent.getStringExtra("username");
-
-        if (fromLogin != null) {
-            edtiReUser.setText(fromLogin);
-        }
-
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                codeStr = edtCode.getText().toString().trim();
-                Log.i("code",codeStr);
-//                showResetDialog();
-                if (edtiReUser != null) {
-                    if (edtCode != null) {
-                        codeStr = edtCode.getText().toString().trim();
-                        Log.i("code", codeStr);
-                        if (realCode.equals(codeStr)) {
-                            showResetDialog();
-                            if (phoneInput != null) {
-                                user.setUsername(edtiReUser.getText().toString().trim());
-                                user.setPhone(phoneInput);
-                                DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
-                                dbServerForU.open();
-                                result = dbServerForU.resetVerify(user.getUsername(), user.getPhone());
-                                switch (result) {
-                                    case 2:
-                                        Intent intent2 = new Intent(ResetVerActivity.this, ResetPasswordActivity.class);
-                                        intent2.putExtra("username", fromLogin);
-                                        startActivity(intent2);
-                                    case 1:
-                                        Toast.makeText(getApplicationContext(),
-                                                "The input of the mobile phone number is wrong!", Toast.LENGTH_SHORT).show();
-                                    case 0:
-                                        Toast.makeText(getApplicationContext(),
-                                                "This username does not exist!", Toast.LENGTH_SHORT).show();
-                                    default:
-                                        break;
-                                }
-                                dbServerForU.close();
-                            }
-                        } else {
-                            Toast.makeText(getApplicationContext(),
-                                    "Membercode!", Toast.LENGTH_SHORT).show();
-                            edtCode.setText(null);
-                            renewal();
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                "Please enter the verification code!", Toast.LENGTH_SHORT).show();
-                        renewal();
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter your user name!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        getUser();
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +51,21 @@ public class ResetVerActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Get username
+     */
+    private void getUser(){
+        final Intent intent = getIntent();
+        fromLogin = intent.getStringExtra("username");
+
+        if (fromLogin != null) {
+            edtiReUser.setText(fromLogin);
+        }
+    }
+
+    /**
+     * Get the real captcha
+     */
     private void renewal() {
         IdentifyingCode identifyingCode = IdentifyingCode.getInstance();
         Bitmap bitmap = identifyingCode.createBitmap();
@@ -115,6 +73,60 @@ public class ResetVerActivity extends AppCompatActivity {
         realCode = identifyingCode.getCode().toLowerCase();
     }
 
+    /**
+     * The reset button
+     */
+    public void VerPassword(View view) {
+        codeStr = edtCode.getText().toString().trim();
+        Log.i("code",codeStr);
+        if (edtiReUser != null) {
+            if (edtCode != null) {
+                codeStr = edtCode.getText().toString().trim();
+                Log.i("code", codeStr);
+                if (realCode.equals(codeStr)) {
+                    showResetDialog();
+                    if (phoneInput != null) {
+                        user.setUsername(edtiReUser.getText().toString().trim());
+                        user.setPhone(phoneInput);
+                        DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
+                        dbServerForU.open();
+                        result = dbServerForU.resetVerify(user.getUsername(), user.getPhone());
+                        switch (result) {
+                            case 2:
+                                Intent intent2 = new Intent(ResetVerActivity.this, ResetPasswordActivity.class);
+                                intent2.putExtra("username", fromLogin);
+                                startActivity(intent2);
+                            case 1:
+                                Toast.makeText(getApplicationContext(),
+                                        "The input of the mobile phone number is wrong!", Toast.LENGTH_SHORT).show();
+                            case 0:
+                                Toast.makeText(getApplicationContext(),
+                                        "This username does not exist!", Toast.LENGTH_SHORT).show();
+                            default:
+                                break;
+                        }
+                        dbServerForU.close();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Membercode!", Toast.LENGTH_SHORT).show();
+                    edtCode.setText(null);
+                    renewal();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Please enter the verification code!", Toast.LENGTH_SHORT).show();
+                renewal();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "Please enter your user name!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Dialog
+     */
     private void showResetDialog() {
         final View dialogView = LayoutInflater.from(ResetVerActivity.this).inflate(R.layout.dialog_phone, null);
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ResetVerActivity.this);

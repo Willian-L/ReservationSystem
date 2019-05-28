@@ -25,65 +25,76 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         init();
+    }
 
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                User user = new User();
+    /**
+     * The register button
+     */
+    public void btnRegister(View view) {
+        User user = new User();
 
-                String username = edtUsername.getText().toString().trim();
-                String password = edtPassword.getText().toString().trim();
-                String phone = edtPhone.getText().toString().trim();
+        String username = edtUsername.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+        String phone = edtPhone.getText().toString().trim();
 
-                /*
-                Determine if the username, password, and phone number match the rules
-                 */
-                if (!username.matches("^[A-Za-z0-9]+$")) {                              // Determine whether the username is composed of letters and numbers
-                    Toast.makeText(getApplicationContext(),
-                            "Username must be alphanumeric!", Toast.LENGTH_SHORT).show();
-                } else if (!username.matches("^.{6,16}$")) {                            // Determine whether the username is 4 to 16 characters
-                    Toast.makeText(getApplicationContext(),
-                            "Username must be at least 6 digits", Toast.LENGTH_SHORT).show();
-                } else if (!password.matches("^[A-Za-z0-9]+$")) {                       // Determine whether the password is composed of letters and numbers
-                    Toast.makeText(getApplicationContext(),
-                            "Password must be alphanumeric!", Toast.LENGTH_SHORT).show();
-                } else if (!password.matches("^.{6,16}$")) {                            // Determine whether the username is 6 to 16 characters
-                    Toast.makeText(getApplicationContext(),
-                            "Password must be at least 6 digits", Toast.LENGTH_SHORT).show();
-                } else if (!phone.matches("^[1][3,5,6,8][0-9]{9}$")) {                  // Determine whether the telephone number consists of the first digit of 1 and the second digit of 3 or 5 or 6 or 8.Are there nine other Numbers besides the first two
-                    Toast.makeText(getApplicationContext(),
-                            "The phone number you entered is incorrect!", Toast.LENGTH_SHORT).show();
-                } else {
-                    user.setUsername(username);
-                    user.setPassword(password);
-                    user.setPhone(phone);
-                    try {
-                        DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
-                        dbServerForU.open();
-                        if (dbServerForU.selectByUsername(user.getUsername()).getCount() == 0) {    // Whether the user already exists in the database
+        /*
+        Determine if the username, password, and phone number match the rules
+        */
+        if (determine(username, password, phone)) {
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setPhone(phone);
+            try {
+                DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
+                dbServerForU.open();
+                if (dbServerForU.selectByUsername(user.getUsername()).getCount() == 0) {    // Whether the user already exists in the database
                             /*
                             Once all the above rules are met, start writing to the database
                              */
-                            if (dbServerForU.insert(user.getUsername(), user.getPassword(), user.getPhone())) {
-                                Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(RegisterActivity.this, UserLoginActivity.class);
-                                intent.putExtra("username", user.getUsername());
-                                startActivity(intent);
-                            }
-                        } else {
-                            Toast.makeText(getApplicationContext(), "This user already exists!", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "Registration failed!", Toast.LENGTH_SHORT).show();
+                    if (dbServerForU.insert(user.getUsername(), user.getPassword(), user.getPhone())) {
+                        Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterActivity.this, UserLoginActivity.class);
+                        intent.putExtra("username", user.getUsername());
+                        startActivity(intent);
                     }
+                } else {
+                    Toast.makeText(getApplicationContext(), "This user already exists!", Toast.LENGTH_SHORT).show();
                 }
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Registration failed!", Toast.LENGTH_SHORT).show();
             }
-
-        });
+        }
     }
 
-    /*
-    Button to reset
+    /**
+     * Determine if the username, password, and phone number match the rules
+     */
+    public boolean determine(String username, String password, String phone) {
+        boolean result = false;
+        if (!username.matches("^[A-Za-z0-9]+$")) {                              // Determine whether the username is composed of letters and numbers
+            Toast.makeText(getApplicationContext(),
+                    "Username must be alphanumeric!", Toast.LENGTH_SHORT).show();
+        } else if (!username.matches("^.{6,16}$")) {                            // Determine whether the username is 4 to 16 characters
+            Toast.makeText(getApplicationContext(),
+                    "Username must be at least 6 digits", Toast.LENGTH_SHORT).show();
+        } else if (!password.matches("^[A-Za-z0-9]+$")) {                       // Determine whether the password is composed of letters and numbers
+            Toast.makeText(getApplicationContext(),
+                    "Password must be alphanumeric!", Toast.LENGTH_SHORT).show();
+        } else if (!password.matches("^.{6,16}$")) {                            // Determine whether the username is 6 to 16 characters
+            Toast.makeText(getApplicationContext(),
+                    "Password must be at least 6 digits", Toast.LENGTH_SHORT).show();
+        } else if (!phone.matches("^[1][3,5,6,8][0-9]{9}$")) {                  // Determine whether the telephone number consists of the first digit of 1 and the second digit of 3 or 5 or 6 or 8.Are there nine other Numbers besides the first two
+            Toast.makeText(getApplicationContext(),
+                    "The phone number you entered is incorrect!", Toast.LENGTH_SHORT).show();
+        } else {
+            result = true;
+        }
+        return result;
+    }
+
+
+    /**
+     * The reset button
      */
     public void reset(View view) {
         edtUsername.setText(null);
@@ -91,8 +102,8 @@ public class RegisterActivity extends AppCompatActivity {
         edtPhone.setText(null);
     }
 
-    /*
-    Access controls
+    /**
+     * Access controls
      */
     private void init() {
         edtUsername = findViewById(R.id.edtReUsername);
@@ -101,11 +112,14 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
     }
 
+    /**
+     * Button to how
+     */
     public void howToInput(View view) {
         showHowDialog();
     }
 
-    private void showHowDialog(){
+    private void showHowDialog() {
         AlertDialog.Builder howDialog = new AlertDialog.Builder(RegisterActivity.this);
         howDialog.setTitle("Input Rules");
         howDialog.setMessage("Username\nConsisting of more than six letters or Numbers.\n\n" +

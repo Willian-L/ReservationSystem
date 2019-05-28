@@ -29,32 +29,50 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        Intent intent = getIntent();
-        username = intent.getStringExtra("username");
+        getUser();
 
         init();
+    }
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                user.setUsername(username);
-                String password = editPsw.getText().toString().trim();
-                if (!password.matches("^[A-Za-z0-9]+$")) {
-                    Toast.makeText(getApplicationContext(),
-                            "Password must be alphanumeric!", Toast.LENGTH_SHORT).show();
-                }else {
-                    user.setPassword(editPsw.getText().toString().trim());
-                    DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
-                    dbServerForU.open();
-                    if (dbServerForU.ResetPsw(user.getUsername(), user.getPassword())){
-                        Toast.makeText(getApplicationContext(),"Reset successful!",Toast.LENGTH_SHORT).show();
-                        Intent intent1 = new Intent(ResetPasswordActivity.this, UserLoginActivity.class);
-                        intent1.putExtra("username",username);
-                        startActivity(intent1);
-                    }
-                }
+    /**
+     * Gets the username by Login page.
+     */
+    private void getUser(){
+        Intent intent = getIntent();
+        username = intent.getStringExtra("username");
+    }
+
+    /**
+     * The reset button
+     */
+    public void btnReset(View view) {
+        user.setUsername(username);
+        String password = editPsw.getText().toString().trim();
+        if (determine(password)){
+            user.setPassword(editPsw.getText().toString().trim());
+            DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
+            dbServerForU.open();
+            if (dbServerForU.ResetPsw(user.getUsername(), user.getPassword())){
+                Toast.makeText(getApplicationContext(),"Reset successful!",Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(ResetPasswordActivity.this, UserLoginActivity.class);
+                intent1.putExtra("username",username);
+                startActivity(intent1);
             }
-        });
+        }
+    }
+
+    /**
+     * Determine if the username, password, and phone number match the rules
+     */
+    private boolean determine(String password) {
+        boolean result = false;
+        if (!password.matches("^[A-Za-z0-9]+$")) {
+            Toast.makeText(getApplicationContext(),
+                    "Password must be alphanumeric!", Toast.LENGTH_SHORT).show();
+        } else {
+            result = true;
+        }
+        return result;
     }
 
     private void init() {

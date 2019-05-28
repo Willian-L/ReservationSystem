@@ -24,8 +24,15 @@ public class HomepageForMActivity extends AppCompatActivity implements View.OnCl
 
         inti();
 
-        rb_orderInfo.setActivated(true);
+        embed();
+    }
 
+
+    /**
+     * Embed Fragment
+     */
+    private void embed(){
+        rb_orderInfo.setActivated(true);
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         transaction.add(R.id.master_content_Layout, new OrderFragment());
@@ -56,7 +63,7 @@ public class HomepageForMActivity extends AppCompatActivity implements View.OnCl
         transaction.commit();
     }
 
-    public void inti() {
+    private void inti() {
         rb_orderInfo = findViewById(R.id.masterRad_orderInfo);
         rb_userInfo = findViewById(R.id.masterRad_userInfo);
         rb_my = findViewById(R.id.masterRad_my);
@@ -65,6 +72,5 @@ public class HomepageForMActivity extends AppCompatActivity implements View.OnCl
         rb_userInfo.setOnClickListener(this);
         rb_my.setOnClickListener(this);
     }
-
 
 }
