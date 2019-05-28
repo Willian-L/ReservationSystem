@@ -1,13 +1,7 @@
 package com.william.reservationsystem.application;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-
-import com.william.reservationsystem.controller.LoginUtil;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class AppContext extends Application {
 

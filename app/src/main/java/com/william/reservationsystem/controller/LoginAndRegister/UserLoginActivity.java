@@ -244,10 +244,10 @@ public class UserLoginActivity extends AppCompatActivity {
     }
 
     private void toRegister() {
-//        LoginUtil loginUtil = new LoginUtil();
-//        loginUtil.toRegister(UserLoginActivity.this);
-        Intent intent = new Intent(UserLoginActivity.this, RegisterActivity.class);
-        startActivity(intent);
+        LoginUtil loginUtil = new LoginUtil();
+        loginUtil.toRegister();
+//        Intent intent = new Intent(UserLoginActivity.this, RegisterActivity.class);
+//        startActivity(intent);
     }
 
     private void toForgot() {

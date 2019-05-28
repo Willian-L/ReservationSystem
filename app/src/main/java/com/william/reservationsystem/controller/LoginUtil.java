@@ -13,8 +13,12 @@ import com.william.reservationsystem.model.User;
 
 public class LoginUtil extends AppContext {
 
-    User user = new User();
+    public void toRegister() {
+        Intent intent = new Intent(getContext(), RegisterActivity.class);
+        startActivity(intent);
+    }
 
+//    User user = new User();
 //    public void UserLogin(EditText edtUsername,EditText edtPassword, CheckBox checkRemember){
 //        int getResult = 0;
 //        // Get the username and password
@@ -52,8 +56,5 @@ public class LoginUtil extends AppContext {
 //        dbServerForU.close();
 //    }
 
-    public void toRegister(Context context) {
-        Intent intent = new Intent(context, RegisterActivity.class);
-        startActivity(intent);
-    }
+
 }
