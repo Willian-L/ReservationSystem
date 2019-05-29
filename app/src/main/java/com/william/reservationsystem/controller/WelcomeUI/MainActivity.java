@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         automatic();
     }
 
-    /*
-    Automatic switching after a certain time
+    /**
+     * Automatic switching after a certain time
      */
     private void automatic(){
         final Intent intent = new Intent(this, UserLoginActivity.class);
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 startActivity(intent);
+                finish();
             }
         };
         timer.schedule(task, DELAY);

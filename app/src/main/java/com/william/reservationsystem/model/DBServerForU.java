@@ -100,6 +100,23 @@ public class DBServerForU {
         return result;
     }
 
+    public boolean orlogin(String username, int id) {
+        boolean result = false;
+        Cursor cursor = null;
+        cursor = db.query("user", new String[]{"id"},
+                "username='" + username + "'",
+                null,null,null,null);
+        if (cursor.getCount()>0){
+            while (cursor.moveToNext()){
+                int theId = cursor.getInt(cursor.getColumnIndex("id"));
+                if (theId == id){
+                    result = true;
+                }
+            }
+        }
+        return result;
+    }
+
     /*
     Query all user data
      */
@@ -121,13 +138,13 @@ public class DBServerForU {
         return cursor;
     }
 
-    /*
-    Query phone by username
+    /**
+     * Query phone by username
      */
-    public Cursor selectPhone(String username) {
+    public Cursor selectID(String username) {
         Cursor cursor = null;
-        cursor = db.query(DB_TABLE, new String[]{KEY_PHONE},
-                KEY_USERNAME + "'" + username + "'",
+        cursor = db.query(DB_TABLE, new String[]{KEY_ID},
+                KEY_USERNAME + "='" + username + "'",
                 null, null, null, null);
         return cursor;
     }

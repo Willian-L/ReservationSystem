@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -38,6 +39,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.LoginAndRegister.UserLoginActivity;
 import com.william.reservationsystem.model.DBServerForU;
@@ -47,14 +49,17 @@ import com.zxy.tiny.Tiny;
 import com.zxy.tiny.callback.FileWithBitmapCallback;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.william.reservationsystem.R.mipmap.ic_treker;
+
 public class MyFragment extends Fragment {
 
-    ImageView imgPhoto;
-    ImageButton ibtn_edit, ibtn_camera, ibtn_album;
+    ImageView imgPhoto, imgQR;
+    ImageButton ibtn_edit, ibtn_camera, ibtn_album, ibtn_qr;
     EditText edtName, edtSex, edtPhone, edtEmail, edtAddress;
     Button btnModify, btnCancel, btnLogout;
     User user = new User();
@@ -164,6 +169,21 @@ public class MyFragment extends Fragment {
             }
         });
 
+        ibtn_qr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createQR();
+            }
+        });
+
+        imgQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ibtn_qr.setVisibility(View.VISIBLE);
+                imgQR.setVisibility(View.GONE);
+            }
+        });
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +194,40 @@ public class MyFragment extends Fragment {
         return view;
     }
 
-    private void getUser(){
+    private void createQR() {
+        ibtn_qr.setVisibility(View.GONE);
+        String qr = selectDB();
+        Bitmap mBitmap = null;
+        if (getPhotoURI != null) {
+            try {
+                mBitmap = CodeUtils.createImage(qr, 140, 140, BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(getPhotoURI)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            mBitmap = CodeUtils.createImage(qr, 140, 140, BitmapFactory.decodeResource(getResources(), ic_treker));
+        }
+        imgQR.setImageBitmap(mBitmap);
+        imgQR.setVisibility(View.VISIBLE);
+    }
+
+    private int id;
+
+    private String selectDB() {
+        DBServerForU dbServerForU = new DBServerForU(getContext());
+        dbServerForU.open();
+        Cursor cursor = dbServerForU.selectID(user.getUsername());
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                id = cursor.getInt(cursor.getColumnIndex("id"));
+            }
+        }
+        dbServerForU.close();
+        String qr = "#" + user.getUsername() + "@" + id + "#";
+        return qr;
+    }
+
+    private void getUser() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             user.setUsername(bundle.getString("username"));
@@ -182,7 +235,7 @@ public class MyFragment extends Fragment {
         txt_title.setText(user.getUsername() + "'s Information");
     }
 
-    private void getData(){
+    private void getData() {
         DBServerForU dbServerForU = new DBServerForU(getContext());
         dbServerForU.open();
         Cursor cursor = dbServerForU.selectByUsername(user.getUsername());
@@ -203,7 +256,7 @@ public class MyFragment extends Fragment {
                 edtAddress.setText(user.getAddress());
                 user.setPhoto(cursor.getString(cursor.getColumnIndex("photo")));
                 photoPath = user.getPhoto();
-                if (photoPath!=null) {
+                if (photoPath != null) {
                     getPhotoURI = Uri.parse(photoPath);
                     photoURI = getPhotoURI;
                     imgPhoto.setImageURI(getPhotoURI);
@@ -227,13 +280,15 @@ public class MyFragment extends Fragment {
         edtPhone.setBackgroundColor(Color.parseColor(backcolor));
         edtEmail.setBackgroundColor(Color.parseColor(backcolor));
         edtAddress.setBackgroundColor(Color.parseColor(backcolor));
-        switch (getSex){
-            case "Man":
-                radSex.check(R.id.user_radBtnman);
-                break;
-            case "Woman":
-                radSex.check(R.id.user_radBtnwoman);
-                break;
+        if (getSex != null) {
+            switch (getSex) {
+                case "Man":
+                    radSex.check(R.id.user_radBtnman);
+                    break;
+                case "Woman":
+                    radSex.check(R.id.user_radBtnwoman);
+                    break;
+            }
         }
         btnModify.setVisibility(View.VISIBLE);
         btnCancel.setVisibility(View.VISIBLE);
@@ -243,9 +298,10 @@ public class MyFragment extends Fragment {
         spEmail.setVisibility(View.VISIBLE);
         edtEmail.setVisibility(View.VISIBLE);
         btnLogout.setVisibility(View.GONE);
+        ibtn_qr.setVisibility(View.GONE);
     }
 
-    private void setEmailEdit(){
+    private void setEmailEdit() {
         String txtemail = txtEmail.getText().toString().trim();
         if (!txtemail.equals("")) {
             final String Email = txtemail;
@@ -260,7 +316,7 @@ public class MyFragment extends Fragment {
         }
     }
 
-    private void setAgeEdit(){
+    private void setAgeEdit() {
         if (!txtAge.getText().toString().trim().equals("")) {
             sbAge.setProgress(Integer.valueOf(txtAge.getText().toString().trim()));
         }
@@ -289,9 +345,10 @@ public class MyFragment extends Fragment {
         spEmail.setVisibility(View.GONE);
         edtEmail.setVisibility(View.GONE);
         btnLogout.setVisibility(View.VISIBLE);
+        ibtn_qr.setVisibility(View.VISIBLE);
     }
 
-    private void modify(){
+    private void modify() {
         final String name = edtName.getText().toString().trim();
         final String phone = edtPhone.getText().toString().trim();
         final String email_input = edtEmail.getText().toString().trim() + email_suffix;
@@ -398,7 +455,7 @@ public class MyFragment extends Fragment {
         }
     }
 
-    private void cancel(){
+    private void cancel() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Cancel and Reset");
         builder.setMessage("Would you need to cancel the changes?");
@@ -412,7 +469,7 @@ public class MyFragment extends Fragment {
                         edtPhone.setText(user.getPhone());
                         txtEmail.setText(user.getEmail());
                         edtAddress.setText(user.getAddress());
-                        if (getPhotoURI == null){
+                        if (getPhotoURI == null) {
                             imgPhoto.setImageDrawable(null);
                         }
                         imgPhoto.setImageURI(getPhotoURI);
@@ -431,7 +488,7 @@ public class MyFragment extends Fragment {
         builder.show();
     }
 
-    private void camera(){
+    private void camera() {
         if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA)) {
             try {
                 //有权限,去打开摄像头
@@ -443,11 +500,10 @@ public class MyFragment extends Fragment {
             //提示用户开户权限   拍照和读写sd卡权限
             String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
             ActivityCompat.requestPermissions(getActivity(), perms, MY_ADD_CASE_CALL_PHONE);
-
         }
     }
 
-    private void album(){
+    private void album() {
         //"点击了相册");
         //  6.0之后动态申请权限 SD卡写入权限
         if (ContextCompat.checkSelfPermission(getActivity(),
@@ -578,7 +634,7 @@ public class MyFragment extends Fragment {
             } catch (Exception e) {
                 //"上传失败");
             }
-        } else if (requestCode == 3 && resultCode == Activity.RESULT_OK){
+        } else if (requestCode == 3 && resultCode == Activity.RESULT_OK) {
             photoURI = data.getData();
             imgPhoto.setImageURI(photoURI);
         }
@@ -614,7 +670,7 @@ public class MyFragment extends Fragment {
     }
 
     private void photoClip(Bitmap bitmap) {
-        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), bitmap, null,null));
+        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), bitmap, null, null));
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -631,7 +687,7 @@ public class MyFragment extends Fragment {
         startActivityForResult(intent, 3);
     }
 
-    private void logout(){
+    private void logout() {
         SharedPreferencesUtils.getInstance().clear();
         Intent intent = new Intent(getActivity(), UserLoginActivity.class);
         startActivity(intent);
@@ -657,5 +713,7 @@ public class MyFragment extends Fragment {
         txt_title = view.findViewById(R.id.myTxt_title);
         spEmail = view.findViewById(R.id.mySpi_email);
         btnLogout = view.findViewById(R.id.my_btnLogout);
+        ibtn_qr = view.findViewById(R.id.imgBtn_qr);
+        imgQR = view.findViewById(R.id.img_QR);
     }
 }

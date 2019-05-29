@@ -72,7 +72,7 @@
         android:id="@+id/btnLogin"
         style="@style/ButtonStyle"
         android:layout_width="250dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="@string/login_btn_into"
         android:onClick="btnlogin"/>
 
@@ -80,7 +80,17 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/imgBtn_scan"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/ic_scan"
+            android:layout_gravity="center_horizontal"
+            android:onClick="scanMethod"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/forgot"

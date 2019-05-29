@@ -1,21 +1,39 @@
 package com.william.reservationsystem.controller.LoginAndRegister;
 
+import android.Manifest;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.william.reservationsystem.controller.MasterHomepage.HomepageForMActivity;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.william.reservationsystem.R;
+import com.william.reservationsystem.controller.MasterHomepage.HomepageForMActivity;
 import com.william.reservationsystem.controller.ResetPassword.ResetVerActivity;
+import com.william.reservationsystem.controller.WelcomeUI.MainActivity;
 import com.william.reservationsystem.model.DBServerForM;
 import com.william.reservationsystem.model.DBServerForU;
 import com.william.reservationsystem.model.Master;
@@ -23,11 +41,12 @@ import com.william.reservationsystem.model.SharedPreferencesUtils;
 import com.william.reservationsystem.model.User;
 import com.william.reservationsystem.controller.UserHomepage.HomepageForUActivity;
 
-public class UserLoginActivity extends AppCompatActivity {
+public class UserLoginActivity extends AppCompatActivity{
 
     EditText edtUsername, edtPassword;
     Button btnLogin;
     CheckBox checkRemember;
+    ImageButton imgBtnScan;
 
     private String username;
     private String password;
@@ -50,7 +69,7 @@ public class UserLoginActivity extends AppCompatActivity {
     /**
      * Gets the username that the user just registered
      */
-    private void getUser(EditText edtUsername){
+    private void getUser(EditText edtUsername) {
         try {
             Intent intent = getIntent();
             String username = intent.getStringExtra("username");
@@ -62,9 +81,9 @@ public class UserLoginActivity extends AppCompatActivity {
     /**
      * Automatic login function
      */
-    private void checkAutoLogin(CheckBox checkRemember, EditText edtUsername, EditText edtPassword){
-        String username = SharedPreferencesUtils.getInstance().getString(SharedPreferencesUtils.USER_NAME,"");
-        String password = SharedPreferencesUtils.getInstance().getString(SharedPreferencesUtils.PASSWORD,"");
+    private void checkAutoLogin(CheckBox checkRemember, EditText edtUsername, EditText edtPassword) {
+        String username = SharedPreferencesUtils.getInstance().getString(SharedPreferencesUtils.USER_NAME, "");
+        String password = SharedPreferencesUtils.getInstance().getString(SharedPreferencesUtils.PASSWORD, "");
         edtUsername.setText(username);
         edtPassword.setText(password);
 
@@ -93,7 +112,6 @@ public class UserLoginActivity extends AppCompatActivity {
                 finish();
             } else {
                 UserLogin();
-                finish();
             }
         } else if (!username.equals("") && password.equals("")) {
             Toast.makeText(getApplicationContext(),
@@ -122,8 +140,8 @@ public class UserLoginActivity extends AppCompatActivity {
         switch (getResult) {
             case 2:
                 if (checkRemember.isChecked()) {
-                    SharedPreferencesUtils.getInstance().putString(SharedPreferencesUtils.USER_NAME,user.getUsername());
-                    SharedPreferencesUtils.getInstance().putString(SharedPreferencesUtils.PASSWORD,user.getPassword());
+                    SharedPreferencesUtils.getInstance().putString(SharedPreferencesUtils.USER_NAME, user.getUsername());
+                    SharedPreferencesUtils.getInstance().putString(SharedPreferencesUtils.PASSWORD, user.getPassword());
                 } else {
                     SharedPreferencesUtils.getInstance().clear();
                 }
@@ -238,5 +256,151 @@ public class UserLoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         checkRemember = findViewById(R.id.loginCb_Remember);
+        imgBtnScan = findViewById(R.id.imgBtn_scan);
+    }
+
+    // 权限请求
+    private static final int MY_ADD_CASE_CALL_PHONE = 6;
+
+    private int REQUEST_CAMERA = 1;
+    private int REQUEST_IMAGE = 2;
+
+    public void scanMethod(View view) {
+        if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+        && PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            showPopupWindow();
+        } else {
+            //提示用户开户权限
+            String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+            ActivityCompat.requestPermissions(this, perms, MY_ADD_CASE_CALL_PHONE);
+        }
+    }
+
+    private PopupWindow mPopWindow;
+
+    private void showPopupWindow(){
+        View contentView = LayoutInflater.from(UserLoginActivity.this).inflate(R.layout.scan_popup, null);
+        mPopWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,true);
+        mPopWindow.setContentView(contentView);
+        TextView tv_camera = contentView.findViewById(R.id.pop_camera);
+        TextView tv_album = contentView.findViewById(R.id.pop_album);
+        View rootview = LayoutInflater.from(UserLoginActivity.this).inflate(R.layout.activity_user_login, null);
+        mPopWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        mPopWindow.setAnimationStyle(R.style.pop_animation);
+        mPopWindow.showAtLocation(rootview, Gravity.BOTTOM,0,20);
+        tv_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userCamera();
+                mPopWindow.dismiss();
+            }
+        });
+        tv_album.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAlbum();
+                mPopWindow.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 申请权限回调
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == MY_ADD_CASE_CALL_PHONE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showPopupWindow();
+            }
+        }
+    }
+
+    private void openAlbum(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_IMAGE);
+    }
+
+    public void userCamera(){
+        Intent intent = new Intent(getApplication(), CaptureActivity.class);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CAMERA) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    Toast.makeText(UserLoginActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(UserLoginActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        if (requestCode == REQUEST_IMAGE) {
+            if (data != null) {
+                Uri uri = data.getData();
+                try {
+                    CodeUtils.analyzeBitmap(ImageUtil.getImageAbsolutePath(this, uri), new CodeUtils.AnalyzeCallback() {
+                        @Override
+                        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
+                            Toast.makeText(UserLoginActivity.this, "Analytical result:" + result, Toast.LENGTH_LONG).show();
+                            qrLogin(result);
+                        }
+
+                        @Override
+                        public void onAnalyzeFailed() {
+                            Toast.makeText(UserLoginActivity.this, "The resolution of QR code fails.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void qrLogin(String qr){
+        Log.i("qrLogin", "in1");
+        if (verify(qr)){
+            Log.i("qrLogin", "in2");
+            int tap = qr.indexOf("@");
+            String username = qr.substring(1,tap);
+            String getId = qr.substring(tap+1, qr.length()-1);
+            int id = Integer.parseInt(getId);
+            DBServerForU dbServerForU = new DBServerForU(this);
+            dbServerForU.open();
+            if (dbServerForU.orlogin(username, id)){
+                Log.i("qrLogin", "login");
+                Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
+                intent.putExtra("username", username);
+                startActivity(intent);
+                dbServerForU.close();
+                finish();
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "This account does not exist!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private boolean verify(String qr){
+        boolean result = false;
+        if (qr.matches("^\\#+[\\w]+[@]+[1-9]+\\#$")) {
+            result = true;
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "Qr code mismatch!", Toast.LENGTH_SHORT).show();
+        }
+        return result;
     }
 }

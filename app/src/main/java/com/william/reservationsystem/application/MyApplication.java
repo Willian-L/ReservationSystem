@@ -1,7 +1,8 @@
 package com.william.reservationsystem.application;
 
 import android.app.Application;
-import android.content.Context;
+
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 public class MyApplication extends Application {
 
@@ -16,6 +17,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
+        ZXingLibrary.initDisplayOpinion(this);
     }
 
 }
