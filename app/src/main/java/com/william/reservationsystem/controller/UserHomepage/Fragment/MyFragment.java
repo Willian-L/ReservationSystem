@@ -194,39 +194,6 @@ public class MyFragment extends Fragment {
         return view;
     }
 
-    private void createQR() {
-        ibtn_qr.setVisibility(View.GONE);
-        String qr = selectDB();
-        Bitmap mBitmap = null;
-        if (getPhotoURI != null) {
-            try {
-                mBitmap = CodeUtils.createImage(qr, 140, 140, BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(getPhotoURI)));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        } else {
-            mBitmap = CodeUtils.createImage(qr, 140, 140, BitmapFactory.decodeResource(getResources(), ic_treker));
-        }
-        imgQR.setImageBitmap(mBitmap);
-        imgQR.setVisibility(View.VISIBLE);
-    }
-
-    private int id;
-
-    private String selectDB() {
-        DBServerForU dbServerForU = new DBServerForU(getContext());
-        dbServerForU.open();
-        Cursor cursor = dbServerForU.selectID(user.getUsername());
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                id = cursor.getInt(cursor.getColumnIndex("id"));
-            }
-        }
-        dbServerForU.close();
-        String qr = "#" + user.getUsername() + "@" + id + "#";
-        return qr;
-    }
-
     private void getUser() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -491,21 +458,17 @@ public class MyFragment extends Fragment {
     private void camera() {
         if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA)) {
             try {
-                //有权限,去打开摄像头
                 takePhoto();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            //提示用户开户权限   拍照和读写sd卡权限
             String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
             ActivityCompat.requestPermissions(getActivity(), perms, MY_ADD_CASE_CALL_PHONE);
         }
     }
 
     private void album() {
-        //"点击了相册");
-        //  6.0之后动态申请权限 SD卡写入权限
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -518,9 +481,7 @@ public class MyFragment extends Fragment {
         }
     }
 
-    //调取系统摄像头的请求码
     private static final int MY_ADD_CASE_CALL_PHONE = 6;
-    //打开相册的请求码
     private static final int MY_ADD_CASE_CALL_PHONE2 = 7;
 
     private void takePhoto() throws IOException {
@@ -544,7 +505,9 @@ public class MyFragment extends Fragment {
         startActivityForResult(intent, 1);
     }
 
-    // 在sd卡中创建一保存图片（原图和缩略图共用的）文件夹
+    /**
+     * Create folders in sd card
+     */
     private File createFileIfNeed(String fileName) throws IOException {
         String fileA = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/photo";
         File fileJA = new File(fileA);
@@ -560,7 +523,7 @@ public class MyFragment extends Fragment {
     }
 
     /**
-     * 打开相册
+     * Oppo album
      */
     private void choosePhoto() {
         //这是打开系统默认的相册(就是你系统怎么分类,就怎么显示,首先展示分类列表)
@@ -569,7 +532,7 @@ public class MyFragment extends Fragment {
     }
 
     /**
-     * 申请权限回调
+     * Request permission callback
      *
      * @param requestCode
      * @param permissions
@@ -641,7 +604,7 @@ public class MyFragment extends Fragment {
     }
 
     /**
-     * 从保存原图的地址读取图片
+     * Reads the image from the address where the original image was saved
      */
     private String fileName() {
         SimpleDateFormat timesdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -669,24 +632,51 @@ public class MyFragment extends Fragment {
         }
     }
 
+    /**
+     * Call the system's own photo clipping
+     */
     private void photoClip(Bitmap bitmap) {
         Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), bitmap, null, null));
-        // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.setDataAndType(uri, "image/*");
-        // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
         intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
         intent.putExtra("outputX", 150);
         intent.putExtra("outputY", 150);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, 3);
     }
 
+    /**
+     * Create QR code
+     */
+    private void createQR() {
+        ibtn_qr.setVisibility(View.GONE);
+        String qr = selectDB();
+        Bitmap mBitmap = null;
+        if (getPhotoURI != null) {
+            try {
+                mBitmap = CodeUtils.createImage(qr, 140, 140, BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(getPhotoURI)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            mBitmap = CodeUtils.createImage(qr, 140, 140, BitmapFactory.decodeResource(getResources(), ic_treker));
+        }
+        imgQR.setImageBitmap(mBitmap);
+        imgQR.setVisibility(View.VISIBLE);
+    }
+
+    private String selectDB() {
+        String qr = "#" + user.getUsername() + "@" + user.getPhone() + "#";
+        return qr;
+    }
+
+    /**
+     * Logout method
+     */
     private void logout() {
         SharedPreferencesUtils.getInstance().clear();
         Intent intent = new Intent(getActivity(), UserLoginActivity.class);

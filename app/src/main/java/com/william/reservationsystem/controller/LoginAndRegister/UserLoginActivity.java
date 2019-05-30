@@ -1,7 +1,6 @@
 package com.william.reservationsystem.controller.LoginAndRegister;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -31,15 +29,15 @@ import android.widget.Toast;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.william.reservationsystem.R;
+import com.william.reservationsystem.controller.CrashHandle.CrashHandlerUtil;
 import com.william.reservationsystem.controller.MasterHomepage.HomepageForMActivity;
 import com.william.reservationsystem.controller.ResetPassword.ResetVerActivity;
-import com.william.reservationsystem.controller.WelcomeUI.MainActivity;
+import com.william.reservationsystem.controller.UserHomepage.HomepageForUActivity;
 import com.william.reservationsystem.model.DBServerForM;
 import com.william.reservationsystem.model.DBServerForU;
 import com.william.reservationsystem.model.Master;
 import com.william.reservationsystem.model.SharedPreferencesUtils;
 import com.william.reservationsystem.model.User;
-import com.william.reservationsystem.controller.UserHomepage.HomepageForUActivity;
 
 public class UserLoginActivity extends AppCompatActivity{
 
@@ -64,6 +62,8 @@ public class UserLoginActivity extends AppCompatActivity{
         checkAutoLogin(checkRemember, edtUsername, edtPassword);
 
         getUser(edtUsername);
+
+        CrashHandlerUtil.getInstance().init();
     }
 
     /**
@@ -259,11 +259,10 @@ public class UserLoginActivity extends AppCompatActivity{
         imgBtnScan = findViewById(R.id.imgBtn_scan);
     }
 
-    // 权限请求
+    /**
+     * Check the permissions
+     */
     private static final int MY_ADD_CASE_CALL_PHONE = 6;
-
-    private int REQUEST_CAMERA = 1;
-    private int REQUEST_IMAGE = 2;
 
     public void scanMethod(View view) {
         if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
@@ -271,11 +270,24 @@ public class UserLoginActivity extends AppCompatActivity{
             showPopupWindow();
         } else {
             //提示用户开户权限
-            String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+            String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions(this, perms, MY_ADD_CASE_CALL_PHONE);
         }
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == MY_ADD_CASE_CALL_PHONE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showPopupWindow();
+            }
+        }
+    }
+
+    /**
+     * set popupWindow
+     */
     private PopupWindow mPopWindow;
 
     private void showPopupWindow(){
@@ -305,16 +317,10 @@ public class UserLoginActivity extends AppCompatActivity{
     }
 
     /**
-     * 申请权限回调
+     * scan QR code
      */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == MY_ADD_CASE_CALL_PHONE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showPopupWindow();
-            }
-        }
-    }
+    private int REQUEST_CAMERA = 1;
+    private int REQUEST_IMAGE = 2;
 
     private void openAlbum(){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -330,9 +336,7 @@ public class UserLoginActivity extends AppCompatActivity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAMERA) {
-            //处理扫描结果（在界面上显示）
             if (null != data) {
                 Bundle bundle = data.getExtras();
                 if (bundle == null) {
@@ -340,9 +344,9 @@ public class UserLoginActivity extends AppCompatActivity{
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    Toast.makeText(UserLoginActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                    qrLogin(result);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    Toast.makeText(UserLoginActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                    Toast.makeText(UserLoginActivity.this, "The resolution of QR code fails!", Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -353,13 +357,12 @@ public class UserLoginActivity extends AppCompatActivity{
                     CodeUtils.analyzeBitmap(ImageUtil.getImageAbsolutePath(this, uri), new CodeUtils.AnalyzeCallback() {
                         @Override
                         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-                            Toast.makeText(UserLoginActivity.this, "Analytical result:" + result, Toast.LENGTH_LONG).show();
                             qrLogin(result);
                         }
 
                         @Override
                         public void onAnalyzeFailed() {
-                            Toast.makeText(UserLoginActivity.this, "The resolution of QR code fails.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(UserLoginActivity.this, "The resolution of QR code fails!", Toast.LENGTH_LONG).show();
                         }
                     });
                 } catch (Exception e) {
@@ -369,18 +372,33 @@ public class UserLoginActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Verify qr code
+     */
+    private boolean verify(String qr){
+        boolean result = false;
+        if (qr.matches("^\\#+[\\w]+[@]+[0-9]*+\\#$")) {
+            result = true;
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "Qr code mismatch!", Toast.LENGTH_SHORT).show();
+        }
+        return result;
+    }
+
+    /**
+     * Login through qr code information
+     */
     private void qrLogin(String qr){
-        Log.i("qrLogin", "in1");
         if (verify(qr)){
-            Log.i("qrLogin", "in2");
             int tap = qr.indexOf("@");
             String username = qr.substring(1,tap);
-            String getId = qr.substring(tap+1, qr.length()-1);
-            int id = Integer.parseInt(getId);
+            String phone = qr.substring(tap+1, qr.length()-1);
+            Log.i("qrLogin", username);
+            Log.i("qrLogin", phone);
             DBServerForU dbServerForU = new DBServerForU(this);
             dbServerForU.open();
-            if (dbServerForU.orlogin(username, id)){
-                Log.i("qrLogin", "login");
+            if (dbServerForU.qrlogin(username, phone)){
                 Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
                 intent.putExtra("username", username);
                 startActivity(intent);
@@ -391,16 +409,5 @@ public class UserLoginActivity extends AppCompatActivity{
                         "This account does not exist!", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    private boolean verify(String qr){
-        boolean result = false;
-        if (qr.matches("^\\#+[\\w]+[@]+[1-9]+\\#$")) {
-            result = true;
-        } else {
-            Toast.makeText(getApplicationContext(),
-                    "Qr code mismatch!", Toast.LENGTH_SHORT).show();
-        }
-        return result;
     }
 }

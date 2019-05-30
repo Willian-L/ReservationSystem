@@ -87,8 +87,8 @@ public class DBServerForU {
                 null, null, null, null);
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
-                String thepassword = cursor.getString(cursor.getColumnIndex("password"));
-                if (thepassword.equals(password)) {
+                String thePassword = cursor.getString(cursor.getColumnIndex("password"));
+                if (thePassword.equals(password)) {
                     result = 2;
                 } else {
                     result = 1;
@@ -100,16 +100,17 @@ public class DBServerForU {
         return result;
     }
 
-    public boolean orlogin(String username, int id) {
+    public boolean qrlogin(String username, String phone) {
         boolean result = false;
         Cursor cursor = null;
-        cursor = db.query("user", new String[]{"id"},
+        cursor = db.query("user", new String[]{"phone"},
                 "username='" + username + "'",
                 null,null,null,null);
         if (cursor.getCount()>0){
             while (cursor.moveToNext()){
-                int theId = cursor.getInt(cursor.getColumnIndex("id"));
-                if (theId == id){
+                String thePhone = cursor.getString(cursor.getColumnIndex("phone"));
+                Log.i("qrDB",thePhone);
+                if (thePhone.equals(phone)){
                     result = true;
                 }
             }
