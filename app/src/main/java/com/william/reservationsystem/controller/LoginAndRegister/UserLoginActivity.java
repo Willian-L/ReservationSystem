@@ -33,6 +33,7 @@ import com.william.reservationsystem.controller.CrashHandle.CrashHandlerUtil;
 import com.william.reservationsystem.controller.MasterHomepage.HomepageForMActivity;
 import com.william.reservationsystem.controller.ResetPassword.ResetVerActivity;
 import com.william.reservationsystem.controller.UserHomepage.HomepageForUActivity;
+import com.william.reservationsystem.controller.WelcomeUI.MainActivity;
 import com.william.reservationsystem.model.DBServerForM;
 import com.william.reservationsystem.model.DBServerForU;
 import com.william.reservationsystem.model.Master;
