@@ -15,6 +15,8 @@ public class DBHelper {
     Context context;
     public static final String TABLE_MASTER = "master";
     public static final String TABLE_USER = "user";
+    public static final String TABLE_MENUS = "menus";
+    public static final String TABLE_BOOKINGS = "bookings";
 
     /*
     Create a helper object to create, open, and/or manage a database.
@@ -67,11 +69,36 @@ public class DBHelper {
                     "email varchar(50) null," +
                     "photo TEXT null" +
                     ");";
+
+            // A table of menu
+            String MENU_SQL = "CREATE TABLE " + TABLE_MENUS + "(" +
+                    "day varchar(20) not null," +
+                    "menu varchar(10) not null," +
+                    "dishes_one varchar(30) null," +
+                    "dishes_two varchar(30) null," +
+                    "dishes_three varchar(30) null," +
+                    "dishes_four varchar(30) null," +
+                    "soup varchar(30) null," +
+                    ")";
+
+            // A table of bookings
+            String BOOKINGS_SQL = "CREATE TABLE " + TABLE_BOOKINGS + "(" +
+                    "day varchar(20) not null," +
+                    "user varchar(20) not null," +
+                    "menu varchar(10) not null," +
+                    "have_soup INTEGER not null," +
+                    "remark TEXT null" +
+                    ")";
+
             // Insert table
             db.execSQL(MASTER_SQL);
             Log.i("sql", "create table master:" + MASTER_SQL);
             db.execSQL(USER_SQL);
             Log.i("sql", "create table user:" + USER_SQL);
+            db.execSQL(MENU_SQL);
+            Log.i("sql", "create table user:" + MENU_SQL);
+            db.execSQL(BOOKINGS_SQL);
+            Log.i("sql", "create table user:" + BOOKINGS_SQL);
         }
 
         /*
