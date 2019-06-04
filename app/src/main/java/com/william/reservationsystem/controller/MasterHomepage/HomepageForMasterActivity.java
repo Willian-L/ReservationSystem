@@ -1,9 +1,12 @@
 package com.william.reservationsystem.controller.MasterHomepage;
 
+import android.app.Activity;
+import android.graphics.Point;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +22,9 @@ import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.MasterHomepage.Fragment.DailyMenuFragment;
 import com.william.reservationsystem.controller.MasterHomepage.Fragment.UserInfoFragment;
 
-public class HomepageForMasterActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
+import java.lang.reflect.Field;
+
+public class HomepageForMasterActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
@@ -29,7 +34,6 @@ public class HomepageForMasterActivity extends AppCompatActivity implements Gest
     private FragmentManager manager;
     private FragmentTransaction transaction;
 
-    private GestureDetector detector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,7 @@ public class HomepageForMasterActivity extends AppCompatActivity implements Gest
 
         embed();
 
-        detector = new GestureDetector(getApplicationContext(), this);
+        setDrawerLeftEdgeSize(this,mDrawerLayout,1);
 
         imgOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +85,31 @@ public class HomepageForMasterActivity extends AppCompatActivity implements Gest
         imgBtnAdd = findViewById(R.id.imgBtn_add);
     }
 
+    private void setDrawerLeftEdgeSize (Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
+        if (activity == null || drawerLayout == null) return;
+        try {
+            // 找到 ViewDragHelper 并设置 Accessible 为true
+            Field leftDraggerField =
+                    drawerLayout.getClass().getDeclaredField("mLeftDragger");
+            leftDraggerField.setAccessible(true);
+            ViewDragHelper leftDragger = (ViewDragHelper) leftDraggerField.get(drawerLayout);
+
+            // 找到 edgeSizeField 并设置 Accessible 为true
+            Field edgeSizeField = leftDragger.getClass().getDeclaredField("mEdgeSize");
+            edgeSizeField.setAccessible(true);
+            int edgeSize = edgeSizeField.getInt(leftDragger);
+
+            // 设置新的边缘大小
+            Point displaySize = new Point();
+            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
+            edgeSizeField.setInt(leftDragger, Math.max(edgeSize, (int) (displaySize.x *
+                    displayWidthPercentage)));
+        } catch (NoSuchFieldException e) {
+        } catch (IllegalArgumentException e) {
+        } catch (IllegalAccessException e) {
+        }
+    }
+
     /**
      * Embed Fragment
      */
@@ -89,46 +118,5 @@ public class HomepageForMasterActivity extends AppCompatActivity implements Gest
         transaction = manager.beginTransaction();
         transaction.add(R.id.master_content, new DailyMenuFragment());
         transaction.commit();
-    }
-
-        @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return detector.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onDown(MotionEvent e) {
-        Toast.makeText(this,"onDown",Toast.LENGTH_SHORT).show();
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        if (e1.getX()-e2.getX()>120){
-            Toast.makeText(getApplicationContext(),"fling",Toast.LENGTH_SHORT).show();
-        }else if (e1.getX()-e2.getX()<120){
-            Toast.makeText(getApplicationContext(),"fling",Toast.LENGTH_SHORT).show();
-        }
-        return false;
     }
 }
