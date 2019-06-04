@@ -31,6 +31,7 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.CrashHandle.CrashHandlerUtil;
 import com.william.reservationsystem.controller.MasterHomepage.HomepageForMActivity;
+import com.william.reservationsystem.controller.MasterHomepage.HomepageForMasterActivity;
 import com.william.reservationsystem.controller.ResetPassword.ResetVerActivity;
 import com.william.reservationsystem.controller.UserHomepage.HomepageForUActivity;
 import com.william.reservationsystem.controller.WelcomeUI.MainActivity;
@@ -108,7 +109,7 @@ public class UserLoginActivity extends AppCompatActivity{
 
         if (!username.equals("") && !password.equals("")) {
             if (MasterLogin()) {
-                Intent intent = new Intent(UserLoginActivity.this, HomepageForMActivity.class);
+                Intent intent = new Intent(UserLoginActivity.this, HomepageForMasterActivity.class);
                 startActivity(intent);
                 finish();
             } else {

@@ -59,7 +59,7 @@ public class DBHelper {
             // A table of user
             String USER_SQL = "CREATE TABLE " + TABLE_USER + "(" +
                     "id INTEGER primary key AUTOINCREMENT, " +
-                    "username varchar(20) not null, " +
+                    "username varchar(20) not null," +
                     "password varchar(20) not null," +
                     "phone varchar(11) not null," +
                     "address TEXT null," +
@@ -78,8 +78,8 @@ public class DBHelper {
                     "dishes_two varchar(30) null," +
                     "dishes_three varchar(30) null," +
                     "dishes_four varchar(30) null," +
-                    "soup varchar(30) null," +
-                    ")";
+                    "soup varchar(30) null" +
+                    ");";
 
             // A table of bookings
             String BOOKINGS_SQL = "CREATE TABLE " + TABLE_BOOKINGS + "(" +
@@ -88,7 +88,7 @@ public class DBHelper {
                     "menu varchar(10) not null," +
                     "have_soup INTEGER not null," +
                     "remark TEXT null" +
-                    ")";
+                    ");";
 
             // Insert table
             db.execSQL(MASTER_SQL);

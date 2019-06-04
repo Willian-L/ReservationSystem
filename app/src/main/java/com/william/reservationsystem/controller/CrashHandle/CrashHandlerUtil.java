@@ -7,7 +7,7 @@ import android.os.Build;
 
 import com.orhanobut.logger.Logger;
 import com.william.reservationsystem.BuildConfig;
-import com.william.reservationsystem.application.MyApplication;
+import com.william.reservationsystem.context.MyApplication;
 
 
 import java.io.PrintWriter;

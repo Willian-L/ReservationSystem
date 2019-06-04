@@ -3,7 +3,7 @@ package com.william.reservationsystem.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.william.reservationsystem.application.MyApplication;
+import com.william.reservationsystem.context.MyApplication;
 
 public class SharedPreferencesUtils {
     private SharedPreferences share;
