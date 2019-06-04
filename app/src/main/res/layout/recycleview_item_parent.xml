@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:paddingTop="5dp">
+
+    <ImageView
+        android:id="@+id/img_expend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_chevron_right_black_24dp" />
+
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="xxxx/xx/xx"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/parent_CountData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:textSize="20dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/parentTxt"/>
+
+    <TextView
+        android:id="@+id/parentTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-people"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toStartOf="@+id/img_expend"
+        android:textSize="18dp"/>
+
+    <View
+        android:id="@+id/parent_dashed_view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layerType="software"
+        android:layout_alignParentBottom="true"
+        android:background="#1fffffff"/>
+
+</RelativeLayout>
