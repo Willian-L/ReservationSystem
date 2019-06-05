@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -21,8 +22,10 @@ import android.widget.Toast;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.MasterHomepage.Fragment.DailyMenuFragment;
 import com.william.reservationsystem.controller.MasterHomepage.Fragment.UserInfoFragment;
+import com.william.reservationsystem.model.DataDailyMenu;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class HomepageForMasterActivity extends AppCompatActivity {
 
@@ -33,6 +36,8 @@ public class HomepageForMasterActivity extends AppCompatActivity {
     private ImageButton imgBtnAdd;
     private FragmentManager manager;
     private FragmentTransaction transaction;
+    private RecyclerView mRecycleView;
+    private List<DataDailyMenu> dataDailyMenuList;
 
 
     @Override

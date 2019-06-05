@@ -1,60 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:paddingTop="5dp">
-
-    <ImageView
-        android:id="@+id/img_expend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/ic_chevron_right_black_24dp" />
-
+    android:layout_height="60dp"
+    android:id="@+id/parent_container">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/parentDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:text="xxxx/xx/xx"
-        android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:text="xxxx/xx/xx"
         android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/parent_CountData"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00"
-        android:textSize="20dp"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/parentTxt"/>
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/parentTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-people"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_toStartOf="@+id/img_expend"
-        android:textSize="18dp"/>
+        <TextView
+            android:id="@+id/parent_CountData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/parentTxt"
+            android:text="00"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/parentTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:text="-people"
+            android:textSize="18dp" />
+
+        <ImageButton
+            android:id="@+id/parentEdit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toStartOf="@+id/img_expend"
+            android:background="@drawable/ic_edit_two"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/img_expend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_chevron_right_black_24dp" />
+
+    </LinearLayout>
+
 
     <View
         android:id="@+id/parent_dashed_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layerType="software"
         android:layout_alignParentBottom="true"
-        android:background="#1fffffff"/>
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#1fffffff"
+        android:layerType="software" />
+
 
 </RelativeLayout>

@@ -4,6 +4,8 @@ public class DataDailyMenu {
     public static final int PARENT_ITEM = 0;
     public static final int CHILD_ITEM = 1;
 
+    private int type;
+
     public int getType() {
         return type;
     }
@@ -44,83 +46,163 @@ public class DataDailyMenu {
         this.parentCountData = parentCountData;
     }
 
-    public String getChildMenuNumber() {
-        return childMenuNumber;
+    public String getChildMenuOne() {
+        return childMenuOne;
     }
 
-    public void setChildMenuNumber(String childMenuNumber) {
-        this.childMenuNumber = childMenuNumber;
+    public void setChildMenuOne(String childMenuOne) {
+        this.childMenuOne = childMenuOne;
     }
 
-    public String getChildDishes_one() {
-        return childDishes_one;
+    public String getChildOneDis_one() {
+        return childOneDis_one;
     }
 
-    public void setChildDishes_one(String childDishes_one) {
-        this.childDishes_one = childDishes_one;
+    public void setChildOneDis_one(String childOneDis_one) {
+        this.childOneDis_one = childOneDis_one;
     }
 
-    public String getChildDishes_two() {
-        return childDishes_two;
+    public String getChildOneDis_two() {
+        return childOneDis_two;
     }
 
-    public void setChildDishes_two(String childDishes_two) {
-        this.childDishes_two = childDishes_two;
+    public void setChildOneDis_two(String childOneDis_two) {
+        this.childOneDis_two = childOneDis_two;
     }
 
-    public String getcChildDishes_three() {
-        return cChildDishes_three;
+    public String getChildOneDis_three() {
+        return childOneDis_three;
     }
 
-    public void setcChildDishes_three(String cChildDishes_three) {
-        this.cChildDishes_three = cChildDishes_three;
+    public void setChildOneDis_three(String childOneDis_three) {
+        this.childOneDis_three = childOneDis_three;
     }
 
-    public String getChildDishes_four() {
-        return childDishes_four;
+    public String getChildOneDis_four() {
+        return childOneDis_four;
     }
 
-    public void setChildDishes_four(String childDishes_four) {
-        this.childDishes_four = childDishes_four;
+    public void setChildOneDis_four(String childOneDis_four) {
+        this.childOneDis_four = childOneDis_four;
     }
 
-    public String getChildSoup() {
-        return childSoup;
+    public String getChildOne_Soup() {
+        return childOne_Soup;
     }
 
-    public void setChildSoup(String childSoup) {
-        this.childSoup = childSoup;
+    public void setChildOne_Soup(String childOne_Soup) {
+        this.childOne_Soup = childOne_Soup;
     }
 
-    public String getChildCountData() {
-        return childCountData;
+    public String getChildOneCount() {
+        return childOneCount;
     }
 
-    public void setChildCountData(String childCountData) {
-        this.childCountData = childCountData;
+    public void setChildOneCount(String childOneCount) {
+        this.childOneCount = childOneCount;
     }
 
-    public String getChildCountDetail() {
-        return childCountDetail;
+    public String getChildOneDetail() {
+        return childOneDetail;
     }
 
-    public void setChildCountDetail(String childCountDetail) {
-        this.childCountDetail = childCountDetail;
+    public void setChildOneDetail(String childOneDetail) {
+        this.childOneDetail = childOneDetail;
     }
 
-    private int type;
+    public String getChildMenuTwo() {
+        return childMenuTwo;
+    }
+
+    public void setChildMenuTwo(String childMenuTwo) {
+        this.childMenuTwo = childMenuTwo;
+    }
+
+    public String getChildTwoDis_one() {
+        return childTwoDis_one;
+    }
+
+    public void setChildTwoDis_one(String childTwoDis_one) {
+        this.childTwoDis_one = childTwoDis_one;
+    }
+
+    public String getChildTwoDis_two() {
+        return childTwoDis_two;
+    }
+
+    public void setChildTwoDis_two(String childTwoDis_two) {
+        this.childTwoDis_two = childTwoDis_two;
+    }
+
+    public String getChildTwoDis_three() {
+        return childTwoDis_three;
+    }
+
+    public void setChildTwoDis_three(String childTwoDis_three) {
+        this.childTwoDis_three = childTwoDis_three;
+    }
+
+    public String getChildTwoDis_four() {
+        return childTwoDis_four;
+    }
+
+    public void setChildTwoDis_four(String childTwoDis_four) {
+        this.childTwoDis_four = childTwoDis_four;
+    }
+
+    public String getChildTwo_Soup() {
+        return childTwo_Soup;
+    }
+
+    public void setChildTwo_Soup(String childTwo_Soup) {
+        this.childTwo_Soup = childTwo_Soup;
+    }
+
+    public String getChildTwoCount() {
+        return childTwoCount;
+    }
+
+    public void setChildTwoCount(String childTwoCount) {
+        this.childTwoCount = childTwoCount;
+    }
+
+    public String getChildTwoDetail() {
+        return childTwoDetail;
+    }
+
+    public void setChildTwoDetail(String childTwoDetail) {
+        this.childTwoDetail = childTwoDetail;
+    }
+
     private boolean isExpand;
     private DataDailyMenu childMenu;
 
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    private String ID;
     private String date;
     private String parentCountData;
 
-    private String childMenuNumber;
-    private String childDishes_one;
-    private String childDishes_two;
-    private String cChildDishes_three;
-    private String childDishes_four;
-    private String childSoup;
-    private String childCountData;
-    private String childCountDetail;
+    private String childMenuOne;
+    private String childOneDis_one;
+    private String childOneDis_two;
+    private String childOneDis_three;
+    private String childOneDis_four;
+    private String childOne_Soup;
+    private String childOneCount;
+    private String childOneDetail;
+    private String childMenuTwo;
+    private String childTwoDis_one;
+    private String childTwoDis_two;
+    private String childTwoDis_three;
+    private String childTwoDis_four;
+    private String childTwo_Soup;
+    private String childTwoCount;
+    private String childTwoDetail;
 }

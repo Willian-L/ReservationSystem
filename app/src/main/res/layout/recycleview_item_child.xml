@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="35dp"
-    android:paddingRight="35dp">
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp">
 
     <RelativeLayout
         android:id="@+id/menu_one"
@@ -11,131 +11,88 @@
         android:layout_height="165dp"
         android:background="#50000000"
         android:paddingTop="10dp"
-        android:paddingBottom="5dp">
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="25dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/menu_oneTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="1"
-            android:textColor="#3fffffff"
-            android:textSize="50dp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/menu_oneTxt"
+                style="@style/menu_top"
+                android:text="1" />
 
             <LinearLayout
                 android:id="@+id/one_content"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/menu_oneTxt"
-                android:orientation="vertical">
+                style="@style/menu_content">
 
                 <TextView
                     android:id="@+id/one_Dishes_one"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
                     android:text="TextView"
-                    android:textSize="18dp" />
+                    style="@style/menu_item" />
 
                 <TextView
                     android:id="@+id/one_Dishes_two"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="TextView"
-                    android:textSize="18dp" />
+                    style="@style/menu_item"
+                    android:text="TextView" />
 
                 <TextView
                     android:id="@+id/one_Dishes_three"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="TextView"
-                    android:textSize="18dp" />
+                    style="@style/menu_item"
+                    android:text="TextView" />
 
                 <TextView
                     android:id="@+id/one_Dishes_four"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    style="@style/menu_item"
                     android:text="TextView"
-                    android:textSize="18dp"
                     android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/one_Soup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="TextView"
-                    android:textSize="18dp" />
+                    style="@style/menu_item"
+                    android:text="TextView" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="64dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="10dp"
-                android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/one_content"
-                android:orientation="vertical"
-                android:weightSum="2">
+                style="@style/menu_End">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
+                <LinearLayout style="@style/menu_End_top">
 
                     <TextView
                         android:id="@+id/menu_one_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="00" />
+                        android:text="00"
+                        style="@style/menu_End_count" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-people" />
+                        android:text="-people"
+                        style="@style/menu_End_countTxt" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/one_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
                     android:text="DETAIL"
-                    android:textStyle="bold" />
+                    style="@style/menu_End_bottom" />
 
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 
-
     <RelativeLayout
+        android:id="@+id/menu_two"
         android:layout_width="match_parent"
-        android:layout_height="175dp"
+        android:layout_height="160dp"
+        android:layout_alignTop="@+id/menu_one"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="165dp"
         android:background="#50000000"
-        android:paddingBottom="10dp"
-        android:visibility="gone">
-
+        android:paddingBottom="5dp"
+        android:visibility="gone"
+        android:layout_marginBottom="25dp"
+         >
         <View
             android:id="@+id/parent_dashed_view"
             android:layout_width="match_parent"
@@ -153,107 +110,63 @@
 
             <TextView
                 android:id="@+id/menu_twoTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:text="2"
-                android:textColor="#3fffffff"
-                android:textSize="50dp"
-                android:textStyle="bold" />
+                style="@style/menu_top"
+                android:text="2" />
 
             <LinearLayout
                 android:id="@+id/two_content"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/menu_twoTxt"
-                android:orientation="vertical">
+                style="@style/menu_content"
+                android:layout_toRightOf="@+id/menu_twoTxt">
 
                 <TextView
                     android:id="@+id/two_Dishes_one"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="TextView"
-                    android:textSize="18dp" />
+                    style="@style/menu_item"
+                    android:text="TextView" />
 
                 <TextView
                     android:id="@+id/two_Dishes_two"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="TextView"
-                    android:textSize="18dp" />
+                    style="@style/menu_item"
+                    android:text="TextView" />
 
                 <TextView
                     android:id="@+id/two_Dishes_three"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="TextView"
-                    android:textSize="18dp" />
+                    style="@style/menu_item"
+                    android:text="TextView" />
 
                 <TextView
                     android:id="@+id/two_Dishes_four"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    style="@style/menu_item"
                     android:text="TextView"
-                    android:textSize="18dp"
                     android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/two_Soup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="TextView"
-                    android:textSize="18dp" />
+                    style="@style/menu_item"
+                    android:text="TextView" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="64dp"
-                android:layout_height="60dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toEndOf="@+id/two_content"
-                android:orientation="vertical"
-                android:weightSum="2">
+                style="@style/menu_End"
+                android:layout_toEndOf="@+id/two_content">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
+                    style="@style/menu_End_top">
 
                     <TextView
                         android:id="@+id/menu_two_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/menu_End_count"
                         android:text="00" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-people" />
+                        android:text="-people"
+                        style="@style/menu_End_countTxt" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/two_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="DETAIL"
-                    android:textStyle="bold" />
+                    style="@style/menu_End_bottom"
+                    android:text="DETAIL" />
 
             </LinearLayout>
         </RelativeLayout>

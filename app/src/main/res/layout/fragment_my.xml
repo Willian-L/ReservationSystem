@@ -17,11 +17,11 @@
         <ImageButton
             android:id="@+id/userIbtn_edit"
             style="@style/ButtonStyle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            android:background="#10000000"
-            app:srcCompat="@android:drawable/ic_menu_edit" />
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_edit_two" />
     </RelativeLayout>
 
     <RelativeLayout
