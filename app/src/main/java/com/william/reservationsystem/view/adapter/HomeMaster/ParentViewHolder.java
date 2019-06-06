@@ -47,7 +47,6 @@ public class ParentViewHolder extends BaseViewHolder {
             expand.setRotation(90);
             parentDashedView.setVisibility(View.GONE);
             edit.setVisibility(View.VISIBLE);
-            containerLayout.setBackgroundResource(R.drawable.bg_menu_item);
         } else {
             expand.setRotation(0);
             parentDashedView.setVisibility(View.VISIBLE);
@@ -58,16 +57,20 @@ public class ParentViewHolder extends BaseViewHolder {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onHideChildren(dataDailyMenu);
-                    parentDashedView.setVisibility(View.VISIBLE);
-                    edit.setVisibility(View.GONE);
-                    dataDailyMenu.setExpand(false);
-                    rotationExpandIcon(90, 0);
-                } else {
-                    listener.onExpandChildren(dataDailyMenu);
-                    parentDashedView.setVisibility(View.INVISIBLE);
-                    dataDailyMenu.setExpand(true);
-                    rotationExpandIcon(0, 90);
+                    if (dataDailyMenu.isExpand()) {
+                        listener.onHideChildren(dataDailyMenu);
+                        parentDashedView.setVisibility(View.VISIBLE);
+                        edit.setVisibility(View.GONE);
+                        dataDailyMenu.setExpand(false);
+                        rotationExpandIcon(90, 0);
+                        containerLayout.setBackgroundResource(0);
+                    } else {
+                        listener.onExpandChildren(dataDailyMenu);
+                        parentDashedView.setVisibility(View.INVISIBLE);
+                        dataDailyMenu.setExpand(true);
+                        rotationExpandIcon(0, 90);
+                        containerLayout.setBackgroundResource(R.drawable.bg_menu_item);
+                    }
                 }
             }
         });

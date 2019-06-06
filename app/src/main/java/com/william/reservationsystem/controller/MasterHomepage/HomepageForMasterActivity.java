@@ -49,7 +49,7 @@ public class HomepageForMasterActivity extends AppCompatActivity {
 
         embed();
 
-        setDrawerLeftEdgeSize(this,mDrawerLayout,1);
+        setDrawerLeftEdgeSize(this,mDrawerLayout,0.5f);
 
         imgOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,8 +107,7 @@ public class HomepageForMasterActivity extends AppCompatActivity {
             // 设置新的边缘大小
             Point displaySize = new Point();
             activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
-            edgeSizeField.setInt(leftDragger, Math.max(edgeSize, (int) (displaySize.x *
-                    displayWidthPercentage)));
+            edgeSizeField.setInt(leftDragger, Math.max(edgeSize, (int) (displaySize.x * displayWidthPercentage)));
         } catch (NoSuchFieldException e) {
         } catch (IllegalArgumentException e) {
         } catch (IllegalAccessException e) {

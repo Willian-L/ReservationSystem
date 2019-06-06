@@ -5,6 +5,29 @@ public class DataDailyMenu {
     public static final int CHILD_ITEM = 1;
 
     private int type;
+    private boolean isExpand;
+    private DataDailyMenu childMenu;
+
+    private String parentCountData;
+    private String ID;
+    private String date;
+
+    private String childMenuOne;
+    private String childOneDis_one;
+    private String childOneDis_two;
+    private String childOneDis_three;
+    private String childOneDis_four;
+    private String childOne_Soup;
+    private String childOneCount;
+    private String childOneDetail;
+    private String childMenuTwo;
+    private String childTwoDis_one;
+    private String childTwoDis_two;
+    private String childTwoDis_three;
+    private String childTwoDis_four;
+    private String childTwo_Soup;
+    private String childTwoCount;
+    private String childTwoDetail;
 
     public int getType() {
         return type;
@@ -174,9 +197,6 @@ public class DataDailyMenu {
         this.childTwoDetail = childTwoDetail;
     }
 
-    private boolean isExpand;
-    private DataDailyMenu childMenu;
-
     public String getID() {
         return ID;
     }
@@ -184,25 +204,4 @@ public class DataDailyMenu {
     public void setID(String ID) {
         this.ID = ID;
     }
-
-    private String ID;
-    private String date;
-    private String parentCountData;
-
-    private String childMenuOne;
-    private String childOneDis_one;
-    private String childOneDis_two;
-    private String childOneDis_three;
-    private String childOneDis_four;
-    private String childOne_Soup;
-    private String childOneCount;
-    private String childOneDetail;
-    private String childMenuTwo;
-    private String childTwoDis_one;
-    private String childTwoDis_two;
-    private String childTwoDis_three;
-    private String childTwoDis_four;
-    private String childTwo_Soup;
-    private String childTwoCount;
-    private String childTwoDetail;
 }
