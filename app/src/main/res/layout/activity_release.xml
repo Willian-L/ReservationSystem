@@ -26,13 +26,14 @@
         <TextView
             android:id="@+id/textView"
             style="@style/release_title"
-            android:text="Edit Menu"
+            android:text="Publish Menu"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
+            android:id="@+id/push"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/ic_yes"
@@ -46,6 +47,7 @@
 
     <DatePicker
         style="@style/release_date"
+        android:id="@+id/push_data"
         android:layout_gravity="center"></DatePicker>
 
     <ScrollView
@@ -237,11 +239,13 @@
             </LinearLayout>
 
             <ImageButton
+                android:id="@+id/add_menu"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="100dp"
-                android:background="@drawable/ic_add_menu" />
+                android:background="@drawable/ic_add_menu"
+                android:onClick="newMenu"/>
 
         </LinearLayout>
 
