@@ -18,7 +18,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_master"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:background="#1bFFFFFF"
             android:fitsSystemWindows="true"
             android:minHeight="?attr/actionBarSize"
@@ -37,18 +37,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="20dp"
+                android:textSize="22dp"
                 android:textStyle="bold"
-                android:textColor="#ffffffff"
+                android:textColor="#88000000"
                 android:text="Daily Menu" />
 
             <ImageButton
                 android:id="@+id/imgBtn_add"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
-                android:background="@android:drawable/ic_menu_add" />
+                android:background="@drawable/ic_add_1"
+                android:onClick="toRelease" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -136,17 +137,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <!--<android.support.design.widget.NavigationView-->
-        <!--android:background="#5fffffff"-->
-        <!--android:id="@+id/navView_master"-->
-        <!--android:layout_width="250dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="left"-->
-        <!--android:fitsSystemWindows="true"-->
-        <!--app:headerLayout="@layout/drawer_layout_header"-->
-        <!--app:menu="">-->
-
-    <!--</android.support.design.widget.NavigationView>-->
 
 </android.support.v4.widget.DrawerLayout>

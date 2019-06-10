@@ -1,6 +1,7 @@
 package com.william.reservationsystem.controller.MasterHomepage;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Point;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -122,5 +123,10 @@ public class HomepageForMasterActivity extends AppCompatActivity {
         transaction = manager.beginTransaction();
         transaction.add(R.id.master_content, new DailyMenuFragment());
         transaction.commit();
+    }
+
+    public void toRelease(View view) {
+        Intent intent = new Intent(this,ReleaseActivity.class);
+        startActivity(intent);
     }
 }
