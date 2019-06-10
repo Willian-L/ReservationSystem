@@ -89,6 +89,7 @@ public class ReleaseActivity extends AppCompatActivity {
                     menu.setYear(year);
                     menu.setMonth(monthOfYear);
                     menu.setDay(dayOfMonth);
+                    menu.setDate(menu.getYear()+"/"+menu.getMonth()+"/"+menu.getDay());
                 }
             });
         }else {
@@ -101,11 +102,11 @@ public class ReleaseActivity extends AppCompatActivity {
                     menu.setYear(year);
                     menu.setMonth(monthOfYear);
                     menu.setDay(dayOfMonth);
+                    menu.setDate(menu.getYear() + "/" + menu.getMonth() + "/" + menu.getDay());
                     return false;
                 }
             });
         }
-        menu.setDate(menu.getYear()+"/"+menu.getMonth()+"/"+menu.getDay());
     }
 
     private void defaultDate() {
