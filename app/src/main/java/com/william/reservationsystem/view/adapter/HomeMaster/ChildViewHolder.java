@@ -11,10 +11,10 @@ import com.william.reservationsystem.R;
 import com.william.reservationsystem.model.DataDailyMenu;
 
 public class ChildViewHolder extends BaseViewHolder {
-    private Context context;
-    private View view;
-    private RelativeLayout menu_one, menu_two;
-    private TextView one_disOne, one_disTwo, one_disThree, one_disFour, one_soup,
+    public Context context;
+    public View view;
+    public RelativeLayout menu_one, menu_two;
+    public TextView one_disOne, one_disTwo, one_disThree, one_disFour, one_soup,
             two_disOne, two_disTwo, two_disThree, two_disFour, two_soup,
             one_count, two_count, one_detail, two_detail;
 

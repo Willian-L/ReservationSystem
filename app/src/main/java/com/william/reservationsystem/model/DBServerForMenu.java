@@ -48,6 +48,7 @@ public class DBServerForMenu {
 
     /**
      * Publish menu
+     *
      * @param day
      * @param menu
      * @param dishes_one
@@ -77,15 +78,32 @@ public class DBServerForMenu {
         return result;
     }
 
-    public Cursor select(String day, String menu){
+    public Cursor select() {
         Cursor cursor = null;
-        cursor = db.query(DB_TABLE, new String[]{KEY_DISHES_ONE, KEY_DISHES_TWO, KEY_DISHES_THREE, KEY_DISHES_FOUR, KEY_SOUP},
-                KEY_DAY + "='" + day + "' and " + KEY_MENU + "='" + menu + "'" , null, null, null, null);
+        cursor = db.query(DB_TABLE, new String[]{KEY_DAY, KEY_MENU, KEY_DISHES_ONE, KEY_DISHES_TWO, KEY_DISHES_THREE, KEY_DISHES_FOUR, KEY_SOUP},
+                null, null, null, null, null);
         return cursor;
     }
 
+    public int select(String day) {
+        Cursor cursor = null;
+        cursor = db.query(DB_TABLE, new String[]{KEY_MENU}, KEY_DAY + "='" + day + "'", null, null, null, null);
+        if (cursor.getCount() == 1) {
+            return 1;
+        } else if (cursor.getCount() == 2) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
 
-    public boolean update(String day, String menu, String dishes_one, String dishes_two, String dishes_three, String dishes_four, String soup){
+    public int selectDayCount() {
+        Cursor cursor = null;
+        cursor = db.query(DB_TABLE, new String[]{KEY_DAY}, null, null, KEY_DAY, null, null);
+        return cursor.getCount();
+    }
+
+    public boolean update(String day, String menu, String dishes_one, String dishes_two, String dishes_three, String dishes_four, String soup) {
         boolean result = false;
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_DAY, day);
@@ -95,7 +113,7 @@ public class DBServerForMenu {
         contentValues.put(KEY_DISHES_THREE, dishes_three);
         contentValues.put(KEY_DISHES_FOUR, dishes_four);
         contentValues.put(KEY_SOUP, soup);
-        int n = db.update(DB_TABLE, contentValues, KEY_DAY + "='" + day + "' and " + KEY_MENU + "='" + menu + "'" , null);
+        int n = db.update(DB_TABLE, contentValues, KEY_DAY + "='" + day + "' and " + KEY_MENU + "='" + menu + "'", null);
         if (n == 1) {
             result = true;
             Toast.makeText(context, "Update database succeeded", Toast.LENGTH_SHORT).show();
@@ -105,7 +123,7 @@ public class DBServerForMenu {
         return result;
     }
 
-    public boolean delete(String day, String menu){
+    public boolean delete(String day, String menu) {
         boolean result = false;
         int n = db.delete(DB_TABLE, KEY_DAY + "='" + day + "' and " + KEY_MENU + "='" + menu + "'", null);
         if (n == 1) {

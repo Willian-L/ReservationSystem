@@ -1,10 +1,11 @@
 package com.william.reservationsystem.controller.MasterHomepage;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
@@ -14,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.william.reservationsystem.R;
-import com.william.reservationsystem.model.DBServerForBookings;
 import com.william.reservationsystem.model.DBServerForMenu;
 import com.william.reservationsystem.model.Menus;
 
@@ -27,6 +27,8 @@ public class ReleaseActivity extends AppCompatActivity {
     private EditText edt_dish_1_1, edt_dish_1_2, edt_dish_1_3, edt_dish_1_4, edt_soup_1,
             edt_dish_2_1, edt_dish_2_2, edt_dish_2_3, edt_dish_2_4, edt_soup_2;
     private ImageButton confirm, add_menu;
+
+    private int tag = 0;
 
     Menus menu = new Menus();
 
@@ -47,38 +49,113 @@ public class ReleaseActivity extends AppCompatActivity {
         });
     }
 
-    private void push(){
-        DBServerForMenu db = new DBServerForMenu(getApplicationContext());
+    private void push() {
+        final DBServerForMenu db = new DBServerForMenu(getApplicationContext());
         db.open();
-        getDishesForOne();
-        menu.setMenu("menu_one");
-        db.insert(menu.getDate(),menu.getMenu(),menu.getDishes_one(),menu.getDishes_two(),menu.getDishes_three(),menu.getDishes_four(),menu.getSoup());
-        if (menu_two.getVisibility() == View.VISIBLE){
-            menu.setMenu("menu_two");
-            getDishesForTwo();
-            db.insert(menu.getDate(),menu.getMenu(),menu.getDishes_one(),menu.getDishes_two(),menu.getDishes_three(),menu.getDishes_four(),menu.getSoup());
+        if (db.select(menu.getDate()) == 0) {
+            if (!edt_dish_1_1.getText().toString().trim().equals("")) {
+                tag = 1;
+                if (menu_two.getVisibility() == View.VISIBLE) {
+                    if (!edt_dish_2_1.getText().toString().trim().equals("")) {
+                        tag = 2;
+                    }
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "the contents of the menu is empty", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "The date already has menus", Toast.LENGTH_LONG).show();
         }
-        db.close();
-        finish();
+
+        if (tag != 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            getDishesForOne();
+            builder.setTitle("Please confirm the contents of the menus");
+            builder.setMessage(dialogString());
+            builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    db.insert(menu.getDate(), menu.getMenu_one(), menu.getOne_dishes_one(), menu.getOne_dishes_two(), menu.getOne_dishes_three(), menu.getOne_dishes_four(), menu.getOne_soup());
+                    if (tag == 2) {
+                        db.insert(menu.getDate(), menu.getMenu_two(), menu.getTwo_dishes_one(), menu.getTwo_dishes_two(), menu.getTwo_dishes_three(), menu.getTwo_dishes_four(), menu.getTwo_soup());
+                    }
+                    db.close();
+                    finish();
+                }
+            });
+            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            builder.show();
+        }
     }
 
-    private void getDishesForOne(){
-        menu.setDishes_one(edt_dish_1_1.getText().toString().trim());
-        menu.setDishes_two(edt_dish_1_2.getText().toString().trim());
-        menu.setDishes_three(edt_dish_1_3.getText().toString().trim());
-        menu.setDishes_four(edt_dish_1_4.getText().toString().trim());
-        menu.setSoup(edt_soup_1.getText().toString().trim());
+    private void getDishesForOne() {
+        menu.setOne_dishes_one(edt_dish_1_1.getText().toString().trim());
+        menu.setOne_dishes_two(edt_dish_1_2.getText().toString().trim());
+        menu.setOne_dishes_three(edt_dish_1_3.getText().toString().trim());
+        menu.setOne_dishes_four(edt_dish_1_4.getText().toString().trim());
+        menu.setOne_soup(edt_soup_1.getText().toString().trim());
     }
 
-    private void getDishesForTwo(){
-        menu.setDishes_one(edt_dish_2_1.getText().toString().trim());
-        menu.setDishes_two(edt_dish_2_2.getText().toString().trim());
-        menu.setDishes_three(edt_dish_2_3.getText().toString().trim());
-        menu.setDishes_four(edt_dish_2_4.getText().toString().trim());
-        menu.setSoup(edt_soup_2.getText().toString().trim());
+    private void getDishesForTwo() {
+        menu.setTwo_dishes_one(edt_dish_2_1.getText().toString().trim());
+        menu.setTwo_dishes_two(edt_dish_2_2.getText().toString().trim());
+        menu.setTwo_dishes_three(edt_dish_2_3.getText().toString().trim());
+        menu.setTwo_dishes_four(edt_dish_2_4.getText().toString().trim());
+        menu.setTwo_soup(edt_soup_2.getText().toString().trim());
     }
 
-    private void getDate(){
+    private String dialogString() {
+        String message;
+        String one_dishes_two = "";
+        String one_dishes_three = "";
+        String one_dishes_four = "";
+        String one_soup = "";
+        getDishesForOne();
+        if (!menu.getOne_dishes_two().equals("")) {
+            one_dishes_two = "\n" + "\t\t\t\t②" + menu.getOne_dishes_two();
+        }
+        if (!menu.getOne_dishes_three().equals("")) {
+            one_dishes_three = "\n" + "\t\t\t\t③" + menu.getOne_dishes_three();
+        }
+        if (!menu.getOne_dishes_four().equals("")) {
+            one_dishes_four = "\n" + "\t\t\t\t④" + menu.getOne_dishes_four();
+        }
+        if (!menu.getOne_soup().equals("")) {
+            one_soup = "\n" + "SOUP\t-\t" + menu.getOne_soup();
+        }
+        message = "DATE\t\t-\t" + menu.getDate() + "\n\n" +
+                "MENU\t-\t" + menu.getMenu_one() + "\n" +
+                "DISHES\t-\t①" + menu.getOne_dishes_one() + one_dishes_two + one_dishes_three + one_dishes_four + one_soup;
+
+        if (tag == 2) {
+            getDishesForTwo();
+            String two_dishes_two = "";
+            String two_dishes_three = "";
+            String two_dishes_four = "";
+            String two_soup = "";
+            if (!menu.getTwo_dishes_two().equals("")) {
+                two_dishes_two = "\n" + "\t\t\t\t②" + menu.getTwo_dishes_two();
+            }
+            if (!menu.getTwo_dishes_three().equals("")) {
+                two_dishes_three = "\n" + "\t\t\t\t③" + menu.getTwo_dishes_three();
+            }
+            if (!menu.getTwo_dishes_four().equals("")) {
+                two_dishes_four = "\n" + "\t\t\t\t④" + menu.getTwo_dishes_four();
+            }
+            if (!menu.getTwo_soup().equals("")) {
+                two_soup = "\n" + "SOUP\t-\t" + menu.getTwo_soup();
+            }
+            message = message + "\n\n" + "MENU\t-\t" + menu.getMenu_two() + "\n" + "DISHES\t-\t①" + menu.getTwo_dishes_one() + two_dishes_two + two_dishes_three + two_dishes_four + two_soup;
+        }
+
+        return message;
+    }
+
+    private void getDate() {
         if (Build.VERSION.SDK_INT >= 26) {
             mData.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
                 @Override
@@ -86,23 +163,17 @@ public class ReleaseActivity extends AppCompatActivity {
                     year = mData.getYear();
                     monthOfYear = mData.getMonth();
                     dayOfMonth = mData.getDayOfMonth();
-                    menu.setYear(year);
-                    menu.setMonth(monthOfYear);
-                    menu.setDay(dayOfMonth);
-                    menu.setDate(menu.getYear()+"/"+menu.getMonth()+"/"+menu.getDay());
+                    menu.setDate(year + "/" + monthOfYear + "/" + dayOfMonth);
                 }
             });
-        }else {
+        } else {
             mData.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     int year = mData.getYear();
                     int monthOfYear = mData.getMonth();
                     int dayOfMonth = mData.getDayOfMonth();
-                    menu.setYear(year);
-                    menu.setMonth(monthOfYear);
-                    menu.setDay(dayOfMonth);
-                    menu.setDate(menu.getYear() + "/" + menu.getMonth() + "/" + menu.getDay());
+                    menu.setDate(year + "/" + monthOfYear + "/" + dayOfMonth);
                     return false;
                 }
             });
@@ -129,6 +200,8 @@ public class ReleaseActivity extends AppCompatActivity {
         }
 
         mData.updateDate(default_year, default_month, default_day);
+
+        menu.setDate(default_year + "/" + default_month + "/" + default_day);
     }
 
     private int getMonthLastDay() {

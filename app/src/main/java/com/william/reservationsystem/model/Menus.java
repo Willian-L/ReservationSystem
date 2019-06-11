@@ -1,7 +1,5 @@
 package com.william.reservationsystem.model;
 
-import java.sql.Date;
-
 public class Menus {
     public String getDate() {
         return date;
@@ -11,86 +9,105 @@ public class Menus {
         this.date = date;
     }
 
-    public int getYear() {
-        return year;
+    public String getMenu_one(){
+        return menu_one;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public String getMenu_two(){
+        return menu_two;
     }
 
-    public int getMonth() {
-        return month;
+    public String getOne_dishes_one() {
+        return one_dishes_one;
     }
 
-    public void setMonth(int month) {
-        this.month = month;
+    public void setOne_dishes_one(String one_dishes_one) {
+        this.one_dishes_one = one_dishes_one;
     }
 
-    public int getDay() {
-        return day;
+    public String getOne_dishes_two() {
+        return one_dishes_two;
     }
 
-    public void setDay(int day) {
-        this.day = day;
+    public void setOne_dishes_two(String one_dishes_two) {
+        this.one_dishes_two = one_dishes_two;
     }
 
-    public String getMenu() {
-        return menu;
+    public String getOne_dishes_three() {
+        return one_dishes_three;
     }
 
-    public void setMenu(String menu) {
-        this.menu = menu;
+    public void setOne_dishes_three(String one_dishes_three) {
+        this.one_dishes_three = one_dishes_three;
     }
 
-    public String getDishes_one() {
-        return dishes_one;
+    public String getOne_dishes_four() {
+        return one_dishes_four;
     }
 
-    public void setDishes_one(String dishes_one) {
-        this.dishes_one = dishes_one;
+    public void setOne_dishes_four(String one_dishes_four) {
+        this.one_dishes_four = one_dishes_four;
     }
 
-    public String getDishes_two() {
-        return dishes_two;
+    public String getOne_soup() {
+        return one_soup;
     }
 
-    public void setDishes_two(String dishes_two) {
-        this.dishes_two = dishes_two;
+    public void setOne_soup(String one_soup) {
+        this.one_soup = one_soup;
     }
 
-    public String getDishes_three() {
-        return dishes_three;
+    public String getTwo_dishes_one() {
+        return two_dishes_one;
     }
 
-    public void setDishes_three(String dishes_three) {
-        this.dishes_three = dishes_three;
+    public void setTwo_dishes_one(String two_dishes_one) {
+        this.two_dishes_one = two_dishes_one;
     }
 
-    public String getDishes_four() {
-        return dishes_four;
+    public String getTwo_dishes_two() {
+        return two_dishes_two;
     }
 
-    public void setDishes_four(String dishes_four) {
-        this.dishes_four = dishes_four;
+    public void setTwo_dishes_two(String two_dishes_two) {
+        this.two_dishes_two = two_dishes_two;
     }
 
-    public String getSoup() {
-        return soup;
+    public String getTwo_dishes_three() {
+        return two_dishes_three;
     }
 
-    public void setSoup(String soup) {
-        this.soup = soup;
+    public void setTwo_dishes_three(String two_dishes_three) {
+        this.two_dishes_three = two_dishes_three;
+    }
+
+    public String getTwo_dishes_four() {
+        return two_dishes_four;
+    }
+
+    public void setTwo_dishes_four(String two_dishes_four) {
+        this.two_dishes_four = two_dishes_four;
+    }
+
+    public String getTwo_soup() {
+        return two_soup;
+    }
+
+    public void setTwo_soup(String two_soup) {
+        this.two_soup = two_soup;
     }
 
     private String date;
-    private int year;
-    private int month;
-    private int day;
-    private String menu;
-    private String dishes_one;
-    private String dishes_two;
-    private String dishes_three;
-    private String dishes_four;
-    private String soup;
+    private final String menu_one = "One";
+    private final String menu_two = "Two";
+    private String one_dishes_one;
+    private String one_dishes_two;
+    private String one_dishes_three;
+    private String one_dishes_four;
+    private String one_soup;
+    private String two_dishes_one;
+    private String two_dishes_two;
+    private String two_dishes_three;
+    private String two_dishes_four;
+    private String two_soup;
 }

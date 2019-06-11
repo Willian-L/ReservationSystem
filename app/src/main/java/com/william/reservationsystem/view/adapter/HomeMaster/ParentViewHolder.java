@@ -43,6 +43,8 @@ public class ParentViewHolder extends BaseViewHolder {
         expand = view.findViewById(R.id.img_expend);
         parentDashedView = view.findViewById(R.id.parent_dashed_view);
 
+        date.setText(dataDailyMenu.getDate());
+
         if (dataDailyMenu.isExpand()) {
             expand.setRotation(90);
             parentDashedView.setVisibility(View.GONE);
