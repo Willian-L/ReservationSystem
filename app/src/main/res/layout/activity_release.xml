@@ -10,7 +10,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="#13ffffff">
+        android:background="@drawable/bg_title">
 
         <ImageButton
             android:id="@+id/imageButton"

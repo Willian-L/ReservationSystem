@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
@@ -44,6 +45,8 @@ public class ParentViewHolder extends BaseViewHolder {
         parentDashedView = view.findViewById(R.id.parent_dashed_view);
 
         date.setText(dataDailyMenu.getDate());
+
+        Log.i("get", dataDailyMenu.getDate());
 
         if (dataDailyMenu.isExpand()) {
             expand.setRotation(90);

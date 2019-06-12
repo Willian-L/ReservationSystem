@@ -11,6 +11,15 @@ public class DataDailyMenu {
     private String parentCountData;
     private String ID;
     private String date;
+    private boolean TwoView;
+
+    public boolean isTwoView() {
+        return TwoView;
+    }
+
+    public void setTwoView(boolean twoView) {
+        TwoView = twoView;
+    }
 
     private String childMenuOne;
     private String childOneDis_one;

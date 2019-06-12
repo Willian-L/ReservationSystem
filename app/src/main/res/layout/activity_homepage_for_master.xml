@@ -19,7 +19,7 @@
             android:id="@+id/toolbar_master"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:background="#1bFFFFFF"
+            android:background="@drawable/bg_title"
             android:fitsSystemWindows="true"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme">
@@ -65,7 +65,6 @@
     <LinearLayout
         android:id="@+id/linLay_near"
         android:layout_width="300dp"
-        android:background="#ffffff"
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:gravity="center_horizontal"

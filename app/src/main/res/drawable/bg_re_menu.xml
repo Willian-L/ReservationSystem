@@ -2,31 +2,31 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="#10ffffff"/>
+            <solid android:color="#10eeeeee"/>
             <corners android:radius="10dp"/>
         </shape>
     </item>
     <item android:bottom="1dp" android:right="1dp">
         <shape>
-            <solid android:color="#20ffffff"/>
+            <solid android:color="#20eeeeee"/>
             <corners android:radius="10dp"/>
         </shape>
     </item>
     <item android:bottom="2dp" android:right="1dp">
         <shape>
-            <solid android:color="#30ffffff"/>
+            <solid android:color="#30eeeeee"/>
             <corners android:radius="10dp"/>
         </shape>
     </item>
     <item android:bottom="3dp" android:right="2dp">
         <shape>
-            <solid android:color="#40ffffff"/>
+            <solid android:color="#40eeeeee"/>
             <corners android:radius="10dp"/>
         </shape>
     </item>
     <item android:bottom="4dp" android:right="3dp">
         <shape>
-            <solid android:color="#30ffffff"/>
+            <solid android:color="#30eeeeee"/>
             <corners android:radius="10dp"/>
         </shape>
     </item>

@@ -12,7 +12,7 @@
     <string name="reset_initem_password">Please enter your new password：</string>
     <string name="reset_ver_initem_username">Please confirm your user name</string>
     <string name="reset_ver_initem_code">Please enter the verification code</string>
-    <string name="login_title">User Login</string>
+    <string name="login_title">WELCOME</string>
     <string name="login_radio_user">User</string>
     <string name="login_redio_master">Master</string>
     <string name="login_btn_into">LOGIN</string>

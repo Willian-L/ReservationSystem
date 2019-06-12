@@ -116,6 +116,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private DataDailyMenu getChildDataDailyMenu(DataDailyMenu data) {
         DataDailyMenu child = new DataDailyMenu();
         child.setType(1);
+        child.setChildOneDis_one(data.getChildOneDis_one());
+        child.setChildOneDis_two(data.getChildOneDis_two());
+        child.setChildOneDis_three(data.getChildOneDis_three());
+        child.setChildOneDis_four(data.getChildOneDis_four());
+        child.setChildOne_Soup(data.getChildOne_Soup());
+        child.setChildTwoDis_one(data.getChildTwoDis_one());
+        child.setChildTwoDis_two(data.getChildTwoDis_two());
+        child.setChildTwoDis_three(data.getChildTwoDis_three());
+        child.setChildTwoDis_four(data.getChildTwoDis_four());
+        child.setChildTwo_Soup(data.getChildTwo_Soup());
+        child.setTwoView(data.isTwoView());
         return child;
     }
 

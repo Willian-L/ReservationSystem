@@ -16,7 +16,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -44,9 +44,10 @@
         android:inputType="textPassword" />
 
     <RelativeLayout
-        android:layout_width="300dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
 
         <CheckBox
             android:id="@+id/loginCb_Remember"
@@ -55,7 +56,8 @@
             android:layout_alignParentLeft="true"
             android:gravity="center"
             android:text="Remember Me"
-            android:textColor="#A0000000" />
+            android:textColor="#80000000"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/register"
@@ -64,7 +66,9 @@
             android:layout_centerVertical="true"
             android:gravity="right"
             android:onClick="register"
-            android:text="@string/login_btn_toregister" />
+            android:text="@string/login_btn_toregister"
+            android:textColor="#80000000"
+            android:textSize="15dp" />
 
     </RelativeLayout>
 
@@ -73,8 +77,8 @@
         style="@style/ButtonStyle"
         android:layout_width="250dp"
         android:layout_marginTop="20dp"
-        android:text="@string/login_btn_into"
-        android:onClick="btnlogin"/>
+        android:onClick="btnlogin"
+        android:text="@string/login_btn_into" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -86,10 +90,10 @@
             android:id="@+id/imgBtn_scan"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@mipmap/ic_scan"
             android:layout_gravity="center_horizontal"
-            android:onClick="scanMethod"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/ic_scan"
+            android:onClick="scanMethod" />
     </LinearLayout>
 
     <TextView
@@ -98,6 +102,9 @@
         android:layout_marginBottom="20dp"
         android:gravity="left"
         android:onClick="forgot"
-        android:text="@string/login_btn_toreset" />
+        android:text="@string/login_btn_toreset"
+
+        android:textColor="#80000000"
+        android:textSize="15dp" />
 
 </LinearLayout>

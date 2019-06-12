@@ -7,12 +7,10 @@
 
     <RelativeLayout
         android:id="@+id/menu_one"
-        android:layout_width="match_parent"
-        android:layout_height="165dp"
-        android:background="#50000000"
+        style="@style/menu_layout"
+        android:layout_marginBottom="10dp"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:layout_marginBottom="10dp">
+        android:paddingBottom="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,40 +21,67 @@
                 style="@style/menu_top"
                 android:text="1" />
 
+            <View
+                android:id="@+id/view_one"
+                style="@style/view_show_menu"
+                android:layout_toRightOf="@+id/menu_oneTxt" />
+
             <LinearLayout
-                android:id="@+id/one_content"
-                android:layout_toRightOf="@+id/menu_oneTxt"
-                style="@style/menu_content">
+                android:layout_toEndOf="@+id/view_one"
+                android:layout_toStartOf="@+id/menu_end_one"
+                style="@style/menu_content_layout">
 
-                <TextView
-                    android:id="@+id/one_Dishes_one"
-                    android:text="TextView"
-                    style="@style/menu_item" />
 
-                <TextView
-                    android:id="@+id/one_Dishes_two"
-                    style="@style/menu_item"
-                    android:text="TextView" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/one_Dishes_three"
-                    style="@style/menu_item"
-                    android:text="TextView" />
+                    <TextView
+                        android:text="D"
+                        style="@style/menu_content_text" />
 
-                <TextView
-                    android:id="@+id/one_Dishes_four"
-                    style="@style/menu_item"
-                    android:text="TextView"
-                    android:visibility="gone" />
+                    <LinearLayout
+                        android:id="@+id/one_content"
+                        style="@style/menu_content">
 
-                <TextView
-                    android:id="@+id/one_Soup"
-                    style="@style/menu_item"
-                    android:text="TextView" />
+                        <TextView
+                            android:id="@+id/one_Dishes_one"
+                            style="@style/menu_item" />
 
+                        <TextView
+                            android:id="@+id/one_Dishes_two"
+                            style="@style/menu_item" />
+
+                        <TextView
+                            android:id="@+id/one_Dishes_three"
+                            style="@style/menu_item" />
+
+                        <TextView
+                            android:id="@+id/one_Dishes_four"
+                            style="@style/menu_item" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/menu_content_text"
+                            android:text="S"/>
+
+                    <TextView
+                        android:id="@+id/one_Soup"
+                        style="@style/menu_item" />
+                </LinearLayout>
             </LinearLayout>
 
+
             <LinearLayout
+                android:id="@+id/menu_end_one"
                 style="@style/menu_End"
                 android:layout_width="65dp"
                 android:layout_height="50dp"
@@ -85,16 +110,13 @@
 
     <RelativeLayout
         android:id="@+id/menu_two"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
+        style="@style/menu_layout"
         android:layout_alignTop="@+id/menu_one"
         android:layout_alignParentTop="true"
         android:layout_marginTop="165dp"
-        android:background="#50000000"
-        android:paddingBottom="5dp"
-        android:visibility="gone"
         android:layout_marginBottom="10dp"
-         >
+        android:paddingBottom="5dp">
+
         <View
             android:id="@+id/parent_dashed_view"
             android:layout_width="match_parent"
@@ -115,47 +137,72 @@
                 style="@style/menu_top"
                 android:text="2" />
 
+            <View
+                android:id="@+id/view_two"
+                style="@style/view_show_menu"
+                android:layout_toRightOf="@+id/menu_twoTxt" />
+
             <LinearLayout
-                android:id="@+id/two_content"
-                style="@style/menu_content"
-                android:layout_toRightOf="@+id/menu_twoTxt">
+                android:layout_toEndOf="@+id/view_two"
+                android:layout_toStartOf="@+id/menu_end_two"
+                style="@style/menu_content_layout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/two_Dishes_one"
-                    style="@style/menu_item"
-                    android:text="TextView" />
+                    android:text="D"
+                    style="@style/menu_content_text" />
 
-                <TextView
-                    android:id="@+id/two_Dishes_two"
-                    style="@style/menu_item"
-                    android:text="TextView" />
+                <LinearLayout
+                    android:id="@+id/two_content"
+                    style="@style/menu_content"
+                    android:gravity="top|left">
 
-                <TextView
-                    android:id="@+id/two_Dishes_three"
-                    style="@style/menu_item"
-                    android:text="TextView" />
+                    <TextView
+                        android:id="@+id/two_Dishes_one"
+                        style="@style/menu_item" />
 
-                <TextView
-                    android:id="@+id/two_Dishes_four"
-                    style="@style/menu_item"
-                    android:text="TextView"
-                    android:visibility="gone" />
+                    <TextView
+                        android:id="@+id/two_Dishes_two"
+                        style="@style/menu_item" />
 
-                <TextView
-                    android:id="@+id/two_Soup"
-                    style="@style/menu_item"
-                    android:text="TextView" />
+                    <TextView
+                        android:id="@+id/two_Dishes_three"
+                        style="@style/menu_item" />
 
+                    <TextView
+                        android:id="@+id/two_Dishes_four"
+                        style="@style/menu_item" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/menu_content_text"
+                        android:text="S"/>
+
+                    <TextView
+                        android:id="@+id/two_Soup"
+                        style="@style/menu_item" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/menu_end_two"
                 style="@style/menu_End"
                 android:layout_width="65dp"
                 android:layout_height="50dp"
                 android:layout_marginRight="10dp">
 
-                <LinearLayout
-                    style="@style/menu_End_top">
+                <LinearLayout style="@style/menu_End_top">
 
                     <TextView
                         android:id="@+id/menu_two_count"
@@ -163,8 +210,8 @@
                         android:text="00" />
 
                     <TextView
-                        android:text="-people"
-                        style="@style/menu_End_countTxt" />
+                        style="@style/menu_End_countTxt"
+                        android:text="-people" />
                 </LinearLayout>
 
                 <TextView

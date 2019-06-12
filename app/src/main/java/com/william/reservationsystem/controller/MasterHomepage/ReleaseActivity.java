@@ -75,10 +75,10 @@ public class ReleaseActivity extends AppCompatActivity {
             builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    db.insert(menu.getDate(), menu.getMenu_one(), menu.getOne_dishes_one(), menu.getOne_dishes_two(), menu.getOne_dishes_three(), menu.getOne_dishes_four(), menu.getOne_soup());
                     if (tag == 2) {
                         db.insert(menu.getDate(), menu.getMenu_two(), menu.getTwo_dishes_one(), menu.getTwo_dishes_two(), menu.getTwo_dishes_three(), menu.getTwo_dishes_four(), menu.getTwo_soup());
                     }
+                    db.insert(menu.getDate(), menu.getMenu_one(), menu.getOne_dishes_one(), menu.getOne_dishes_two(), menu.getOne_dishes_three(), menu.getOne_dishes_four(), menu.getOne_soup());
                     db.close();
                     finish();
                 }
@@ -183,7 +183,7 @@ public class ReleaseActivity extends AppCompatActivity {
     private void defaultDate() {
         Calendar calendar = Calendar.getInstance();
         int default_year = calendar.get(Calendar.YEAR);
-        int default_month = calendar.get(Calendar.MONTH) + 1;
+        int default_month = calendar.get(Calendar.MONTH);
         int default_day = calendar.get(Calendar.DAY_OF_MONTH);
 
         getMonthLastDay();
