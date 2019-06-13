@@ -100,7 +100,6 @@ public class MyFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 email_suffix = email_suf;
-                Log.i("email_suf", email_suffix + "");
             }
         });
 

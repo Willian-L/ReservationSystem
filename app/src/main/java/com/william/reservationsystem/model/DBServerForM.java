@@ -79,10 +79,9 @@ public class DBServerForM {
         boolean result = false;
         Cursor cursor = null;
         // Get a cursor object
-        cursor = db.query("master", new String[]{"password"},
-                "username='" + username + "'",
+        cursor = db.query("master", new String[]{},
+                "username='" + username + "'and password='" + password + "'",
                 null, null, null, null);
-        Log.i("login", "cursor" + cursor.getCount());
         if (cursor.getCount() > 0) {
             result = true;
         }

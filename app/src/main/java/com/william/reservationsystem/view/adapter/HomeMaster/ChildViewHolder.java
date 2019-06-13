@@ -54,8 +54,6 @@ public class ChildViewHolder extends BaseViewHolder {
         two_disFour.setText(dataDailyMenu.getChildTwoDis_four());
         two_soup.setText(dataDailyMenu.getChildTwo_Soup());
 
-
-
         if (dataDailyMenu.isTwoView()){
             menu_two.setVisibility(View.VISIBLE);
         } else {

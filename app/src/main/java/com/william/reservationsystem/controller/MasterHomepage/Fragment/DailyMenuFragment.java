@@ -90,6 +90,12 @@ public class DailyMenuFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
     private void setData() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new RecyclerAdapter(getContext(), dataDailyMenuList);

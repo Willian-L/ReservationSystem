@@ -23,21 +23,24 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/parent_CountData"
+            android:id="@+id/parentTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/parentTxt"
-            android:text="00"
-            android:textSize="20dp" />
+
+            android:text="Qty."
+            android:textSize="18dp" />
 
         <TextView
-            android:id="@+id/parentTxt"
+            android:id="@+id/parent_CountData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:text="-people"
-            android:textSize="18dp" />
+            android:layout_toStartOf="@+id/parentTxt"
+            android:text="00"
+            android:textSize="20dp" />
+
+
 
         <ImageButton
             android:id="@+id/parentEdit"
@@ -49,8 +52,19 @@
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:layout_toStartOf="@+id/img_expend"
-            android:background="@drawable/ic_edit_two"
-            android:visibility="gone" />
+            android:background="@drawable/ic_edit_two"/>
+
+        <ImageButton
+            android:id="@+id/parentDelete"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toStartOf="@+id/img_expend"
+            android:background="@drawable/ic_delete"/>
 
         <ImageView
             android:id="@+id/img_expend"

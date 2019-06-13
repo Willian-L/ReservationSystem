@@ -85,9 +85,9 @@ public class DBServerForMenu {
         return cursor;
     }
 
-    public int select(String day) {
+    public int select(String date) {
         Cursor cursor = null;
-        cursor = db.query(DB_TABLE, new String[]{KEY_MENU}, KEY_DAY + "='" + day + "'", null, null, null, null);
+        cursor = db.query(DB_TABLE, new String[]{KEY_MENU}, KEY_DAY + "='" + date + "'", null, null, null, null);
         if (cursor.getCount() == 1) {
             return 1;
         } else if (cursor.getCount() == 2) {
@@ -95,6 +95,13 @@ public class DBServerForMenu {
         } else {
             return 0;
         }
+    }
+
+    public Cursor selectByDate(String date) {
+        Cursor cursor = null;
+        cursor = db.query(DB_TABLE, new String[]{KEY_DAY, KEY_MENU, KEY_DISHES_ONE, KEY_DISHES_TWO, KEY_DISHES_THREE, KEY_DISHES_FOUR, KEY_SOUP},
+                KEY_DAY + "='" + date + "'", null, null, null, null);
+        return cursor;
     }
 
     public int selectDayCount() {
@@ -113,7 +120,7 @@ public class DBServerForMenu {
         contentValues.put(KEY_DISHES_THREE, dishes_three);
         contentValues.put(KEY_DISHES_FOUR, dishes_four);
         contentValues.put(KEY_SOUP, soup);
-        int n = db.update(DB_TABLE, contentValues, KEY_DAY + "='" + day + "' and " + KEY_MENU + "='" + menu + "'", null);
+        int n = db.update(DB_TABLE, contentValues, KEY_DAY + "='" + day + "'", null);
         if (n == 1) {
             result = true;
             Toast.makeText(context, "Update database succeeded", Toast.LENGTH_SHORT).show();
@@ -123,10 +130,10 @@ public class DBServerForMenu {
         return result;
     }
 
-    public boolean delete(String day, String menu) {
+    public boolean delete(String day) {
         boolean result = false;
-        int n = db.delete(DB_TABLE, KEY_DAY + "='" + day + "' and " + KEY_MENU + "='" + menu + "'", null);
-        if (n == 1) {
+        int n = db.delete(DB_TABLE, KEY_DAY + "='" + day + "'", null);
+        if (n != 0) {
             result = true;
             Toast.makeText(context, "Delete succeeded", Toast.LENGTH_SHORT).show();
         }

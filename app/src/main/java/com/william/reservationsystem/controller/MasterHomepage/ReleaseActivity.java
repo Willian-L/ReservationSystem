@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
@@ -40,16 +41,9 @@ public class ReleaseActivity extends AppCompatActivity {
         init();
         defaultDate();
         getDate();
-
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                push();
-            }
-        });
     }
 
-    private void push() {
+    public void push(View view) {
         final DBServerForMenu db = new DBServerForMenu(getApplicationContext());
         db.open();
         if (db.select(menu.getDate()) == 0) {
@@ -116,20 +110,20 @@ public class ReleaseActivity extends AppCompatActivity {
         String one_soup = "";
         getDishesForOne();
         if (!menu.getOne_dishes_two().equals("")) {
-            one_dishes_two = "\n" + "\t\t\t\t②" + menu.getOne_dishes_two();
+            one_dishes_two = "\n" + "\t\t②" + menu.getOne_dishes_two();
         }
         if (!menu.getOne_dishes_three().equals("")) {
-            one_dishes_three = "\n" + "\t\t\t\t③" + menu.getOne_dishes_three();
+            one_dishes_three = "\n" + "\t\t③" + menu.getOne_dishes_three();
         }
         if (!menu.getOne_dishes_four().equals("")) {
-            one_dishes_four = "\n" + "\t\t\t\t④" + menu.getOne_dishes_four();
+            one_dishes_four = "\n" + "\t\t④" + menu.getOne_dishes_four();
         }
         if (!menu.getOne_soup().equals("")) {
-            one_soup = "\n" + "SOUP\t-\t" + menu.getOne_soup();
+            one_soup = "\n" + "SOUP\n\t\t" + menu.getOne_soup();
         }
         message = "DATE\t\t-\t" + menu.getDate() + "\n\n" +
                 "MENU\t-\t" + menu.getMenu_one() + "\n" +
-                "DISHES\t-\t①" + menu.getOne_dishes_one() + one_dishes_two + one_dishes_three + one_dishes_four + one_soup;
+                "DISHES\n\t\t①" + menu.getOne_dishes_one() + one_dishes_two + one_dishes_three + one_dishes_four + one_soup;
 
         if (tag == 2) {
             getDishesForTwo();
@@ -138,18 +132,18 @@ public class ReleaseActivity extends AppCompatActivity {
             String two_dishes_four = "";
             String two_soup = "";
             if (!menu.getTwo_dishes_two().equals("")) {
-                two_dishes_two = "\n" + "\t\t\t\t②" + menu.getTwo_dishes_two();
+                two_dishes_two = "\n" + "\t\t②" + menu.getTwo_dishes_two();
             }
             if (!menu.getTwo_dishes_three().equals("")) {
-                two_dishes_three = "\n" + "\t\t\t\t③" + menu.getTwo_dishes_three();
+                two_dishes_three = "\n" + "\t\t③" + menu.getTwo_dishes_three();
             }
             if (!menu.getTwo_dishes_four().equals("")) {
-                two_dishes_four = "\n" + "\t\t\t\t④" + menu.getTwo_dishes_four();
+                two_dishes_four = "\n" + "\t\t④" + menu.getTwo_dishes_four();
             }
             if (!menu.getTwo_soup().equals("")) {
-                two_soup = "\n" + "SOUP\t-\t" + menu.getTwo_soup();
+                two_soup = "\n" + "SOUP\n\t\t" + menu.getTwo_soup();
             }
-            message = message + "\n\n" + "MENU\t-\t" + menu.getMenu_two() + "\n" + "DISHES\t-\t①" + menu.getTwo_dishes_one() + two_dishes_two + two_dishes_three + two_dishes_four + two_soup;
+            message = message + "\n\n" + "MENU\t-\t" + menu.getMenu_two() + "\n" + "DISHES\n\t\t①" + menu.getTwo_dishes_one() + two_dishes_two + two_dishes_three + two_dishes_four + two_soup;
         }
 
         return message;
@@ -161,7 +155,7 @@ public class ReleaseActivity extends AppCompatActivity {
                 @Override
                 public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     year = mData.getYear();
-                    monthOfYear = mData.getMonth();
+                    monthOfYear = mData.getMonth() + 1;
                     dayOfMonth = mData.getDayOfMonth();
                     menu.setDate(year + "/" + monthOfYear + "/" + dayOfMonth);
                 }
@@ -171,7 +165,7 @@ public class ReleaseActivity extends AppCompatActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     int year = mData.getYear();
-                    int monthOfYear = mData.getMonth();
+                    int monthOfYear = mData.getMonth() + 1;
                     int dayOfMonth = mData.getDayOfMonth();
                     menu.setDate(year + "/" + monthOfYear + "/" + dayOfMonth);
                     return false;
@@ -183,7 +177,7 @@ public class ReleaseActivity extends AppCompatActivity {
     private void defaultDate() {
         Calendar calendar = Calendar.getInstance();
         int default_year = calendar.get(Calendar.YEAR);
-        int default_month = calendar.get(Calendar.MONTH);
+        int default_month = calendar.get(Calendar.MONTH) + 1;
         int default_day = calendar.get(Calendar.DAY_OF_MONTH);
 
         getMonthLastDay();
@@ -199,7 +193,7 @@ public class ReleaseActivity extends AppCompatActivity {
             default_day = 1;
         }
 
-        mData.updateDate(default_year, default_month, default_day);
+        mData.updateDate(default_year, default_month - 1, default_day);
 
         menu.setDate(default_year + "/" + default_month + "/" + default_day);
     }
