@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.william.reservationsystem.R;
-import com.william.reservationsystem.context.MyApplication;
 import com.william.reservationsystem.model.DataDailyMenu;
 
 import java.util.List;
@@ -43,11 +42,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder baseViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final BaseViewHolder baseViewHolder, final int i) {
         switch (getItemViewType(i)) {
             case DataDailyMenu.PARENT_ITEM:
                 ParentViewHolder parentViewHolder = (ParentViewHolder) baseViewHolder;
                 parentViewHolder.bindView(dataDailyMenuList.get(i), i, itemClickListener);
+                parentViewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        remove(i);
+                    }
+                });
                 break;
             case DataDailyMenu.CHILD_ITEM:
                 ChildViewHolder childViewHolder = (ChildViewHolder) baseViewHolder;
@@ -99,7 +104,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyItemInserted(position);
     }
 
-    protected void remove(int position) {
+    public void remove(int position) {
         dataDailyMenuList.remove(position);
         notifyItemRemoved(position);
     }

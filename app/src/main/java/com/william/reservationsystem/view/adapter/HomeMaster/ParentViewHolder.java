@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.MasterHomepage.EditMenuActivity;
+import com.william.reservationsystem.model.DBServerForM;
+import com.william.reservationsystem.model.DBServerForMenu;
 import com.william.reservationsystem.model.DataDailyMenu;
 
 /**
@@ -25,7 +27,7 @@ public class ParentViewHolder extends BaseViewHolder {
     private View view;
     private RelativeLayout containerLayout;
     private TextView date, count;
-    private ImageButton edit, delete;
+    public ImageButton edit, delete;
     private ImageView expand;
     private View parentDashedView;
 
