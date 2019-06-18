@@ -46,9 +46,6 @@ public class UserLoginActivity extends AppCompatActivity{
     CheckBox checkRemember;
     ImageButton imgBtnScan;
 
-    private String username;
-    private String password;
-
     User user = new User();
     Master master = new Master();
 
@@ -84,16 +81,13 @@ public class UserLoginActivity extends AppCompatActivity{
     private void checkAutoLogin(CheckBox checkRemember, EditText edtUsername, EditText edtPassword) {
         String username = SharedPreferencesUtils.getInstance().getString(SharedPreferencesUtils.USER_NAME, "");
         String password = SharedPreferencesUtils.getInstance().getString(SharedPreferencesUtils.PASSWORD, "");
-        edtUsername.setText(username);
-        edtPassword.setText(password);
-
-        if (TextUtils.isEmpty(edtUsername.getText().toString())) {
+        if (TextUtils.isEmpty(username)) {
             checkRemember.setChecked(false);
+            edtUsername.setText(null);
             edtPassword.setText(null);
         } else {
             checkRemember.setChecked(true);
-            Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
-            startActivity(intent);
+            login(username,password);
             finish();
         }
     }
@@ -102,16 +96,19 @@ public class UserLoginActivity extends AppCompatActivity{
      * The login button
      */
     public void btnlogin(View view) {
-        username = edtUsername.getText().toString().trim();
-        password = edtPassword.getText().toString().trim();
+        String username = edtUsername.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+        login(username,password);
+    }
 
+    public void login(String username, String password){
         if (!username.equals("") && !password.equals("")) {
-            if (MasterLogin()) {
+            if (MasterLogin(username, password)) {
                 Intent intent = new Intent(UserLoginActivity.this, HomepageForMasterActivity.class);
                 startActivity(intent);
                 finish();
             } else {
-                UserLogin();
+                UserLogin(username, password);
             }
         } else if (!username.equals("") && password.equals("")) {
             Toast.makeText(getApplicationContext(),
@@ -125,17 +122,14 @@ public class UserLoginActivity extends AppCompatActivity{
     /**
      * User login method
      */
-    private void UserLogin() {
+    private void UserLogin(String username, String password) {
         int getResult = 0;
         // Get the username and password
-        user.setUsername(edtUsername.getText().toString().trim());
-        user.setPassword(edtPassword.getText().toString().trim());
+        user.setUsername(username);
+        user.setPassword(password);
         DBServerForU dbServerForU = new DBServerForU(getApplicationContext());
         dbServerForU.open();
-        Log.i("eab", edtUsername.getText().toString() + edtPassword.getText().toString());
-                        /*
-                        Determine whether the username and password match the one in the database
-                         */
+        // Determine whether the username and password match the one in the database
         getResult = dbServerForU.login(user.getUsername(), user.getPassword());
         switch (getResult) {
             case 2:
@@ -166,7 +160,7 @@ public class UserLoginActivity extends AppCompatActivity{
     /**
      * Master login method
      */
-    private boolean MasterLogin() {
+    private boolean MasterLogin(String username, String password) {
         boolean result = false;
         master.setUsername(username);
         master.setPassword(password);
@@ -174,6 +168,12 @@ public class UserLoginActivity extends AppCompatActivity{
         dbServerForM.open();
         if (dbServerForM.login(master.getUsername(), master.getPassword())) {
             dbServerForM.close();
+            if (checkRemember.isChecked()) {
+                SharedPreferencesUtils.getInstance().putString(SharedPreferencesUtils.USER_NAME, master.getUsername());
+                SharedPreferencesUtils.getInstance().putString(SharedPreferencesUtils.PASSWORD, master.getPassword());
+            } else {
+                SharedPreferencesUtils.getInstance().clear();
+            }
             result = true;
         }
         dbServerForM.close();

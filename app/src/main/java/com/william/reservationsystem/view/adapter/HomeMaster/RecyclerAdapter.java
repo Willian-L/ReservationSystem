@@ -3,12 +3,15 @@ package com.william.reservationsystem.view.adapter.HomeMaster;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.william.reservationsystem.R;
+import com.william.reservationsystem.model.DBServerForMenu;
 import com.william.reservationsystem.model.DataDailyMenu;
+import com.william.reservationsystem.model.Menus;
 
 import java.util.List;
 
@@ -41,18 +44,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull final BaseViewHolder baseViewHolder, final int i) {
         switch (getItemViewType(i)) {
             case DataDailyMenu.PARENT_ITEM:
-                ParentViewHolder parentViewHolder = (ParentViewHolder) baseViewHolder;
+                final ParentViewHolder parentViewHolder = (ParentViewHolder) baseViewHolder;
                 parentViewHolder.bindView(dataDailyMenuList.get(i), i, itemClickListener);
-                parentViewHolder.delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        remove(i);
-                    }
-                });
                 break;
             case DataDailyMenu.CHILD_ITEM:
                 ChildViewHolder childViewHolder = (ChildViewHolder) baseViewHolder;
@@ -60,6 +59,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 break;
         }
     }
+
 
     @Override
     public int getItemCount() {
@@ -74,8 +74,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private ItemClickListener itemClickListener = new ItemClickListener() {
         @Override
         public void onExpandChildren(DataDailyMenu data) {
+
             int position = getCurrenPosition(data.getID());
             DataDailyMenu child = getChildDataDailyMenu(data);
+
             if (child == null) {
                 return;
             }

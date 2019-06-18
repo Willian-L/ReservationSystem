@@ -101,6 +101,7 @@ public class DailyMenuFragment extends Fragment {
         mAdapter = new RecyclerAdapter(getContext(), dataDailyMenuList);
         mRecyclerView.setAdapter(mAdapter);
 
+
         mAdapter.setOnScrollListener(new RecyclerAdapter.OnScrollListener() {
             @Override
             public void scrollTo(int pos) {

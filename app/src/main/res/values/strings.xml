@@ -24,7 +24,7 @@
     <string name="homepage_txt_shopping">SHOPPING</string>
     <string name="fragment_title_my">My Information</string>
     <string name="fragment_title_shopping">Shopping Car</string>
-    <string name="fragment_title_order">CATE</string>
+    <string name="fragment_title_order">Take Order</string>
 
     <string name="initem_username">Username：</string>
     <string name="initem_password">Password：</string>

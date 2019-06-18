@@ -1,6 +1,7 @@
 package com.william.reservationsystem.view.adapter.HomeMaster;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.MasterHomepage.EditMenuActivity;
+import com.william.reservationsystem.controller.MasterHomepage.HomepageForMasterActivity;
 import com.william.reservationsystem.model.DBServerForM;
 import com.william.reservationsystem.model.DBServerForMenu;
 import com.william.reservationsystem.model.DataDailyMenu;
@@ -26,7 +28,7 @@ public class ParentViewHolder extends BaseViewHolder {
     private Context context;
     private View view;
     private RelativeLayout containerLayout;
-    private TextView date, count;
+    public TextView date, count;
     public ImageButton edit, delete;
     private ImageView expand;
     private View parentDashedView;
@@ -69,6 +71,18 @@ public class ParentViewHolder extends BaseViewHolder {
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditMenuActivity.class);
                 intent.putExtra("date",item_date);
+                context.startActivity(intent);
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DBServerForMenu dbServerForMenu = new DBServerForMenu(context);
+                dbServerForMenu.open();
+                dbServerForMenu.delete(item_date);
+                dbServerForMenu.close();
+                Intent intent = new Intent(context,HomepageForMasterActivity.class);
                 context.startActivity(intent);
             }
         });

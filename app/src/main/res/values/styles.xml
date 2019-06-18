@@ -227,6 +227,10 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="order_menu_layout" parent="relese_menu_layout">
+        <item name="android:background">#80e6e6e6</item>
+    </style>
+
     <style name="release_menu_title">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -241,6 +245,12 @@
         <item name="android:layout_height">2dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:background">#31808080</item>
+    </style>
+
+    <style name="order_menu_view_title" parent="release_menu_view_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
     </style>
 
     <style name="release_menu_dishes_layout">
