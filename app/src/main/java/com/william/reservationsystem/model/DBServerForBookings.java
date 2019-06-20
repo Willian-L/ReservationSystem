@@ -43,7 +43,7 @@ public class DBServerForBookings {
         }
     }
 
-    public boolean insert(String day, String menu, String user, int have_soup, String remark) {
+    public boolean insert(String day, String menu, String user, String have_soup, String remark) {
         boolean result = false;
         // Instantiate content values
         ContentValues contentValues = new ContentValues();
@@ -70,7 +70,7 @@ public class DBServerForBookings {
     }
 
 
-    public boolean update(String day, String menu, String user, int have_soup, String remark){
+    public boolean update(String day, String menu, String user, String have_soup, String remark){
         boolean result = false;
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_DAY, day);

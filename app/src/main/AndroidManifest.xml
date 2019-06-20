@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controller.MasterHomepage.EditMenuActivity"></activity>
+        <activity android:name=".controller.MasterHomepage.EditMenuActivity" />
         <activity android:name=".controller.MasterHomepage.ReleaseActivity" />
         <activity android:name=".controller.MasterHomepage.HomepageForMasterActivity" />
         <activity android:name=".controller.MasterHomepage.Fragment.Derive.ChooseFileActivity" />

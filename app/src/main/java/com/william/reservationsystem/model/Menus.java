@@ -98,8 +98,8 @@ public class Menus {
     }
 
     private String date;
-    private final String menu_one = "One";
-    private final String menu_two = "Two";
+    private final String menu_one = "menu_one";
+    private final String menu_two = "menu_two";
     private String one_dishes_one;
     private String one_dishes_two;
     private String one_dishes_three;

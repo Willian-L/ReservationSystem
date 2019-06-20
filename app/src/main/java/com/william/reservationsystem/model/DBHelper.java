@@ -86,7 +86,7 @@ public class DBHelper {
                     "day varchar(20) not null," +
                     "user varchar(20) not null," +
                     "menu varchar(10) not null," +
-                    "have_soup INTEGER not null," +
+                    "have_soup varchar(20) null," +
                     "remark TEXT null" +
                     ");";
 

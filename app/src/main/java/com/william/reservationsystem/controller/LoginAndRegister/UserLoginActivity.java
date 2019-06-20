@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -61,6 +62,38 @@ public class UserLoginActivity extends AppCompatActivity{
         getUser(edtUsername);
 
         CrashHandlerUtil.getInstance().init();
+
+        edtPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    if (!TextUtils.isEmpty(edtPassword.getText().toString())&&!TextUtils.isEmpty(edtUsername.getText().toString())){
+                        btnLogin.setEnabled(true);
+                        btnLogin.setBackgroundResource(R.drawable.button_orange);
+                    }
+                    else {
+                        btnLogin.setEnabled(false);
+                        btnLogin.setBackgroundResource(R.drawable.radiu_button);
+                    }
+                }
+            }
+        });
+
+        edtUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    if (!TextUtils.isEmpty(edtPassword.getText().toString())&&!TextUtils.isEmpty(edtUsername.getText().toString())){
+                        btnLogin.setEnabled(true);
+                        btnLogin.setBackgroundResource(R.drawable.button_orange);
+                    }
+                    else {
+                        btnLogin.setEnabled(false);
+                        btnLogin.setBackgroundResource(R.drawable.radiu_button);
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -110,12 +143,6 @@ public class UserLoginActivity extends AppCompatActivity{
             } else {
                 UserLogin(username, password);
             }
-        } else if (!username.equals("") && password.equals("")) {
-            Toast.makeText(getApplicationContext(),
-                    "Please input your password!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(),
-                    "Please input your username and password!", Toast.LENGTH_SHORT).show();
         }
     }
 

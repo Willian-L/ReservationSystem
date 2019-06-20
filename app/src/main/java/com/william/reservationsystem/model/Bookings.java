@@ -3,11 +3,11 @@ package com.william.reservationsystem.model;
 import java.sql.Date;
 
 public class Bookings {
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -27,11 +27,11 @@ public class Bookings {
         this.user = user;
     }
 
-    public int getHava_soup() {
+    public String getHava_soup() {
         return hava_soup;
     }
 
-    public void setHava_soup(int hava_soup) {
+    public void setHava_soup(String hava_soup) {
         this.hava_soup = hava_soup;
     }
 
@@ -43,9 +43,9 @@ public class Bookings {
         this.remark = remark;
     }
 
-    private Date date;
+    private String date;
     private String menu;
     private String user;
-    private int hava_soup;
+    private String hava_soup;
     private String remark;
 }
