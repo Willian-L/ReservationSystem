@@ -83,10 +83,15 @@ public class DBHelper {
 
             // A table of bookings
             String BOOKINGS_SQL = "CREATE TABLE " + TABLE_BOOKINGS + "(" +
+                    "_id INTEGER primary key AUTOINCREMENT," +
                     "day varchar(20) not null," +
                     "user varchar(20) not null," +
                     "menu varchar(10) not null," +
-                    "have_soup varchar(20) null," +
+                    "dishes_one varchar(30) null," +
+                    "dishes_two varchar(30) null," +
+                    "dishes_three varchar(30) null," +
+                    "dishes_four varchar(30) null," +
+                    "soup varchar(30) null," +
                     "remark TEXT null" +
                     ");";
 

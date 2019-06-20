@@ -205,23 +205,35 @@ public class OrderFragment extends Fragment {
         booking.setDate(menu.getDate());
         if (clicks_one){
             booking.setMenu("menu_one");
+            booking.setDishes_one(menu.getOne_dishes_one());
+            booking.setDishes_two(menu.getOne_dishes_two());
+            booking.setDishes_three(menu.getOne_dishes_three());
+            booking.setDishes_four(menu.getOne_dishes_four());
         }else if (clicks_two){
             booking.setMenu("menu_two");
+            booking.setDishes_one(menu.getTwo_dishes_one());
+            booking.setDishes_two(menu.getTwo_dishes_two());
+            booking.setDishes_three(menu.getTwo_dishes_three());
+            booking.setDishes_four(menu.getTwo_dishes_four());
         }else {
             booking.setMenu("null");
         }
         if (clicks_soup_one){
-            booking.setHava_soup("soup_one");
+            booking.setSoup(menu.getOne_soup());
         }else if (clicks_soup_two){
-            booking.setHava_soup("soup_two");
+            booking.setSoup(menu.getTwo_soup());
         }else {
-            booking.setHava_soup("null");
+            booking.setSoup("");
         }
         DBServerForBookings db = new DBServerForBookings(getContext());
         db.open();
-        if (db.insert(booking.getDate(),booking.getMenu(),booking.getUser(),booking.getHava_soup(),null)){
+        if (db.insert(booking.getDate(),booking.getMenu(),booking.getUser(),booking.getDishes_one(),booking.getDishes_two(),booking.getDishes_three(),booking.getDishes_four(),booking.getSoup(),null)){
             Toast.makeText(getContext(),"Reservation succeed",Toast.LENGTH_SHORT).show();
-            getFragmentManager().beginTransaction().replace(R.id.user_content_Layout, new ShoppingFragment()).commit();
+            Bundle bundle = new Bundle();
+            bundle.putString("username", booking.getUser());
+            Fragment ShoppingFragment = new ShoppingFragment();
+            ShoppingFragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().replace(R.id.user_content_Layout, ShoppingFragment).commit();
             rb_shopping.setActivated(true);
             rb_order.setActivated(false);
             rb_shopping.setTextColor(Color.parseColor("#e9730a"));
