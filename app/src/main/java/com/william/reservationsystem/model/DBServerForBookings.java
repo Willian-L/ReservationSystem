@@ -74,13 +74,13 @@ public class DBServerForBookings {
         Cursor cursor = null;
         cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_DAY, KEY_MENU, KEY_DISHES_ONE, KEY_DISHES_TWO, KEY_DISHES_THREE, KEY_DISHES_FOUR, KEY_SOUP, KEY_REMARK},
                 KEY_USER + "='" + user + "'",
-                null, null, null, KEY_DAY + " DESC");
+                null, null, null, KEY_ID + " DESC");
         return cursor;
     }
 
     public Cursor selectByDay(String day, String user) {
         Cursor cursor = null;
-        cursor = db.query(DB_TABLE, new String[]{KEY_MENU, KEY_DISHES_ONE, KEY_DISHES_TWO, KEY_DISHES_THREE, KEY_DISHES_FOUR, KEY_SOUP, KEY_REMARK},
+        cursor = db.query(DB_TABLE, new String[]{},
                 KEY_DAY + "='" + day + "' and " + KEY_USER + "='" + user + "'",
                 null, null, null, null);
         return cursor;

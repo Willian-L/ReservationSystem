@@ -3,6 +3,7 @@ package com.william.reservationsystem.controller.UserHomepage.Fragment;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextPaint;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +30,8 @@ public class OrderFragment extends Fragment {
     private LinearLayout menu_one, menu_two, soup_layout_one, soup_layout_two;
     private Button confirm;
     private ScrollView have_menu;
-    private RadioButton rb_order,rb_shopping;
+    private RelativeLayout have_not_menu;
+    private RadioButton rb_order, rb_shopping;
 
     Menus menu = new Menus();
     Bookings booking = new Bookings();
@@ -41,16 +44,17 @@ public class OrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order, null);
+        View view = inflater.inflate(R.layout.fragment_order, container, false);
 
         init(view);
         initForActivity((AppCompatActivity) getActivity());
-        selectDB();
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             booking.setUser(bundle.getString("username"));
         }
+
+        selectDB();
 
         menu_one.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +88,7 @@ public class OrderFragment extends Fragment {
                     if (clicks_one == true) {
                         clicks_one = false;
                         menu_one.setBackgroundColor(Color.parseColor("#80e6e6e6"));
-                    }else {
+                    } else {
                         if (soup_layout_two.getVisibility() == View.VISIBLE) {
                             if (clicks_soup_two == false) {
                                 clicks_soup_two = true;
@@ -173,62 +177,73 @@ public class OrderFragment extends Fragment {
             menu.setTwo_dishes_two(cursor.getString(cursor.getColumnIndex("dishes_two")));
             menu.setTwo_dishes_three(cursor.getString(cursor.getColumnIndex("dishes_three")));
             menu.setTwo_dishes_four(cursor.getString(cursor.getColumnIndex("dishes_four")));
-            dish_2_1.setText(menu.getOne_dishes_one());
-            dish_2_2.setText(menu.getOne_dishes_two());
-            dish_2_3.setText(menu.getOne_dishes_three());
-            dish_2_4.setText(menu.getOne_dishes_four());
+            dish_2_1.setText(menu.getTwo_dishes_one());
+            dish_2_2.setText(menu.getTwo_dishes_two());
+            dish_2_3.setText(menu.getTwo_dishes_three());
+            dish_2_4.setText(menu.getTwo_dishes_four());
             if (!cursor.getString(cursor.getColumnIndex("soup")).equals(menu.getOne_soup())) {
                 menu.setTwo_soup(cursor.getString(cursor.getColumnIndex("soup")));
                 soup_layout_two.setVisibility(View.VISIBLE);
                 soup_2.setText(menu.getTwo_soup());
             }
         }
+        db.close();
+        DBServerForBookings dbBooking = new DBServerForBookings(getContext());
+        dbBooking.open();
+        if (dbBooking.selectByDay(menu.getDate(), booking.getUser()).getCount() > 0) {
+            have_not_menu.setVisibility(View.GONE);
+            have_menu.setVisibility(View.VISIBLE);
+        } else {
+            have_menu.setVisibility(View.GONE);
+            have_not_menu.setVisibility(View.VISIBLE);
+        }
+        dbBooking.close();
     }
 
 
-    private void haveClick(){
-        if (clicks_one || clicks_two || clicks_soup_one || clicks_soup_two){
+    private void haveClick() {
+        if (clicks_one || clicks_two || clicks_soup_one || clicks_soup_two) {
             confirm.setEnabled(true);
             confirm.setBackgroundResource(R.drawable.button_orange);
-        }else {
+        } else {
             confirm.setEnabled(false);
             confirm.setBackgroundResource(R.drawable.radiu_button);
         }
     }
 
-    private void initForActivity(AppCompatActivity activity){
+    private void initForActivity(AppCompatActivity activity) {
         rb_order = activity.findViewById(R.id.rad_order);
         rb_shopping = activity.findViewById(R.id.rad_shopping);
     }
 
-    private void confirm(){
+    private void confirm() {
         booking.setDate(menu.getDate());
-        if (clicks_one){
+        if (clicks_one) {
             booking.setMenu("menu_one");
             booking.setDishes_one(menu.getOne_dishes_one());
             booking.setDishes_two(menu.getOne_dishes_two());
             booking.setDishes_three(menu.getOne_dishes_three());
             booking.setDishes_four(menu.getOne_dishes_four());
-        }else if (clicks_two){
+        } else if (clicks_two) {
             booking.setMenu("menu_two");
             booking.setDishes_one(menu.getTwo_dishes_one());
             booking.setDishes_two(menu.getTwo_dishes_two());
             booking.setDishes_three(menu.getTwo_dishes_three());
             booking.setDishes_four(menu.getTwo_dishes_four());
-        }else {
+        } else {
             booking.setMenu("null");
         }
-        if (clicks_soup_one){
+        if (clicks_soup_one) {
             booking.setSoup(menu.getOne_soup());
-        }else if (clicks_soup_two){
+        } else if (clicks_soup_two) {
             booking.setSoup(menu.getTwo_soup());
-        }else {
+        } else {
             booking.setSoup("");
         }
-        DBServerForBookings db = new DBServerForBookings(getContext());
-        db.open();
-        if (db.insert(booking.getDate(),booking.getMenu(),booking.getUser(),booking.getDishes_one(),booking.getDishes_two(),booking.getDishes_three(),booking.getDishes_four(),booking.getSoup(),null)){
-            Toast.makeText(getContext(),"Reservation succeed",Toast.LENGTH_SHORT).show();
+        DBServerForBookings dbBooking = new DBServerForBookings(getContext());
+        dbBooking.open();
+        if (dbBooking.insert(booking.getDate(), booking.getMenu(), booking.getUser(), booking.getDishes_one(), booking.getDishes_two(), booking.getDishes_three(), booking.getDishes_four(), booking.getSoup(), null)) {
+            Toast.makeText(getContext(), "Reservation succeed", Toast.LENGTH_SHORT).show();
             Bundle bundle = new Bundle();
             bundle.putString("username", booking.getUser());
             Fragment ShoppingFragment = new ShoppingFragment();
@@ -243,7 +258,7 @@ public class OrderFragment extends Fragment {
             shopping.setFakeBoldText(true);
             order.setFakeBoldText(false);
         }
-        db.close();
+        dbBooking.close();
     }
 
     private void init(View view) {
@@ -263,6 +278,7 @@ public class OrderFragment extends Fragment {
         soup_layout_one = view.findViewById(R.id.order_layout_soup_one);
         soup_layout_two = view.findViewById(R.id.order_layout_soup_two);
         have_menu = view.findViewById(R.id.have_menu);
+        have_not_menu = view.findViewById(R.id.have_not_menu);
         confirm = view.findViewById(R.id.order_btn);
     }
 }

@@ -52,5 +52,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_test_text">XXXXX</string>
     <string name="menu_test_date">XXXX/XX/XX</string>
+    <string name="no_menu_text">No new menu is released yet.\nPlease wait a moment !</string>
 
 </resources>

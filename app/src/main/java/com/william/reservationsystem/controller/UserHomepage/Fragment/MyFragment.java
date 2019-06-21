@@ -84,7 +84,7 @@ public class MyFragment extends Fragment {
 
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.fragment_my, null);
+        final View view = inflater.inflate(R.layout.fragment_my, container, false);
         inti(view);
 
         getUser();
