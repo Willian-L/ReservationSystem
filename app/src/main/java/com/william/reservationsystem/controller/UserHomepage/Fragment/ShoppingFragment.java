@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.model.Bookings;
@@ -22,6 +23,7 @@ public class ShoppingFragment extends Fragment {
     DBServerForBookings DBBookings;
     DBServerForMenu DBMenu;
     Bundle bundle;
+    RelativeLayout have_not;
 
     Bookings booking = new Bookings();
 
@@ -31,6 +33,7 @@ public class ShoppingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shopping, container, false);
 
         lvInfo = view.findViewById(R.id.lv_dailyMenu);
+        have_not = view.findViewById(R.id.have_not_history);
 
         DBBookings = new DBServerForBookings(getContext());
         DBMenu = new DBServerForMenu(getContext());
@@ -65,30 +68,28 @@ public class ShoppingFragment extends Fragment {
     private void seleteMenu(){
         DBBookings.open();
         Cursor curBooking = DBBookings.selectByUser(booking.getUser());
-        MyListAdapter Adapter = new MyListAdapter(getContext(),
-                R.layout.listview_item,
-                curBooking,
-                new String[]{"day","dishes_one","dishes_two","dishes_three","dishes_four","soup"},
-                new int[]{R.id.history_date,R.id.history_dish_1,R.id.history_dish_2,R.id.history_dish_3,R.id.history_dish_4,R.id.history_soup},
-                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-       lvInfo.setAdapter(Adapter);
-       lvInfo.invalidateViews();
+        if (curBooking.getCount()>0) {
+            lvInfo.setVisibility(View.VISIBLE);
+            have_not.setVisibility(View.GONE);
+            MyListAdapter Adapter = new MyListAdapter(getContext(),
+                    R.layout.listview_item,
+                    curBooking,
+                    new String[]{"day", "dishes_one", "dishes_two", "dishes_three", "dishes_four", "soup"},
+                    new int[]{R.id.history_date, R.id.history_dish_1, R.id.history_dish_2, R.id.history_dish_3, R.id.history_dish_4, R.id.history_soup},
+                    CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+            lvInfo.setAdapter(Adapter);
+            lvInfo.invalidateViews();
+        }else {
+            have_not.setVisibility(View.VISIBLE);
+            lvInfo.setVisibility(View.GONE);
+        }
     }
 
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser) {
-//            DBBookings.open();
-//            Cursor curBooking = DBBookings.selectByUser(booking.getUser());
-//            MyListAdapter Adapter = new MyListAdapter(getContext(),
-//                    R.layout.listview_item,
-//                    curBooking,
-//                    new String[]{"day","dishes_one","dishes_two","dishes_three","dishes_four","soup"},
-//                    new int[]{R.id.history_date,R.id.history_dish_1,R.id.history_dish_2,R.id.history_dish_3,R.id.history_dish_4,R.id.history_soup},
-//                    CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-//            lvInfo.setAdapter(Adapter);
-//            lvInfo.invalidateViews();
-//        }
-//    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            seleteMenu();
+        }
+    }
 }

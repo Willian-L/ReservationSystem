@@ -10,7 +10,7 @@
     </style>
 
     <style name="ButtonStyle">
-        <item name="android:background">@drawable/radiu_button</item>
+        <item name="android:background">@drawable/bg_button_unclickable</item>
         <item name="android:padding">15dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#80000000</item>

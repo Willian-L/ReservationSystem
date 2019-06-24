@@ -101,6 +101,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/detail_soup_layout"
                 style="@style/release_menu_soup_layout"
                 android:visibility="gone">
 
@@ -134,7 +135,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/bg_button_edit"
-                android:text="edit" />
+                android:text="Modify" />
 
             <View
                 android:layout_width="30dp"

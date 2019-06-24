@@ -25,6 +25,7 @@
     <string name="fragment_title_my">My Information</string>
     <string name="fragment_title_shopping">Indent</string>
     <string name="fragment_title_order">Take Order</string>
+    <string name="fragment_title_edit_order">Modify Order</string>
 
     <string name="initem_username">Username：</string>
     <string name="initem_password">Password：</string>
@@ -53,5 +54,6 @@
     <string name="menu_test_text">XXXXX</string>
     <string name="menu_test_date">XXXX/XX/XX</string>
     <string name="no_menu_text">No new menu is released yet.\nPlease wait a moment !</string>
+    <string name="no_history_text">No historical order was found !</string>
 
 </resources>

@@ -92,7 +92,14 @@
                 <TextView
                     android:id="@+id/menu_one_count"
                     style="@style/menu_End_count"
-                    android:text="00" />
+                    android:text="00"
+                    android:layout_marginBottom="-22dp"/>
+
+                <TextView
+                    android:id="@+id/menu_soup_count"
+                    style="@style/menu_End_count"
+                    android:textSize="30dp"
+                    android:text="00"/>
 
                 <TextView
                     android:id="@+id/one_detail"

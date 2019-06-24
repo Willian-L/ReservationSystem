@@ -4,19 +4,17 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.text.Layout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.model.Bookings;
 import com.william.reservationsystem.model.DBServerForBookings;
@@ -25,21 +23,33 @@ public class DetailedMenuFragment extends Fragment {
 
     TextView date, dish_1,dish_2,dish_3,dish_4,soup;
     Button edit, delete;
+    LinearLayout soup_layout;
 
     Bookings booking = new Bookings();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_today_menu, container, false);
 
         init(view);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            booking.setUser(bundle.getString("username"));
+        }
+
         getMenu();
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString("date", booking.getDate());
+                bundle.putString("username", booking.getUser());
+                ModifyOrderFragment editOrder = new ModifyOrderFragment();
+                editOrder.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.user_content_Layout, editOrder).addToBackStack(null).commit();
             }
         });
 
@@ -78,10 +88,6 @@ public class DetailedMenuFragment extends Fragment {
     }
 
     private void getMenu(){
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            booking.setUser(bundle.getString("username"));
-        }
         DBServerForBookings db = new DBServerForBookings(getContext());
         db.open();
         Cursor cursor = db.selectByUser(booking.getUser());
@@ -99,7 +105,18 @@ public class DetailedMenuFragment extends Fragment {
             dish_4.setText(booking.getDishes_four());
             soup.setText(booking.getSoup());
         }
+        if (!TextUtils.isEmpty(soup.getText().toString())){
+            soup_layout.setVisibility(View.VISIBLE);
+        }
         db.close();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            getMenu();
+        }
     }
 
     private void init(View view){
@@ -111,5 +128,6 @@ public class DetailedMenuFragment extends Fragment {
         soup = view.findViewById(R.id.detail_soup);
         edit = view.findViewById(R.id.edit_detail_menu);
         delete = view.findViewById(R.id.delete_detail_menu);
+        soup_layout = view.findViewById(R.id.detail_soup_layout);
     }
 }

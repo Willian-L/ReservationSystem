@@ -100,7 +100,7 @@ public class DBServerForMenu {
     public Cursor selectByDate(String date) {
         Cursor cursor = null;
         cursor = db.query(DB_TABLE, new String[]{KEY_DAY, KEY_MENU, KEY_DISHES_ONE, KEY_DISHES_TWO, KEY_DISHES_THREE, KEY_DISHES_FOUR, KEY_SOUP},
-                KEY_DAY + "='" + date + "'", null, null, null, null);
+                KEY_DAY + "='" + date + "'", null, null, null, KEY_MENU);
         return cursor;
     }
 

@@ -22,7 +22,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/filechoose_martop"
-            android:background="@drawable/radiu_button"
+            android:background="@drawable/bg_button_unclickable"
             android:text="@string/filechoose_sure"
             android:textColor="#458B74" />
     </RelativeLayout>

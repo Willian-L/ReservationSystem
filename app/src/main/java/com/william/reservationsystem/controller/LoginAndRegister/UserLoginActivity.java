@@ -12,7 +12,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -69,11 +68,11 @@ public class UserLoginActivity extends AppCompatActivity{
                 if (!hasFocus){
                     if (!TextUtils.isEmpty(edtPassword.getText().toString())&&!TextUtils.isEmpty(edtUsername.getText().toString())){
                         btnLogin.setEnabled(true);
-                        btnLogin.setBackgroundResource(R.drawable.button_orange);
+                        btnLogin.setBackgroundResource(R.drawable.bg_button_clickable);
                     }
                     else {
                         btnLogin.setEnabled(false);
-                        btnLogin.setBackgroundResource(R.drawable.radiu_button);
+                        btnLogin.setBackgroundResource(R.drawable.bg_button_unclickable);
                     }
                 }
             }
@@ -85,11 +84,11 @@ public class UserLoginActivity extends AppCompatActivity{
                 if (!hasFocus){
                     if (!TextUtils.isEmpty(edtPassword.getText().toString())&&!TextUtils.isEmpty(edtUsername.getText().toString())){
                         btnLogin.setEnabled(true);
-                        btnLogin.setBackgroundResource(R.drawable.button_orange);
+                        btnLogin.setBackgroundResource(R.drawable.bg_button_clickable);
                     }
                     else {
                         btnLogin.setEnabled(false);
-                        btnLogin.setBackgroundResource(R.drawable.radiu_button);
+                        btnLogin.setBackgroundResource(R.drawable.bg_button_unclickable);
                     }
                 }
             }

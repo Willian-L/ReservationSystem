@@ -101,9 +101,6 @@ public class DBServerForBookings {
         int n = db.update(DB_TABLE, contentValues, KEY_DAY + "='" + day + "' and " + KEY_USER + "='" + user + "'", null);
         if (n == 1) {
             result = true;
-            Toast.makeText(context, "Update database succeeded", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Update database failed", Toast.LENGTH_SHORT).show();
         }
         return result;
     }

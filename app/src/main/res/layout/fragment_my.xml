@@ -231,34 +231,19 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:visibility="gone"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="20dp" />
 
         <Button
             android:id="@+id/my_btnLogout"
             style="@style/ButtonStyle"
+            android:background="@drawable/bg_button_back"
             android:layout_width="300dp"
             android:layout_gravity="center_horizontal"
             android:enabled="true"
             android:text="logout"
             android:visibility="visible"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="20dp"/>
 
     </LinearLayout>
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical">-->
-
-        <!--<Button-->
-            <!--android:id="@+id/my_btnLogout"-->
-            <!--style="@style/ButtonStyle"-->
-            <!--android:layout_width="300dp"-->
-            <!--android:enabled="true"-->
-            <!--android:text="logout"-->
-            <!--android:visibility="visible"-->
-            <!--android:layout_gravity="bottom"/>-->
-
-    <!--</LinearLayout>-->
 
 </LinearLayout>

@@ -1,50 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".controller.UserHomepage.Fragment.OrderFragment">
+    tools:context=".controller.UserHomepage.Fragment.ModifyOrderFragment">
 
 
     <RelativeLayout style="@style/Fragment_rel_title">
 
         <TextView
             style="@style/Fragment_txt_title"
-            android:text="@string/fragment_title_order" />
+            android:text="@string/fragment_title_edit_order" />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/have_not_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="185dp"
-            android:layout_height="180dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="200dp"
-            android:src="@drawable/sorry" />
-
-        <TextView
-            android:id="@+id/no_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="@string/no_menu_text"
-            android:textSize="25dp" />
     </RelativeLayout>
 
     <ScrollView
         android:id="@+id/have_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,7 +28,7 @@
 
 
             <TextView
-                android:id="@+id/order_date"
+                android:id="@+id/edit_order_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -63,7 +37,7 @@
                 android:textSize="25dp" />
 
             <LinearLayout
-                android:id="@+id/order_menu_one"
+                android:id="@+id/edit_order_menu_one"
                 style="@style/order_menu_layout">
 
                 <TextView
@@ -90,7 +64,7 @@
                                 android:text="①" />
 
                             <TextView
-                                android:id="@+id/order_dish_1_1"
+                                android:id="@+id/edit_order_dish_1_1"
                                 style="@style/relese_menu_content_item_text" />
                         </LinearLayout>
 
@@ -102,7 +76,7 @@
                                 android:text="②" />
 
                             <TextView
-                                android:id="@+id/order_dish_1_2"
+                                android:id="@+id/edit_order_dish_1_2"
                                 style="@style/relese_menu_content_item_text" />
                         </LinearLayout>
 
@@ -113,7 +87,7 @@
                                 android:text="③" />
 
                             <TextView
-                                android:id="@+id/order_dish_1_3"
+                                android:id="@+id/edit_order_dish_1_3"
                                 style="@style/relese_menu_content_item_text" />
                         </LinearLayout>
 
@@ -124,7 +98,7 @@
                                 android:text="④" />
 
                             <TextView
-                                android:id="@+id/order_dish_1_4"
+                                android:id="@+id/edit_order_dish_1_4"
                                 style="@style/relese_menu_content_item_text" />
                         </LinearLayout>
                     </LinearLayout>
@@ -135,7 +109,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/order_menu_two"
+                android:id="@+id/edit_order_menu_two"
                 style="@style/order_menu_layout"
                 android:layout_marginTop="20dp"
                 android:visibility="gone">
@@ -164,7 +138,7 @@
                                 android:text="①" />
 
                             <TextView
-                                android:id="@+id/order_dish_2_1"
+                                android:id="@+id/edit_order_dish_2_1"
                                 style="@style/relese_menu_content_item_text" />
                         </LinearLayout>
 
@@ -176,7 +150,7 @@
                                 android:text="②" />
 
                             <TextView
-                                android:id="@+id/order_dish_2_2"
+                                android:id="@+id/edit_order_dish_2_2"
                                 style="@style/relese_menu_content_item_text" />
                         </LinearLayout>
 
@@ -187,7 +161,7 @@
                                 android:text="③" />
 
                             <TextView
-                                android:id="@+id/order_dish_2_3"
+                                android:id="@+id/edit_order_dish_2_3"
                                 style="@style/relese_menu_content_item_text" />
                         </LinearLayout>
 
@@ -198,7 +172,7 @@
                                 android:text="④" />
 
                             <TextView
-                                android:id="@+id/order_dish_2_4"
+                                android:id="@+id/edit_order_dish_2_4"
                                 style="@style/relese_menu_content_item_text" />
                         </LinearLayout>
                     </LinearLayout>
@@ -210,7 +184,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/order_layout_soup_one"
+                android:id="@+id/edit_order_layout_soup_one"
                 style="@style/order_menu_layout"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
@@ -226,14 +200,14 @@
                 <LinearLayout style="@style/relese_menu_soup_content_layout">
 
                     <TextView
-                        android:id="@+id/order_soup_one"
+                        android:id="@+id/edit_order_soup_one"
                         style="@style/relese_menu_content_item_text" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/order_layout_soup_two"
+                android:id="@+id/edit_order_layout_soup_two"
                 style="@style/order_menu_layout"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
@@ -250,25 +224,43 @@
                 <LinearLayout style="@style/relese_menu_soup_content_layout">
 
                     <TextView
-                        android:id="@+id/order_soup_two"
+                        android:id="@+id/edit_order_soup_two"
                         style="@style/relese_menu_content_item_text" />
                 </LinearLayout>
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/order_btn"
-                style="@style/ButtonStyle"
-                android:background="@drawable/bg_button_unclickable"
-                android:enabled="false"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="30dp"
-                android:padding="0dp"
-                android:text="confirm"
-                android:layout_marginBottom="30dp"/>
+                android:layout_marginBottom="30dp">
+
+                <Button
+                    android:id="@+id/edit_order_confirm"
+                    style="@style/ButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button_unclickable"
+                    android:enabled="false"
+                    android:padding="0dp"
+                    android:text="confirm" />
+
+                <Button
+                    android:id="@+id/edit_order_return"
+                    style="@style/ButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button_back"
+                    android:padding="0dp"
+                    android:text="return" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

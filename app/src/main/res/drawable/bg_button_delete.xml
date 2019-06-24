@@ -5,8 +5,8 @@
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="rectangle">
             <!-- 半透明圆角按钮 -->
-            <solid android:color="#be2929"/>
-            <corners android:radius="8dip"/>
+            <solid android:color="#a30000"/>
+            <corners android:radius="12dip"/>
         </shape>
     </item>
 
@@ -15,8 +15,11 @@
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="rectangle">
             <!-- 透明圆角按钮 -->
-            <solid android:color="#e12c2c"/>
-            <corners android:radius="8dip"/>
+            <gradient
+                android:startColor="#e0fd1e1e"
+                android:endColor="#e0b80000"
+                android:angle="270"/>
+            <corners android:radius="12dip"/>
         </shape>
     </item>
 </selector>

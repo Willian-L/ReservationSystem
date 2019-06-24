@@ -52,7 +52,7 @@ public class EditMenuActivity extends AppCompatActivity {
         Cursor cursor;
         db.open();
         cursor = db.selectByDate(menu.getDate());
-        if (cursor.moveToLast()){
+        if (cursor.moveToNext()){
             tag = 1;
             date = cursor.getString(cursor.getColumnIndex("day"));
             menu.setDate(date);
@@ -72,7 +72,7 @@ public class EditMenuActivity extends AppCompatActivity {
             tag = 2;
             menu_two.setVisibility(View.VISIBLE);
             add_menu.setVisibility(View.GONE);
-            cursor.moveToPrevious();
+            cursor.moveToNext();
             edt_dish_2_1.setText(cursor.getString(cursor.getColumnIndex("dishes_one")));
             edt_dish_2_2.setText(cursor.getString(cursor.getColumnIndex("dishes_two")));
             edt_dish_2_3.setText(cursor.getString(cursor.getColumnIndex("dishes_three")));
