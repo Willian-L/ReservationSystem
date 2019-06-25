@@ -128,11 +128,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         child.setChildOneDis_three(data.getChildOneDis_three());
         child.setChildOneDis_four(data.getChildOneDis_four());
         child.setChildOne_Soup(data.getChildOne_Soup());
+        child.setChildOneCount(data.getChildOneCount());
+        child.setChildOneSoupCount(data.getChildOneSoupCount());
         child.setChildTwoDis_one(data.getChildTwoDis_one());
         child.setChildTwoDis_two(data.getChildTwoDis_two());
         child.setChildTwoDis_three(data.getChildTwoDis_three());
         child.setChildTwoDis_four(data.getChildTwoDis_four());
         child.setChildTwo_Soup(data.getChildTwo_Soup());
+        child.setChildTwoCount(data.getChildTwoCount());
+        child.setChildTwoSoupCount(data.getChildTwoSoupCount());
         child.setTwoView(data.isTwoView());
         return child;
     }

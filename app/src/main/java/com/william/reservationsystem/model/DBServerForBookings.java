@@ -86,6 +86,20 @@ public class DBServerForBookings {
         return cursor;
     }
 
+    public Cursor selectByMenu(String day, String menu){
+        Cursor cursor = null;
+        cursor = db.query(DB_TABLE, new String[]{}, KEY_DAY + "='" + day + "' and " + KEY_MENU + "='" + menu + "'",
+                null,null,null,null);
+        return cursor;
+    }
+
+    public Cursor selectSoup(String day, String soup){
+        Cursor cursor = null;
+        cursor = db.query(DB_TABLE, new String[]{}, KEY_DAY + "='" + day + "' and " + KEY_SOUP + "='" + soup + "'",
+                null,null,null,null);
+        return cursor;
+    }
+
     public boolean update(String day, String menu, String user, String dishes_one, String dishes_two, String dishes_three, String dishes_four, String soup, String remark) {
         boolean result = false;
         ContentValues contentValues = new ContentValues();

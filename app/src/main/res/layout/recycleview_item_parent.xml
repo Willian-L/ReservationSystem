@@ -26,21 +26,34 @@
             android:id="@+id/parentTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:text="Qty."
             android:textSize="18dp" />
 
         <TextView
-            android:id="@+id/parent_CountData"
+        android:id="@+id/parent_CountData"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="00"
+        android:textSize="22dp"/>
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            android:text="|"
+            android:gravity="center"
+            android:layout_margin="3dp"
+            android:textSize="17dp"/>
+
+        <TextView
+            android:id="@+id/parent_SoupCount"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:layout_toStartOf="@+id/parentTxt"
-            android:text="00"
-            android:textSize="20dp" />
-
-
+            android:textSize="22dp"
+            android:text="00"/>
 
         <ImageButton
             android:id="@+id/parentEdit"

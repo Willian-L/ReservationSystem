@@ -11,15 +11,9 @@ public class DataDailyMenu {
     private String parentCountData;
     private String ID;
     private String date;
+    private String count;
+    private String soupCount;
     private boolean TwoView;
-
-    public boolean isTwoView() {
-        return TwoView;
-    }
-
-    public void setTwoView(boolean twoView) {
-        TwoView = twoView;
-    }
 
     private String childMenuOne;
     private String childOneDis_one;
@@ -28,15 +22,23 @@ public class DataDailyMenu {
     private String childOneDis_four;
     private String childOne_Soup;
     private String childOneCount;
-    private String childOneDetail;
+    private String childOneSoupCount;
     private String childMenuTwo;
     private String childTwoDis_one;
     private String childTwoDis_two;
     private String childTwoDis_three;
     private String childTwoDis_four;
     private String childTwo_Soup;
+    private String childTwoSoupCount;
     private String childTwoCount;
-    private String childTwoDetail;
+
+    public boolean isTwoView() {
+        return TwoView;
+    }
+
+    public void setTwoView(boolean twoView) {
+        TwoView = twoView;
+    }
 
     public int getType() {
         return type;
@@ -134,14 +136,6 @@ public class DataDailyMenu {
         this.childOneCount = childOneCount;
     }
 
-    public String getChildOneDetail() {
-        return childOneDetail;
-    }
-
-    public void setChildOneDetail(String childOneDetail) {
-        this.childOneDetail = childOneDetail;
-    }
-
     public String getChildMenuTwo() {
         return childMenuTwo;
     }
@@ -198,19 +192,43 @@ public class DataDailyMenu {
         this.childTwoCount = childTwoCount;
     }
 
-    public String getChildTwoDetail() {
-        return childTwoDetail;
-    }
-
-    public void setChildTwoDetail(String childTwoDetail) {
-        this.childTwoDetail = childTwoDetail;
-    }
-
     public String getID() {
         return ID;
     }
 
     public void setID(String ID) {
         this.ID = ID;
+    }
+
+    public String getChildOneSoupCount() {
+        return childOneSoupCount;
+    }
+
+    public void setChildOneSoupCount(String childOneSoupCount) {
+        this.childOneSoupCount = childOneSoupCount;
+    }
+
+    public String getChildTwoSoupCount() {
+        return childTwoSoupCount;
+    }
+
+    public void setChildTwoSoupCount(String childTwoSoupCount) {
+        this.childTwoSoupCount = childTwoSoupCount;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public String getSoupCount() {
+        return soupCount;
+    }
+
+    public void setSoupCount(String soupCount) {
+        this.soupCount = soupCount;
     }
 }

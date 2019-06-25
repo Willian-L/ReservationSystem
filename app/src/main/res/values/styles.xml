@@ -168,6 +168,7 @@
 
     <style name="menu_End">
         <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
         <item name="android:orientation">vertical</item>
         <item name="android:weightSum">2</item>
         <item name="android:layout_alignParentRight">true</item>
@@ -184,7 +185,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">55dp</item>
+        <item name="android:textSize">50dp</item>
         <item name="android:layout_marginBottom">-5dp</item>
         <item name="android:layout_gravity">center</item>
     </style>

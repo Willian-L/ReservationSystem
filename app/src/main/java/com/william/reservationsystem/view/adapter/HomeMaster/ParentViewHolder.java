@@ -28,7 +28,7 @@ public class ParentViewHolder extends BaseViewHolder {
     private Context context;
     private View view;
     private RelativeLayout containerLayout;
-    public TextView date, count;
+    public TextView date, count, soupcount;
     public ImageButton edit, delete;
     private ImageView expand;
     private View parentDashedView;
@@ -45,12 +45,15 @@ public class ParentViewHolder extends BaseViewHolder {
         containerLayout = view.findViewById(R.id.parent_container);
         date = view.findViewById(R.id.parentDate);
         count = view.findViewById(R.id.parent_CountData);
+        soupcount = view.findViewById(R.id.parent_SoupCount);
         edit = view.findViewById(R.id.parentEdit);
         expand = view.findViewById(R.id.img_expend);
         parentDashedView = view.findViewById(R.id.parent_dashed_view);
         delete = view.findViewById(R.id.parentDelete);
 
         date.setText(dataDailyMenu.getDate());
+        count.setText(dataDailyMenu.getCount());
+        soupcount.setText(dataDailyMenu.getSoupCount());
 
         Log.i("get", dataDailyMenu.getDate());
 

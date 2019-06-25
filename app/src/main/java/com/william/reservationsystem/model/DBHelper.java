@@ -97,13 +97,9 @@ public class DBHelper {
 
             // Insert table
             db.execSQL(MASTER_SQL);
-            Log.i("sql", "create table master:" + MASTER_SQL);
             db.execSQL(USER_SQL);
-            Log.i("sql", "create table user:" + USER_SQL);
             db.execSQL(MENU_SQL);
-            Log.i("sql", "create table user:" + MENU_SQL);
             db.execSQL(BOOKINGS_SQL);
-            Log.i("sql", "create table user:" + BOOKINGS_SQL);
         }
 
         /*
@@ -126,11 +122,8 @@ public class DBHelper {
                     null, null, null, null);
             if (cursor.getCount()==0) {
                 db.execSQL("insert into master(username,password) Values(?,?)", new Object[]{master.getSUPERUSERNAME(), master.getSUPERPASSWORD()});
-                Log.i("login","yes");
             }else {
-                Log.i("login","no");
             }
-            Log.i("login","open");
         }
     }
 }

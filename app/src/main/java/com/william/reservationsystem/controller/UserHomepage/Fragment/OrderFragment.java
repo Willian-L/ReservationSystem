@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextPaint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,6 +115,10 @@ public class OrderFragment extends Fragment {
                 if (clicks_soup_one == false) {
                     clicks_soup_one = true;
                     soup_layout_one.setBackgroundColor(Color.parseColor("#ffa800"));
+                    if (clicks_soup_two == true) {
+                        soup_layout_two.setBackgroundColor(Color.parseColor("#80e6e6e6"));
+                        clicks_soup_two = false;
+                    }
                 } else {
                     soup_layout_one.setBackgroundColor(Color.parseColor("#80e6e6e6"));
                     clicks_soup_one = false;
@@ -245,7 +250,6 @@ public class OrderFragment extends Fragment {
         DBServerForBookings dbBooking = new DBServerForBookings(getContext());
         dbBooking.open();
         if (dbBooking.insert(booking.getDate(), booking.getMenu(), booking.getUser(), booking.getDishes_one(), booking.getDishes_two(), booking.getDishes_three(), booking.getDishes_four(), booking.getSoup(), null)) {
-            Toast.makeText(getContext(), "Reservation succeed", Toast.LENGTH_SHORT).show();
             Bundle bundle = new Bundle();
             bundle.putString("username", booking.getUser());
             Fragment ShoppingFragment = new ShoppingFragment();

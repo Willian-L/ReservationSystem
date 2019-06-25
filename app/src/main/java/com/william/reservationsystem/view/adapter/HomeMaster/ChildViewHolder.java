@@ -18,10 +18,10 @@ public class ChildViewHolder extends BaseViewHolder {
     public Context context;
     public View view;
     public LinearLayout menu_item;
-    public RelativeLayout menu_one, menu_two,menu_view;
+    public RelativeLayout menu_one, menu_two, menu_view;
     public TextView one_disOne, one_disTwo, one_disThree, one_disFour, one_soup,
             two_disOne, two_disTwo, two_disThree, two_disFour, two_soup,
-            one_count, two_count, one_detail, two_detail;
+            one_count, two_count, one_soup_count, two_soup_count;
 
     public ChildViewHolder(Context context, @NonNull View itemView) {
         super(itemView);
@@ -31,7 +31,7 @@ public class ChildViewHolder extends BaseViewHolder {
 
     public void bindView(final DataDailyMenu dataDailyMenu, final int pos) {
         menu_one = view.findViewById(R.id.menu_one);
-        menu_two = view.findViewById(R.id.menu_two);
+
         menu_view = view.findViewById(R.id.menu_view);
         one_disOne = view.findViewById(R.id.one_Dishes_one);
         one_disTwo = view.findViewById(R.id.one_Dishes_two);
@@ -39,7 +39,38 @@ public class ChildViewHolder extends BaseViewHolder {
         one_disFour = view.findViewById(R.id.one_Dishes_four);
         one_soup = view.findViewById(R.id.one_Soup);
         one_count = view.findViewById(R.id.menu_one_count);
-        one_detail = view.findViewById(R.id.one_detail);
+        one_soup_count = view.findViewById(R.id.menu_one_soup_count);
+        menu_two = view.findViewById(R.id.menu_two);
+        two_disOne = view.findViewById(R.id.two_Dishes_one);
+        two_disTwo = view.findViewById(R.id.two_Dishes_two);
+        two_disThree = view.findViewById(R.id.two_Dishes_three);
+        two_disFour = view.findViewById(R.id.two_Dishes_four);
+        two_soup = view.findViewById(R.id.two_Soup);
+        two_count = view.findViewById(R.id.menu_two_count);
+        two_soup_count = view.findViewById(R.id.menu_two_soup_count);
+        two_count = view.findViewById(R.id.menu_two_count);
+
+        one_disOne.setText(dataDailyMenu.getChildOneDis_one());
+        one_disTwo.setText(dataDailyMenu.getChildOneDis_two());
+        one_disThree.setText(dataDailyMenu.getChildOneDis_three());
+        one_disFour.setText(dataDailyMenu.getChildOneDis_four());
+        one_soup.setText(dataDailyMenu.getChildOne_Soup());
+        one_count.setText(dataDailyMenu.getChildOneCount());
+        Log.i("soup2",dataDailyMenu.getChildOneDis_one()+ " " +dataDailyMenu.getChildOneCount()+ " " + dataDailyMenu.getChildOneSoupCount()+"");
+        one_soup_count.setText(dataDailyMenu.getChildOneSoupCount());
+        two_disOne.setText(dataDailyMenu.getChildTwoDis_one());
+        two_disTwo.setText(dataDailyMenu.getChildTwoDis_two());
+        two_disThree.setText(dataDailyMenu.getChildTwoDis_three());
+        two_disFour.setText(dataDailyMenu.getChildTwoDis_four());
+        two_soup.setText(dataDailyMenu.getChildTwo_Soup());
+        two_count.setText(dataDailyMenu.getChildTwoCount());
+        two_soup_count.setText(dataDailyMenu.getChildTwoSoupCount());
+
+        if (dataDailyMenu.isTwoView()) {
+            menu_two.setVisibility(View.VISIBLE);
+        } else {
+            menu_two.setVisibility(View.GONE);
+        }
 
 //        if (dataDailyMenu.getChildTwoDis_one() != null){
 //            menu_item = view.findViewById(R.id.view_item);
@@ -47,29 +78,5 @@ public class ChildViewHolder extends BaseViewHolder {
 //            RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.menu_child_view,null);
 //            menu_item.addView(view);
 //        }
-
-        two_disOne = view.findViewById(R.id.two_Dishes_one);
-        two_disTwo = view.findViewById(R.id.two_Dishes_two);
-        two_disThree = view.findViewById(R.id.two_Dishes_three);
-        two_disFour = view.findViewById(R.id.two_Dishes_four);
-        two_soup = view.findViewById(R.id.two_Soup);
-        two_count = view.findViewById(R.id.menu_two_count);
-        two_detail = view.findViewById(R.id.two_detail);
-        one_disOne.setText(dataDailyMenu.getChildOneDis_one());
-        one_disTwo.setText(dataDailyMenu.getChildOneDis_two());
-        one_disThree.setText(dataDailyMenu.getChildOneDis_three());
-        one_disFour.setText(dataDailyMenu.getChildOneDis_four());
-        one_soup.setText(dataDailyMenu.getChildOne_Soup());
-        two_disOne.setText(dataDailyMenu.getChildTwoDis_one());
-        two_disTwo.setText(dataDailyMenu.getChildTwoDis_two());
-        two_disThree.setText(dataDailyMenu.getChildTwoDis_three());
-        two_disFour.setText(dataDailyMenu.getChildTwoDis_four());
-        two_soup.setText(dataDailyMenu.getChildTwo_Soup());
-
-        if (dataDailyMenu.isTwoView()){
-            menu_two.setVisibility(View.VISIBLE);
-        } else {
-            menu_two.setVisibility(View.GONE);
-        }
     }
 }

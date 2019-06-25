@@ -108,6 +108,10 @@ public class ModifyOrderFragment extends Fragment {
                 if (clicks_soup_one == false) {
                     clicks_soup_one = true;
                     soup_layout_one.setBackgroundColor(Color.parseColor("#ffa800"));
+                    if (clicks_soup_two == true) {
+                        soup_layout_two.setBackgroundColor(Color.parseColor("#80e6e6e6"));
+                        clicks_soup_two = false;
+                    }
                 } else {
                     soup_layout_one.setBackgroundColor(Color.parseColor("#80e6e6e6"));
                     clicks_soup_one = false;

@@ -85,26 +85,21 @@
             <LinearLayout
                 android:id="@+id/menu_end_one"
                 style="@style/menu_End"
-                android:layout_width="65dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp">
 
                 <TextView
                     android:id="@+id/menu_one_count"
                     style="@style/menu_End_count"
-                    android:text="00"
-                    android:layout_marginBottom="-22dp"/>
+                    android:text="0"
+                    android:layout_marginBottom="-16dp"/>
 
                 <TextView
-                    android:id="@+id/menu_soup_count"
+                    android:id="@+id/menu_one_soup_count"
                     style="@style/menu_End_count"
-                    android:textSize="30dp"
-                    android:text="00"/>
-
-                <TextView
-                    android:id="@+id/one_detail"
-                    style="@style/menu_End_bottom"
-                    android:text="DETAIL" />
+                    android:textSize="40dp"
+                    android:text="0"/>
 
             </LinearLayout>
         </RelativeLayout>
@@ -206,12 +201,14 @@
                 <TextView
                     android:id="@+id/menu_two_count"
                     style="@style/menu_End_count"
-                    android:text="00" />
+                    android:text="0"
+                    android:layout_marginBottom="-15dp"/>
 
                 <TextView
-                    android:id="@+id/two_detail"
-                    style="@style/menu_End_bottom"
-                    android:text="DETAIL" />
+                    android:id="@+id/menu_two_soup_count"
+                    style="@style/menu_End_count"
+                    android:textSize="40dp"
+                    android:text="0"/>
 
             </LinearLayout>
         </RelativeLayout>

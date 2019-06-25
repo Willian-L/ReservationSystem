@@ -65,9 +65,6 @@ public class DBServerForM {
         contentValues.put(KEY_PASSWORD, password);
         if (db.insert(DB_TABLE, null, contentValues) > 0) {
             result = true;
-            Toast.makeText(context, "Insert username:" + username + " succeeded", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Insert username:" + username + " failed", Toast.LENGTH_SHORT).show();
         }
         return result;
     }
@@ -117,7 +114,6 @@ public class DBServerForM {
         int n = db.delete(DB_TABLE, KEY_ID + "='" + id + "'", null);
         if (n > 0) {
             result = true;
-            Toast.makeText(context, "Delete id:" + id + " succeeded", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Delete id:" + id + " failed", Toast.LENGTH_SHORT).show();
         }
@@ -132,7 +128,6 @@ public class DBServerForM {
         int n = db.delete(DB_TABLE, KEY_USERNAME + "='" + username + "'", null);
         if (n > 0) {
             result = true;
-            Toast.makeText(context, "Delete username:" + username + " succeeded", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Delete username:" + username + " failed", Toast.LENGTH_SHORT).show();
         }

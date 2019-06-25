@@ -21,9 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.william.reservationsystem.R;
+import com.william.reservationsystem.controller.LoginAndRegister.UserLoginActivity;
 import com.william.reservationsystem.controller.MasterHomepage.Fragment.DailyMenuFragment;
 import com.william.reservationsystem.controller.MasterHomepage.Fragment.UserInfoFragment;
 import com.william.reservationsystem.model.DataDailyMenu;
+import com.william.reservationsystem.model.SharedPreferencesUtils;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -32,13 +34,11 @@ public class HomepageForMasterActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
-    private LinearLayout it_daily, it_my;
+    private LinearLayout it_daily, it_my, it_logout;
     private ImageView imgOpen;
     private ImageButton imgBtnAdd;
     private FragmentManager manager;
     private FragmentTransaction transaction;
-    private RecyclerView mRecycleView;
-    private List<DataDailyMenu> dataDailyMenuList;
 
 
     @Override
@@ -64,7 +64,6 @@ public class HomepageForMasterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 transaction = manager.beginTransaction();
                 transaction.replace(R.id.master_content, new DailyMenuFragment());
-                Toast.makeText(getApplicationContext(), "onclick", Toast.LENGTH_SHORT).show();
                 transaction.commit();
                 mDrawerLayout.closeDrawers();
             }
@@ -75,11 +74,27 @@ public class HomepageForMasterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 transaction = manager.beginTransaction();
                 transaction.replace(R.id.master_content, new UserInfoFragment());
-                Toast.makeText(getApplicationContext(), "onclick", Toast.LENGTH_SHORT).show();
                 transaction.commit();
                 mDrawerLayout.closeDrawers();
             }
         });
+
+        it_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+    }
+
+    /**
+     * Logout method
+     */
+    private void logout() {
+        SharedPreferencesUtils.getInstance().clear();
+        Intent intent = new Intent(this, UserLoginActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
     private void init() {
@@ -89,6 +104,7 @@ public class HomepageForMasterActivity extends AppCompatActivity {
         it_my = findViewById(R.id.item_my);
         imgOpen = findViewById(R.id.imgBtn_open);
         imgBtnAdd = findViewById(R.id.imgBtn_add);
+        it_logout = findViewById(R.id.item_logout);
     }
 
     private void setDrawerLeftEdgeSize (Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
