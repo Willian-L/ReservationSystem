@@ -6,7 +6,6 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
@@ -70,9 +69,9 @@ public class ReleaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (tag == 2) {
-                        db.insert(menu.getDate(), menu.getMenu_two(), menu.getTwo_dishes_one(), menu.getTwo_dishes_two(), menu.getTwo_dishes_three(), menu.getTwo_dishes_four(), menu.getTwo_soup());
+                        db.insert(menu.getDate(), menu.getMENU_TWO(), menu.getTwo_dishes_one(), menu.getTwo_dishes_two(), menu.getTwo_dishes_three(), menu.getTwo_dishes_four(), menu.getTwo_soup());
                     }
-                    db.insert(menu.getDate(), menu.getMenu_one(), menu.getOne_dishes_one(), menu.getOne_dishes_two(), menu.getOne_dishes_three(), menu.getOne_dishes_four(), menu.getOne_soup());
+                    db.insert(menu.getDate(), menu.getMENU_ONE(), menu.getOne_dishes_one(), menu.getOne_dishes_two(), menu.getOne_dishes_three(), menu.getOne_dishes_four(), menu.getOne_soup());
                     db.close();
                     finish();
                 }
@@ -122,7 +121,7 @@ public class ReleaseActivity extends AppCompatActivity {
             one_soup = "\n" + "SOUP\n\t\t" + menu.getOne_soup();
         }
         message = "DATE\t\t-\t" + menu.getDate() + "\n\n" +
-                "MENU\t-\t" + menu.getMenu_one() + "\n" +
+                "MENU\t-\t" + menu.getMENU_ONE() + "\n" +
                 "DISHES\n\t\t①" + menu.getOne_dishes_one() + one_dishes_two + one_dishes_three + one_dishes_four + one_soup;
 
         if (tag == 2) {
@@ -143,7 +142,7 @@ public class ReleaseActivity extends AppCompatActivity {
             if (!menu.getTwo_soup().equals("")) {
                 two_soup = "\n" + "SOUP\n\t\t" + menu.getTwo_soup();
             }
-            message = message + "\n\n" + "MENU\t-\t" + menu.getMenu_two() + "\n" + "DISHES\n\t\t①" + menu.getTwo_dishes_one() + two_dishes_two + two_dishes_three + two_dishes_four + two_soup;
+            message = message + "\n\n" + "MENU\t-\t" + menu.getMENU_TWO() + "\n" + "DISHES\n\t\t①" + menu.getTwo_dishes_one() + two_dishes_two + two_dishes_three + two_dishes_four + two_soup;
         }
 
         return message;

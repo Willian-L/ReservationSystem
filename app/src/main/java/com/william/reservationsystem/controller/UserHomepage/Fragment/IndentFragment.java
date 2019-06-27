@@ -3,6 +3,7 @@ package com.william.reservationsystem.controller.UserHomepage.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,10 @@ import com.william.reservationsystem.R;
 import com.william.reservationsystem.model.Bookings;
 import com.william.reservationsystem.model.DBServerForBookings;
 import com.william.reservationsystem.model.DBServerForMenu;
-import com.william.reservationsystem.view.adapter.MyListAdapter;
+import com.william.reservationsystem.model.DBServerForU;
+import com.william.reservationsystem.view.adapter.IndentListAdapter;
 
-public class ShoppingFragment extends Fragment {
+public class IndentFragment extends Fragment {
 
     ListView lvInfo;
     DBServerForBookings DBBookings;
@@ -30,7 +32,7 @@ public class ShoppingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_shopping, container, false);
+        View view = inflater.inflate(R.layout.fragment_indent, container, false);
 
         lvInfo = view.findViewById(R.id.lv_dailyMenu);
         have_not = view.findViewById(R.id.have_not_history);
@@ -40,7 +42,14 @@ public class ShoppingFragment extends Fragment {
 
         bundle = this.getArguments();
         if (bundle != null) {
-            booking.setUser(bundle.getString("username"));
+            String user = bundle.getString("username");
+            DBServerForU db = new DBServerForU(getContext());
+            db.open();
+            Cursor cursor = db.selectByUsername(user);
+            while (cursor.moveToNext()) {
+                booking.setUser(cursor.getString(cursor.getColumnIndex("name")));
+            }
+            db.close();
         }
 
         seleteMenu();
@@ -65,21 +74,21 @@ public class ShoppingFragment extends Fragment {
         return view;
     }
 
-    private void seleteMenu(){
+    private void seleteMenu() {
         DBBookings.open();
         Cursor curBooking = DBBookings.selectByUser(booking.getUser());
-        if (curBooking.getCount()>0) {
+        if (curBooking.getCount() > 0) {
             lvInfo.setVisibility(View.VISIBLE);
             have_not.setVisibility(View.GONE);
-            MyListAdapter Adapter = new MyListAdapter(getContext(),
-                    R.layout.listview_item,
+            IndentListAdapter Adapter = new IndentListAdapter(getContext(),
+                    R.layout.listview_indent_item,
                     curBooking,
                     new String[]{"day", "dishes_one", "dishes_two", "dishes_three", "dishes_four", "soup"},
                     new int[]{R.id.history_date, R.id.history_dish_1, R.id.history_dish_2, R.id.history_dish_3, R.id.history_dish_4, R.id.history_soup},
                     CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
             lvInfo.setAdapter(Adapter);
             lvInfo.invalidateViews();
-        }else {
+        } else {
             have_not.setVisibility(View.VISIBLE);
             lvInfo.setVisibility(View.GONE);
         }

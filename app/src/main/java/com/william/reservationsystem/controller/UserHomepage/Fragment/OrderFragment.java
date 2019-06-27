@@ -16,12 +16,12 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.model.Bookings;
 import com.william.reservationsystem.model.DBServerForBookings;
 import com.william.reservationsystem.model.DBServerForMenu;
+import com.william.reservationsystem.model.DBServerForU;
 import com.william.reservationsystem.model.Menus;
 
 public class OrderFragment extends Fragment {
@@ -41,6 +41,8 @@ public class OrderFragment extends Fragment {
     private boolean clicks_soup_one = false;
     private boolean clicks_soup_two = false;
 
+    private String usermane;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,7 +53,13 @@ public class OrderFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            booking.setUser(bundle.getString("username"));
+            usermane = bundle.getString("username");
+            DBServerForU db = new DBServerForU(getContext());
+            db.open();
+            Cursor cursor = db.selectByUsername(usermane);
+            cursor.moveToNext();
+            booking.setUser((cursor.getString(cursor.getColumnIndex("name"))));
+            db.close();
         }
 
         selectDB();
@@ -186,7 +194,8 @@ public class OrderFragment extends Fragment {
                     dish_2_2.setText(menu.getTwo_dishes_two());
                     dish_2_3.setText(menu.getTwo_dishes_three());
                     dish_2_4.setText(menu.getTwo_dishes_four());
-                    if (!cursor.getString(cursor.getColumnIndex("soup")).equals(menu.getOne_soup())) {
+                    String soupTwo = cursor.getString(cursor.getColumnIndex("soup"));
+                    if (!soupTwo.equals(menu.getOne_soup()) && !soupTwo.equals("")) {
                         menu.setTwo_soup(cursor.getString(cursor.getColumnIndex("soup")));
                         soup_layout_two.setVisibility(View.VISIBLE);
                         soup_2.setText(menu.getTwo_soup());
@@ -226,13 +235,13 @@ public class OrderFragment extends Fragment {
     private void confirm() {
         booking.setDate(menu.getDate());
         if (clicks_one) {
-            booking.setMenu(menu.getMenu_one());
+            booking.setMenu(menu.getMENU_ONE());
             booking.setDishes_one(menu.getOne_dishes_one());
             booking.setDishes_two(menu.getOne_dishes_two());
             booking.setDishes_three(menu.getOne_dishes_three());
             booking.setDishes_four(menu.getOne_dishes_four());
         } else if (clicks_two) {
-            booking.setMenu(menu.getMenu_two());
+            booking.setMenu(menu.getMENU_TWO());
             booking.setDishes_one(menu.getTwo_dishes_one());
             booking.setDishes_two(menu.getTwo_dishes_two());
             booking.setDishes_three(menu.getTwo_dishes_three());
@@ -251,10 +260,10 @@ public class OrderFragment extends Fragment {
         dbBooking.open();
         if (dbBooking.insert(booking.getDate(), booking.getMenu(), booking.getUser(), booking.getDishes_one(), booking.getDishes_two(), booking.getDishes_three(), booking.getDishes_four(), booking.getSoup(), null)) {
             Bundle bundle = new Bundle();
-            bundle.putString("username", booking.getUser());
-            Fragment ShoppingFragment = new ShoppingFragment();
-            ShoppingFragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().replace(R.id.user_content_Layout, ShoppingFragment).commit();
+            bundle.putString("username", usermane);
+            Fragment IndentFragment = new IndentFragment();
+            IndentFragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().replace(R.id.user_content_Layout, IndentFragment).commit();
             rb_shopping.setActivated(true);
             rb_order.setActivated(false);
             rb_shopping.setTextColor(Color.parseColor("#e9730a"));

@@ -12,7 +12,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,7 +41,7 @@ import com.william.reservationsystem.model.Master;
 import com.william.reservationsystem.model.SharedPreferencesUtils;
 import com.william.reservationsystem.model.User;
 
-public class UserLoginActivity extends AppCompatActivity{
+public class UserLoginActivity extends AppCompatActivity {
 
     EditText edtUsername, edtPassword;
     Button btnLogin;
@@ -62,35 +64,49 @@ public class UserLoginActivity extends AppCompatActivity{
 
         CrashHandlerUtil.getInstance().init();
 
-        edtPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        edtPassword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    if (!TextUtils.isEmpty(edtPassword.getText().toString())&&!TextUtils.isEmpty(edtUsername.getText().toString())){
-                        btnLogin.setEnabled(true);
-                        btnLogin.setBackgroundResource(R.drawable.bg_button_clickable);
-                    }
-                    else {
-                        btnLogin.setEnabled(false);
-                        btnLogin.setBackgroundResource(R.drawable.bg_button_unclickable);
-                    }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(edtUsername.getText().toString()) && count > 0) {
+                    btnLogin.setEnabled(true);
+                    btnLogin.setBackgroundResource(R.drawable.bg_button_clickable);
+                } else {
+                    btnLogin.setEnabled(false);
+                    btnLogin.setBackgroundResource(R.drawable.bg_button_unclickable);
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
-        edtUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        edtUsername.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    if (!TextUtils.isEmpty(edtPassword.getText().toString())&&!TextUtils.isEmpty(edtUsername.getText().toString())){
-                        btnLogin.setEnabled(true);
-                        btnLogin.setBackgroundResource(R.drawable.bg_button_clickable);
-                    }
-                    else {
-                        btnLogin.setEnabled(false);
-                        btnLogin.setBackgroundResource(R.drawable.bg_button_unclickable);
-                    }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(edtPassword.getText().toString()) && count > 0) {
+                    btnLogin.setEnabled(true);
+                    btnLogin.setBackgroundResource(R.drawable.bg_button_clickable);
+                } else {
+                    btnLogin.setEnabled(false);
+                    btnLogin.setBackgroundResource(R.drawable.bg_button_unclickable);
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -119,7 +135,7 @@ public class UserLoginActivity extends AppCompatActivity{
             edtPassword.setText(null);
         } else {
             checkRemember.setChecked(true);
-            login(username,password);
+            login(username, password);
             finish();
         }
     }
@@ -130,10 +146,10 @@ public class UserLoginActivity extends AppCompatActivity{
     public void btnlogin(View view) {
         String username = edtUsername.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
-        login(username,password);
+        login(username, password);
     }
 
-    public void login(String username, String password){
+    public void login(String username, String password) {
         if (!username.equals("") && !password.equals("")) {
             if (MasterLogin(username, password)) {
                 Intent intent = new Intent(UserLoginActivity.this, HomepageForMasterActivity.class);
@@ -292,11 +308,11 @@ public class UserLoginActivity extends AppCompatActivity{
 
     public void scanMethod(View view) {
         if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
-        && PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                && PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
             showPopupWindow();
         } else {
             //提示用户开户权限
-            String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions(this, perms, MY_ADD_CASE_CALL_PHONE);
         }
     }
@@ -316,16 +332,16 @@ public class UserLoginActivity extends AppCompatActivity{
      */
     private PopupWindow mPopWindow;
 
-    private void showPopupWindow(){
+    private void showPopupWindow() {
         View contentView = LayoutInflater.from(UserLoginActivity.this).inflate(R.layout.scan_popup, null);
-        mPopWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,true);
+        mPopWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         mPopWindow.setContentView(contentView);
         TextView tv_camera = contentView.findViewById(R.id.pop_camera);
         TextView tv_album = contentView.findViewById(R.id.pop_album);
         View rootview = LayoutInflater.from(UserLoginActivity.this).inflate(R.layout.activity_user_login, null);
         mPopWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mPopWindow.setAnimationStyle(R.style.pop_animation);
-        mPopWindow.showAtLocation(rootview, Gravity.BOTTOM,0,20);
+        mPopWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 20);
         tv_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -348,14 +364,14 @@ public class UserLoginActivity extends AppCompatActivity{
     private int REQUEST_CAMERA = 1;
     private int REQUEST_IMAGE = 2;
 
-    private void openAlbum(){
+    private void openAlbum() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_IMAGE);
     }
 
-    public void userCamera(){
+    public void userCamera() {
         Intent intent = new Intent(getApplication(), CaptureActivity.class);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
@@ -401,7 +417,7 @@ public class UserLoginActivity extends AppCompatActivity{
     /**
      * Verify qr code
      */
-    private boolean verify(String qr){
+    private boolean verify(String qr) {
         boolean result = false;
         if (qr.matches("^\\#+[\\w]+[@]+[0-9]*+\\#$")) {
             result = true;
@@ -415,16 +431,16 @@ public class UserLoginActivity extends AppCompatActivity{
     /**
      * Login through qr code information
      */
-    private void qrLogin(String qr){
-        if (verify(qr)){
+    private void qrLogin(String qr) {
+        if (verify(qr)) {
             int tap = qr.indexOf("@");
-            String username = qr.substring(1,tap);
-            String phone = qr.substring(tap+1, qr.length()-1);
+            String username = qr.substring(1, tap);
+            String phone = qr.substring(tap + 1, qr.length() - 1);
             Log.i("qrLogin", username);
             Log.i("qrLogin", phone);
             DBServerForU dbServerForU = new DBServerForU(this);
             dbServerForU.open();
-            if (dbServerForU.qrlogin(username, phone)){
+            if (dbServerForU.qrlogin(username, phone)) {
                 Intent intent = new Intent(UserLoginActivity.this, HomepageForUActivity.class);
                 intent.putExtra("username", username);
                 startActivity(intent);

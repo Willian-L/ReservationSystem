@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".controller.UserHomepage.Fragment.ShoppingFragment">
+    tools:context=".controller.UserHomepage.Fragment.IndentFragment">
 
     <RelativeLayout style="@style/Fragment_rel_title">
 

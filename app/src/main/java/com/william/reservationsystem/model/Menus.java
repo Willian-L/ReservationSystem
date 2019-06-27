@@ -9,12 +9,12 @@ public class Menus {
         this.date = date;
     }
 
-    public String getMenu_one(){
-        return menu_one;
+    public String getMENU_ONE(){
+        return MENU_ONE;
     }
 
-    public String getMenu_two(){
-        return menu_two;
+    public String getMENU_TWO(){
+        return MENU_TWO;
     }
 
     public String getOne_dishes_one() {
@@ -98,8 +98,8 @@ public class Menus {
     }
 
     private String date;
-    private final String menu_one = "menu_one";
-    private final String menu_two = "menu_two";
+    private final String MENU_ONE = "MENU_ONE";
+    private final String MENU_TWO = "MENU_TWO";
     private String one_dishes_one;
     private String one_dishes_two;
     private String one_dishes_three;

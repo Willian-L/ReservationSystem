@@ -19,9 +19,9 @@
             style="@style/ButtonStyle"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:background="@drawable/ic_edit_two" />
     </RelativeLayout>
 
@@ -38,7 +38,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_centerInParent="true"
-            app:riv_oval="true"/>
+            app:riv_oval="true" />
 
         <ImageButton
             android:id="@+id/userIbtn_camera"
@@ -100,6 +100,7 @@
             <EditText
                 android:id="@+id/userMy_name"
                 style="@style/Edit_My"
+                android:layout_weight="1"
                 android:inputType="text"
                 android:maxLength="16" />
 
@@ -126,6 +127,7 @@
             <EditText
                 android:id="@+id/userMy_sex"
                 style="@style/Edit_My"
+                android:layout_weight="1"
                 android:inputType="text"
                 android:visibility="visible" />
 
@@ -156,6 +158,7 @@
             <EditText
                 android:id="@+id/userMy_phone"
                 style="@style/Edit_My"
+                android:layout_weight="1"
                 android:inputType="phone"
                 android:maxLength="11" />
 
@@ -170,16 +173,16 @@
                     android:id="@+id/userMy_email"
                     style="@style/Edit_show"
                     android:layout_height="match_parent"
-                    android:inputType="text"
                     android:enabled="true"
-                    android:visibility="gone"/>
+                    android:inputType="text"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/txt_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="22dp"
-                    android:enabled="false"/>
+                    android:enabled="false"
+                    android:textSize="22dp" />
 
                 <Spinner
                     android:id="@+id/mySpi_email"
@@ -190,12 +193,13 @@
                     android:overlapAnchor="false"
                     android:spinnerMode="dropdown"
                     android:textSize="22dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/userMy_address"
                 style="@style/Edit_My"
+                android:layout_weight="1"
                 android:inputType="text" />
         </LinearLayout>
     </LinearLayout>
@@ -215,8 +219,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <ImageButton
             android:id="@+id/imgBtn_qr"
@@ -224,25 +228,25 @@
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:background="@mipmap/ic_qr"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/img_QR"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:visibility="gone"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/my_btnLogout"
             style="@style/ButtonStyle"
-            android:background="@drawable/bg_button_back"
             android:layout_width="300dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_button_back"
             android:enabled="true"
             android:text="logout"
-            android:visibility="visible"
-            android:layout_marginTop="20dp"/>
+            android:visibility="visible" />
 
     </LinearLayout>
 

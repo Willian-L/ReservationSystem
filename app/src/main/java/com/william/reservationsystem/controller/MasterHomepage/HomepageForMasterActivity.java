@@ -10,31 +10,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.william.reservationsystem.R;
 import com.william.reservationsystem.controller.LoginAndRegister.UserLoginActivity;
 import com.william.reservationsystem.controller.MasterHomepage.Fragment.DailyMenuFragment;
 import com.william.reservationsystem.controller.MasterHomepage.Fragment.UserInfoFragment;
-import com.william.reservationsystem.model.DataDailyMenu;
 import com.william.reservationsystem.model.SharedPreferencesUtils;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 public class HomepageForMasterActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
-    private LinearLayout it_daily, it_my, it_logout;
+    private TextView title;
+    private LinearLayout it_daily, it_expory, it_logout;
     private ImageView imgOpen;
     private ImageButton imgBtnAdd;
     private FragmentManager manager;
@@ -65,16 +61,18 @@ public class HomepageForMasterActivity extends AppCompatActivity {
                 transaction = manager.beginTransaction();
                 transaction.replace(R.id.master_content, new DailyMenuFragment());
                 transaction.commit();
+                title.setText("Daily Menu");
                 mDrawerLayout.closeDrawers();
             }
         });
 
-        it_my.setOnClickListener(new View.OnClickListener() {
+        it_expory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 transaction = manager.beginTransaction();
                 transaction.replace(R.id.master_content, new UserInfoFragment());
                 transaction.commit();
+                title.setText("Export Data");
                 mDrawerLayout.closeDrawers();
             }
         });
@@ -101,10 +99,11 @@ public class HomepageForMasterActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.draLay_master);
         mToolbar = findViewById(R.id.toolbar_master);
         it_daily = findViewById(R.id.item_daily);
-        it_my = findViewById(R.id.item_my);
+        it_expory = findViewById(R.id.item_export);
         imgOpen = findViewById(R.id.imgBtn_open);
         imgBtnAdd = findViewById(R.id.imgBtn_add);
         it_logout = findViewById(R.id.item_logout);
+        title = findViewById(R.id.master_title);
     }
 
     private void setDrawerLeftEdgeSize (Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {

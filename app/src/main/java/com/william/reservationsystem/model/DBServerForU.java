@@ -59,11 +59,12 @@ public class DBServerForU {
     /*
     Register and add data to the database
      */
-    public boolean insert(String username, String password, String phone) {
+    public boolean insert(String username, String name , String password, String phone) {
         boolean result = false;
         // Instantiate content values
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_USERNAME, username);
+        contentValues.put(KEY_NAME, name);
         contentValues.put(KEY_PASSWORD, password);
         contentValues.put(KEY_PHONE, phone);
         if (db.insert(DB_TABLE, null, contentValues) > 0) {

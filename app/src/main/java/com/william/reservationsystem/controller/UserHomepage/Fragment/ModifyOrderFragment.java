@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.william.reservationsystem.R;
 import com.william.reservationsystem.model.Bookings;
 import com.william.reservationsystem.model.DBServerForBookings;
 import com.william.reservationsystem.model.DBServerForMenu;
+import com.william.reservationsystem.model.DBServerForU;
 import com.william.reservationsystem.model.Menus;
 
 public class ModifyOrderFragment extends Fragment {
@@ -45,7 +47,6 @@ public class ModifyOrderFragment extends Fragment {
             booking.setUser(bundle.getString("username"));
             booking.setDate(bundle.getString("date"));
         }
-
         getMenu(booking.getDate());
         getChoice(booking.getDate(), booking.getUser());
 
@@ -185,7 +186,8 @@ public class ModifyOrderFragment extends Fragment {
                 dish_2_2.setText(menu.getTwo_dishes_two());
                 dish_2_3.setText(menu.getTwo_dishes_three());
                 dish_2_4.setText(menu.getTwo_dishes_four());
-                if (!cursor.getString(cursor.getColumnIndex("soup")).equals(menu.getOne_soup())) {
+                String soupTwo = cursor.getString(cursor.getColumnIndex("soup"));
+                if (!soupTwo.equals(menu.getOne_soup()) && !soupTwo.equals("")) {
                     menu.setTwo_soup(cursor.getString(cursor.getColumnIndex("soup")));
                     soup_layout_two.setVisibility(View.VISIBLE);
                     soup_2.setText(menu.getTwo_soup());
@@ -201,7 +203,7 @@ public class ModifyOrderFragment extends Fragment {
         Cursor cursor = db.selectByDay(thisDate, user);
         if (cursor.moveToNext()) {
             booking.setMenu(cursor.getString(cursor.getColumnIndex("menu")));
-            if (booking.getMenu().equals(menu.getMenu_one())) {
+            if (booking.getMenu().equals(menu.getMENU_ONE())) {
                 clicks_one = true;
                 menu_one.setBackgroundColor(Color.parseColor("#ffa800"));
             } else {
@@ -236,13 +238,13 @@ public class ModifyOrderFragment extends Fragment {
     private void confirm() {
         booking.setDate(menu.getDate());
         if (clicks_one) {
-            booking.setMenu(menu.getMenu_one());
+            booking.setMenu(menu.getMENU_ONE());
             booking.setDishes_one(menu.getOne_dishes_one());
             booking.setDishes_two(menu.getOne_dishes_two());
             booking.setDishes_three(menu.getOne_dishes_three());
             booking.setDishes_four(menu.getOne_dishes_four());
         } else if (clicks_two) {
-            booking.setMenu(menu.getMenu_two());
+            booking.setMenu(menu.getMENU_TWO());
             booking.setDishes_one(menu.getTwo_dishes_one());
             booking.setDishes_two(menu.getTwo_dishes_two());
             booking.setDishes_three(menu.getTwo_dishes_three());

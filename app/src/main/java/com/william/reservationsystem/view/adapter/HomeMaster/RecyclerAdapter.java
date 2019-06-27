@@ -123,6 +123,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private DataDailyMenu getChildDataDailyMenu(DataDailyMenu data) {
         DataDailyMenu child = new DataDailyMenu();
         child.setType(1);
+        child.setDate(data.getDate());
         child.setChildOneDis_one(data.getChildOneDis_one());
         child.setChildOneDis_two(data.getChildOneDis_two());
         child.setChildOneDis_three(data.getChildOneDis_three());

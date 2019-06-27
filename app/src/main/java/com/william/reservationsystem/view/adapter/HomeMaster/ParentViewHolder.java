@@ -55,8 +55,6 @@ public class ParentViewHolder extends BaseViewHolder {
         count.setText(dataDailyMenu.getCount());
         soupcount.setText(dataDailyMenu.getSoupCount());
 
-        Log.i("get", dataDailyMenu.getDate());
-
         if (dataDailyMenu.isExpand()) {
             expand.setRotation(90);
             parentDashedView.setVisibility(View.GONE);

@@ -104,10 +104,11 @@ public class DBServerForMenu {
         return cursor;
     }
 
-    public int selectDayCount() {
+    public Cursor selectSoup(String date, String menu){
         Cursor cursor = null;
-        cursor = db.query(DB_TABLE, new String[]{KEY_DAY}, null, null, KEY_DAY, null, null);
-        return cursor.getCount();
+        cursor = db.query(DB_TABLE, new String[]{KEY_SOUP},
+                KEY_DAY + "='" + date + "' and " + KEY_MENU + "='" + menu + "'", null, null, null, null);
+        return cursor;
     }
 
     public boolean update(String day, String menu, String dishes_one, String dishes_two, String dishes_three, String dishes_four, String soup) {

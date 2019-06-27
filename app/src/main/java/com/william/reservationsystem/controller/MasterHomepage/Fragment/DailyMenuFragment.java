@@ -1,6 +1,7 @@
 package com.william.reservationsystem.controller.MasterHomepage.Fragment;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,18 +9,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.william.reservationsystem.R;
-import com.william.reservationsystem.model.Bookings;
+import com.william.reservationsystem.controller.MasterHomepage.ReleaseActivity;
 import com.william.reservationsystem.model.DBServerForBookings;
 import com.william.reservationsystem.model.DBServerForMenu;
 import com.william.reservationsystem.model.DataDailyMenu;
 import com.william.reservationsystem.model.Menus;
-import com.william.reservationsystem.view.adapter.HomeMaster.ChildViewHolder;
 import com.william.reservationsystem.view.adapter.HomeMaster.RecyclerAdapter;
 
 import java.util.ArrayList;
@@ -65,7 +63,7 @@ public class DailyMenuFragment extends Fragment {
                     menu.setOne_dishes_three(cursor.getString(cursor.getColumnIndex("dishes_three")));
                     menu.setOne_dishes_four(cursor.getString(cursor.getColumnIndex("dishes_four")));
                     menu.setOne_soup(cursor.getString(cursor.getColumnIndex("soup")));
-                    Cursor oneCount = dbBookings.selectByMenu(menu.getDate(), menu.getMenu_one());
+                    Cursor oneCount = dbBookings.selectByMenu(menu.getDate(), menu.getMENU_ONE());
                     Cursor oneSoupCount = dbBookings.selectSoup(menu.getDate(), menu.getOne_soup());
                     dataDailyMenu.setDate(menu.getDate());
                     dataDailyMenu.setChildOneDis_one(menu.getOne_dishes_one());
@@ -87,8 +85,8 @@ public class DailyMenuFragment extends Fragment {
                     menu.setTwo_dishes_three(cursor.getString(cursor.getColumnIndex("dishes_three")));
                     menu.setTwo_dishes_four(cursor.getString(cursor.getColumnIndex("dishes_four")));
                     menu.setTwo_soup(cursor.getString(cursor.getColumnIndex("soup")));
-                    Cursor twoCount = dbBookings.selectByMenu(menu.getDate(), menu.getMenu_two());
-                    if (!menu.getOne_soup().equals(menu.getTwo_soup())) {
+                    Cursor twoCount = dbBookings.selectByMenu(menu.getDate(), menu.getMENU_TWO());
+                    if (!menu.getOne_soup().equals(menu.getTwo_soup()) && !menu.getTwo_soup().equals("")) {
                         Cursor twoSoupCount = dbBookings.selectSoup(menu.getDate(), menu.getTwo_soup());
                         dataDailyMenu.setChildTwoSoupCount(String.valueOf(twoSoupCount.getCount()));
                         dataDailyMenu.setChildTwo_Soup(menu.getTwo_soup());
@@ -128,5 +126,10 @@ public class DailyMenuFragment extends Fragment {
                 mRecyclerView.scrollToPosition(pos);
             }
         });
+    }
+
+    public void toRelease(View view) {
+        Intent intent = new Intent(getContext(), ReleaseActivity.class);
+        startActivity(intent);
     }
 }

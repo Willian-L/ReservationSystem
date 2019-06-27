@@ -93,6 +93,13 @@ public class DBServerForBookings {
         return cursor;
     }
 
+    public Cursor selectDetail(String day, String menu){
+        Cursor cursor = null;
+        cursor = db.query(DB_TABLE, new String[]{KEY_ID, KEY_USER, KEY_SOUP}, KEY_DAY + "='" + day + "' and " + KEY_MENU + "='" + menu + "'",
+                null,null,null,KEY_ID);
+        return cursor;
+    }
+
     public Cursor selectSoup(String day, String soup){
         Cursor cursor = null;
         cursor = db.query(DB_TABLE, new String[]{}, KEY_DAY + "='" + day + "' and " + KEY_SOUP + "='" + soup + "'",

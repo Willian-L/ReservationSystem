@@ -29,7 +29,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:riv_oval="true"
-                android:src="@mipmap/ic_launcher_round"
+                android:src="@mipmap/jf"
                 android:layout_gravity="left"/>
 
             <TextView
@@ -77,17 +77,17 @@
             android:layout_height="80dp"
             android:layout_marginTop="50dp"
             app:riv_oval="true"
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@mipmap/jf"
             android:layout_marginBottom="-10dp"/>
 
         <TextView
             android:id="@+id/headerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:textSize="20dp"
             android:textColor="#000000"
-            android:text="test"
+            android:text="ADMIN"
             android:layout_marginBottom="20dp"/>
 
         <LinearLayout
@@ -114,13 +114,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/item_my"
+            android:id="@+id/item_export"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingLeft="30dp"
             android:layout_marginTop="15dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="30dp"

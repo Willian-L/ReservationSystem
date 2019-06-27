@@ -1,23 +1,21 @@
 package com.william.reservationsystem.view.adapter.HomeMaster;
 
 import android.content.Context;
-import android.graphics.Paint;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.william.reservationsystem.R;
+import com.william.reservationsystem.controller.MasterHomepage.Detail.DetailActivity;
 import com.william.reservationsystem.model.DataDailyMenu;
 
 public class ChildViewHolder extends BaseViewHolder {
     public Context context;
     public View view;
-    public LinearLayout menu_item;
     public RelativeLayout menu_one, menu_two, menu_view;
     public TextView one_disOne, one_disTwo, one_disThree, one_disFour, one_soup,
             two_disOne, two_disTwo, two_disThree, two_disFour, two_soup,
@@ -56,7 +54,6 @@ public class ChildViewHolder extends BaseViewHolder {
         one_disFour.setText(dataDailyMenu.getChildOneDis_four());
         one_soup.setText(dataDailyMenu.getChildOne_Soup());
         one_count.setText(dataDailyMenu.getChildOneCount());
-        Log.i("soup2",dataDailyMenu.getChildOneDis_one()+ " " +dataDailyMenu.getChildOneCount()+ " " + dataDailyMenu.getChildOneSoupCount()+"");
         one_soup_count.setText(dataDailyMenu.getChildOneSoupCount());
         two_disOne.setText(dataDailyMenu.getChildTwoDis_one());
         two_disTwo.setText(dataDailyMenu.getChildTwoDis_two());
@@ -71,6 +68,34 @@ public class ChildViewHolder extends BaseViewHolder {
         } else {
             menu_two.setVisibility(View.GONE);
         }
+
+        one_count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!one_count.getText().equals("0")) {
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", dataDailyMenu.getDate());
+                    bundle.putString("menu", dataDailyMenu.getCHILD_MENU_ONE());
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+            }
+        });
+
+        two_count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!two_count.getText().equals("0")) {
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", dataDailyMenu.getDate());
+                    bundle.putString("menu", dataDailyMenu.getCHILD_MENU_TWO());
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+            }
+        });
 
 //        if (dataDailyMenu.getChildTwoDis_one() != null){
 //            menu_item = view.findViewById(R.id.view_item);

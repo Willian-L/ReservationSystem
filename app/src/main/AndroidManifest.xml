@@ -12,15 +12,18 @@
     <application
         android:name=".context.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_jf"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".controller.MasterHomepage.Detail.ModifyMenuActivity"></activity>
+        <activity android:name=".controller.MasterHomepage.Detail.DetailActivity" />
         <activity android:name=".controller.MasterHomepage.EditMenuActivity" />
         <activity android:name=".controller.MasterHomepage.ReleaseActivity" />
-        <activity android:name=".controller.MasterHomepage.HomepageForMasterActivity" />
+        <activity
+            android:launchMode="singleTask"
+            android:name=".controller.MasterHomepage.HomepageForMasterActivity" />
         <activity android:name=".controller.MasterHomepage.Fragment.Derive.ChooseFileActivity" />
         <activity android:name=".controller.LoginAndRegister.UserLoginActivity" />
         <activity android:name=".controller.ResetPassword.ResetVerActivity" />
@@ -49,6 +52,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

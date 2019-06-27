@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.william.reservationsystem.R;
-import com.william.reservationsystem.controller.MasterHomepage.HomepageForMasterActivity;
 import com.william.reservationsystem.model.DBServerForMenu;
 import com.william.reservationsystem.model.Menus;
 
@@ -52,7 +51,7 @@ public class EditMenuActivity extends AppCompatActivity {
         Cursor cursor;
         db.open();
         cursor = db.selectByDate(menu.getDate());
-        if (cursor.moveToNext()){
+        if (cursor.moveToNext()) {
             tag = 1;
             date = cursor.getString(cursor.getColumnIndex("day"));
             menu.setDate(date);
@@ -60,7 +59,7 @@ public class EditMenuActivity extends AppCompatActivity {
             int year = Integer.parseInt(date[0]);
             int month = Integer.parseInt(date[1]);
             int day = Integer.parseInt(date[2]);
-            Log.i("date",month+"");
+            Log.i("date", month + "");
             mData.updateDate(year, month - 1, day);
             edt_dish_1_1.setText(cursor.getString(cursor.getColumnIndex("dishes_one")));
             edt_dish_1_2.setText(cursor.getString(cursor.getColumnIndex("dishes_two")));
@@ -68,7 +67,7 @@ public class EditMenuActivity extends AppCompatActivity {
             edt_dish_1_4.setText(cursor.getString(cursor.getColumnIndex("dishes_four")));
             edt_soup_1.setText(cursor.getString(cursor.getColumnIndex("soup")));
         }
-        if (cursor.getCount() == 2){
+        if (cursor.getCount() == 2) {
             tag = 2;
             menu_two.setVisibility(View.VISIBLE);
             add_menu.setVisibility(View.GONE);
@@ -147,7 +146,7 @@ public class EditMenuActivity extends AppCompatActivity {
             one_soup = "\n" + "SOUP\n\t\t" + menu.getOne_soup();
         }
         message = "DATE\t\t-\t" + menu.getDate() + "\n\n" +
-                "MENU\t-\t" + menu.getMenu_one() + "\n" +
+                "MENU\t-\t" + menu.getMENU_ONE() + "\n" +
                 "DISHES\n\t\t①" + menu.getOne_dishes_one() + one_dishes_two + one_dishes_three + one_dishes_four + one_soup;
 
         if (tag == 2) {
@@ -168,7 +167,7 @@ public class EditMenuActivity extends AppCompatActivity {
             if (!menu.getTwo_soup().equals("")) {
                 two_soup = "\n" + "SOUP\n\t\t" + menu.getTwo_soup();
             }
-            message = message + "\n\n" + "MENU\t-\t" + menu.getMenu_two() + "\n" + "DISHES\n\t\t①" + menu.getTwo_dishes_one() + two_dishes_two + two_dishes_three + two_dishes_four + two_soup;
+            message = message + "\n\n" + "MENU\t-\t" + menu.getMENU_TWO() + "\n" + "DISHES\n\t\t①" + menu.getTwo_dishes_one() + two_dishes_two + two_dishes_three + two_dishes_four + two_soup;
         }
 
         return message;
@@ -199,20 +198,17 @@ public class EditMenuActivity extends AppCompatActivity {
 
     public void edit(View view) {
         db.open();
-        if (db.select(menu.getDate()) == 0) {
-            if (!edt_dish_1_1.getText().toString().trim().equals("")) {
-                tag = 1;
-                if (menu_two.getVisibility() == View.VISIBLE) {
-                    if (!edt_dish_2_1.getText().toString().trim().equals("")) {
-                        tag = 2;
-                    }
+        if (!edt_dish_1_1.getText().toString().trim().equals("")) {
+            tag = 1;
+            if (menu_two.getVisibility() == View.VISIBLE) {
+                if (!edt_dish_2_1.getText().toString().trim().equals("")) {
+                    tag = 2;
                 }
-            } else {
-                Toast.makeText(getApplicationContext(), "the contents of the menu is empty", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(getApplicationContext(), "The date already has menus", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "the contents of the menu is empty", Toast.LENGTH_LONG).show();
         }
+
 
         if (tag != 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -223,10 +219,11 @@ public class EditMenuActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     db.delete(date);
+                    Log.i("tag", tag + "");
                     if (tag == 2) {
-                        db.insert(menu.getDate(), menu.getMenu_two(), menu.getTwo_dishes_one(), menu.getTwo_dishes_two(), menu.getTwo_dishes_three(), menu.getTwo_dishes_four(), menu.getTwo_soup());
+                        db.insert(menu.getDate(), menu.getMENU_TWO(), menu.getTwo_dishes_one(), menu.getTwo_dishes_two(), menu.getTwo_dishes_three(), menu.getTwo_dishes_four(), menu.getTwo_soup());
                     }
-                    db.insert(menu.getDate(), menu.getMenu_one(), menu.getOne_dishes_one(), menu.getOne_dishes_two(), menu.getOne_dishes_three(), menu.getOne_dishes_four(), menu.getOne_soup());
+                    db.insert(menu.getDate(), menu.getMENU_ONE(), menu.getOne_dishes_one(), menu.getOne_dishes_two(), menu.getOne_dishes_three(), menu.getOne_dishes_four(), menu.getOne_soup());
                     db.close();
                     finish();
                 }
@@ -248,7 +245,7 @@ public class EditMenuActivity extends AppCompatActivity {
     public void deleteOne(View view) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Delete menu");
-        if (tag == 2){
+        if (tag == 2) {
             dialog.setMessage("Do you want to delete menu-1?");
             dialog.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
                 @Override

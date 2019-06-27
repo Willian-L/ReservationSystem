@@ -55,6 +55,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.william.reservationsystem.R.mipmap.ic_treker;
+import static com.william.reservationsystem.R.mipmap.jf;
 
 public class MyFragment extends Fragment {
 
@@ -226,6 +227,8 @@ public class MyFragment extends Fragment {
                     getPhotoURI = Uri.parse(photoPath);
                     photoURI = getPhotoURI;
                     imgPhoto.setImageURI(getPhotoURI);
+                } else {
+                    imgPhoto.setImageResource(R.mipmap.jf);
                 }
             }
         }
@@ -662,7 +665,7 @@ public class MyFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            mBitmap = CodeUtils.createImage(qr, 140, 140, BitmapFactory.decodeResource(getResources(), ic_treker));
+            mBitmap = CodeUtils.createImage(qr, 140, 140, BitmapFactory.decodeResource(getResources(), jf));
         }
         imgQR.setImageBitmap(mBitmap);
         imgQR.setVisibility(View.VISIBLE);

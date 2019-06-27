@@ -6,19 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".controller.MasterHomepage.Fragment.UserInfoFragment">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <RelativeLayout style="@style/Fragment_rel_title">
-
-            <TextView
-                android:id="@+id/userTxt_title"
-                style="@style/Fragment_txt_title"
-                android:text="User Information" />
 
             <ImageButton
                 android:id="@+id/userIbtn_out"
@@ -31,32 +24,12 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/UserTv_title"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:text="User Information"
-            android:textAlignment="center"
-            android:textSize="24sp" />
-
         <LinearLayout
             android:id="@+id/liner_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="1">
-
-            <TextView
-                android:id="@+id/tv_header_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="head"
-                android:textSize="18sp" />
-
-        </LinearLayout>
+            android:weightSum="1"/>
 
         <ListView
             android:id="@+id/UserLv_listInfo"

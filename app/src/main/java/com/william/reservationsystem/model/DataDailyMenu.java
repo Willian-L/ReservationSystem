@@ -3,19 +3,19 @@ package com.william.reservationsystem.model;
 public class DataDailyMenu {
     public static final int PARENT_ITEM = 0;
     public static final int CHILD_ITEM = 1;
+    private String CHILD_MENU_ONE = "MENU_ONE";
+    private String CHILD_MENU_TWO = "MENU_TWO";
 
     private int type;
     private boolean isExpand;
     private DataDailyMenu childMenu;
+    private boolean TwoView;
 
     private String parentCountData;
     private String ID;
     private String date;
     private String count;
     private String soupCount;
-    private boolean TwoView;
-
-    private String childMenuOne;
     private String childOneDis_one;
     private String childOneDis_two;
     private String childOneDis_three;
@@ -23,7 +23,6 @@ public class DataDailyMenu {
     private String childOne_Soup;
     private String childOneCount;
     private String childOneSoupCount;
-    private String childMenuTwo;
     private String childTwoDis_one;
     private String childTwoDis_two;
     private String childTwoDis_three;
@@ -80,12 +79,8 @@ public class DataDailyMenu {
         this.parentCountData = parentCountData;
     }
 
-    public String getChildMenuOne() {
-        return childMenuOne;
-    }
-
-    public void setChildMenuOne(String childMenuOne) {
-        this.childMenuOne = childMenuOne;
+    public String getCHILD_MENU_ONE() {
+        return CHILD_MENU_ONE;
     }
 
     public String getChildOneDis_one() {
@@ -136,12 +131,8 @@ public class DataDailyMenu {
         this.childOneCount = childOneCount;
     }
 
-    public String getChildMenuTwo() {
-        return childMenuTwo;
-    }
-
-    public void setChildMenuTwo(String childMenuTwo) {
-        this.childMenuTwo = childMenuTwo;
+    public String getCHILD_MENU_TWO() {
+        return CHILD_MENU_TWO;
     }
 
     public String getChildTwoDis_one() {

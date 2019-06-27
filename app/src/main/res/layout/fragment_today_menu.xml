@@ -148,7 +148,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/bg_button_delete"
-                android:text="delete" />
+                android:text="cancel" />
         </LinearLayout>
     </LinearLayout>
 

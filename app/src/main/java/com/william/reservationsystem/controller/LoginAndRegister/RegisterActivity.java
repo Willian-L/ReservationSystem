@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
                             /*
                             Once all the above rules are met, start writing to the database
                              */
-                    if (dbServerForU.insert(user.getUsername(), user.getPassword(), user.getPhone())) {
+                    if (dbServerForU.insert(user.getUsername(), user.getUsername(), user.getPassword(), user.getPhone())) {
                         Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterActivity.this, UserLoginActivity.class);
                         intent.putExtra("username", user.getUsername());
